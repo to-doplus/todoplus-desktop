@@ -1,16 +1,16 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import Layout from "../../src/components/Layout";
 import TaskListList from "../components/TaskListList";
-import { useTaskLists } from "../client";
 const Home = () : ReactElement => {
     return (
-        <div>
+        <Layout>
             <h1>Home</h1>
             <Link to="/settings">
                 Settings Page
             </Link>
             <TaskListList />
-        </div>
+        </Layout>
     );
 }
 

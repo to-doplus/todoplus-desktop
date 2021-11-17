@@ -1,13 +1,10 @@
-import { TaskList } from "../../lib/models";
-import React, { ReactElement, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchTaskLists } from "../../src/slices/taskLists";
-import { RootState } from "../../src/store";
+import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import { useTaskLists } from "../client";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface TaskListListProps {
+
 }
 
 const TaskListList = (props: TaskListListProps) : ReactElement => {
@@ -15,6 +12,10 @@ const TaskListList = (props: TaskListListProps) : ReactElement => {
 
     if(isLoading) {
         return <div>Loading...</div>
+    }
+
+    if(isError) {
+        return <div>Error</div>
     }
 
     return (

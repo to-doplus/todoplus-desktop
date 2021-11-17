@@ -1,7 +1,8 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
+import Button from "./Button";
 
 export interface LayoutProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 const Layout = (props: LayoutProps) : ReactElement => {

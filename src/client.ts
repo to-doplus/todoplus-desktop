@@ -6,7 +6,7 @@ import TodoListRestClient from "../lib/rest-client";
 import useSWR from "swr";
 import { TaskList, Task } from "../lib/models";
 
-const client : ToDoListClient = new TodoListRestClient("https://api.todoplus.safar.dev");
+const client : ToDoListClient = new TodoListRestClient("https://api.todoplus.safar.dev/public");
 
 export interface AsyncDataProps<T> {
     isLoading: boolean,
@@ -15,7 +15,7 @@ export interface AsyncDataProps<T> {
 }
 
 function useAsyncData<T>(query: string) : AsyncDataProps <T> {
-    const { data, error } = useSWR<T>(query, client.query);
+    const { data, error } = useSWR<T>(query, (query) => client.query<T>(query));
 
     return {
         data: data,

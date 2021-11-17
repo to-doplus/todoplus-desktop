@@ -16,7 +16,12 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async query<T>(query: string, ...args: any[]): Promise<T> {
-        const response = await fetch(`${this.URL}${query}`, ...args);
+        const response = await fetch(`${this.URL}${query}`, {
+            method: 'get',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        });
         return await response.json();
     }
 
