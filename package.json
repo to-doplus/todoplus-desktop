@@ -46,6 +46,7 @@
         [
           "@electron-forge/plugin-webpack",
           {
+            "devContentSecurityPolicy": "default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;",
             "mainConfig": "./webpack.main.config.js",
             "renderer": {
               "config": "./webpack.renderer.config.js",
@@ -85,8 +86,14 @@
     "typescript": "^4.0.2"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
     "electron-squirrel-startup": "^1.0.0",
+    "history": "^5.1.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.0.2",
+    "redux-first-history": "^5.0.3",
+    "swr": "^1.0.1"
   }
 }

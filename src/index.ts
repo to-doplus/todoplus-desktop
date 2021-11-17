@@ -42,7 +42,8 @@ const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
-    title: "To-Do Plus"
+    title: "To-Do Plus",
+  //  titleBarStyle: 'hidden', // Hide the title bar
   });
 
   // and load the index.html of the app.
