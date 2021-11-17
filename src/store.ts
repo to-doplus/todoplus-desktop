@@ -1,6 +1,5 @@
 import { applyMiddleware, configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
-import { taskListsSlice } from './slices/taskLists'
 import { createMemoryHistory } from 'history';
 import { createReduxHistoryContext } from 'redux-first-history';
 
@@ -10,7 +9,7 @@ const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHisto
 
 const store = configureStore({
     reducer: {
-        taskLists: taskListsSlice.reducer,
+       // taskLists: taskListsSlice.reducer,
         router: routerReducer,
     },
     enhancers: [
