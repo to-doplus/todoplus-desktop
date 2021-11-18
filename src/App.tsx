@@ -1,3 +1,7 @@
+// To-Do Plus
+// App.tsx
+// @author Miroslav Safar (xsafar23)
+
 import React, { ReactElement } from "react"
 import { Provider } from "react-redux"
 import store, { history } from "./store"

@@ -1,3 +1,7 @@
+// To-Do Plus
+// rest-client.ts
+// @author Miroslav Safar (xsafar23)
+
 import { TaskList, Task, SubTask, Importance, TaskStatus, Nullable } from "./models";
 import { ToDoListClient } from "./todo-client";
 
@@ -26,70 +30,107 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async getAllLists(): Promise<TaskList[]> {
-        const response = await fetch(`${this.URL}/public/tasklists`);
-        const json = await response.json();
-        return json as TaskList[];
+        return await this.query<TaskList[]>('/tasklists');
     }
-    createNewTaskList(title: string): Promise<number> {
-        throw new Error("Method not implemented.");
+
+    async createNewTaskList(title: string): Promise<TaskList> {
+        const response = await fetch(`${this.URL}/tasklists`, {
+        method: 'post',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                displayName: title
+            })
+        });
+        return (await response.json() as TaskList);
     }
+
     deleteTaskList(taskListId: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
-    setTaskListTitle(taskListId: number, title: string): Promise<boolean> {
+
+    setTaskListTitle(taskListId: number, title: string): Promise<TaskList> {
         throw new Error("Method not implemented.");
     }
-    setTaskListColor(taskListId: number, color: string): Promise<boolean> {
+
+    setTaskListColor(taskListId: number, color: string): Promise<TaskList> {
         throw new Error("Method not implemented.");
     }
-    getAllTasks(taskListId: number): Promise<Task[]> {
-        throw new Error("Method not implemented.");
+
+    async getAllTasks(taskListId: number): Promise<Task[]> {
+        return await this.query<Task[]>(`/tasklists/${taskListId}`);
     }
-    createNewTask(taskListId: number, title: string): Promise<number> {
-        throw new Error("Method not implemented.");
+
+    async createNewTask(taskListId: number, title: string): Promise<Task> {
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks`, {
+            method: 'post',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                title: title
+            })
+        });
+        return (await response.json() as Task);
     }
+
     deleteTask(taskId: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
-    setTaskTitle(taskId: number, title: string): Promise<boolean> {
+
+    setTaskTitle(taskId: number, title: string): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    setTaskDue(taskId: number, date: Nullable<Date>): Promise<boolean> {
+
+    setTaskDue(taskId: number, date: Nullable<Date>): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    setTaskImportance(taskId: number, importance: Importance): Promise<boolean> {
+
+    setTaskImportance(taskId: number, importance: Importance): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    setTaskSort(taskId: number, sort: number): Promise<boolean> {
+
+    setTaskSort(taskId: number, sort: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    completeTask(taskId: number): Promise<boolean> {
+
+    completeTask(taskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    uncompleteTask(taskId: number): Promise<boolean> {
+
+    uncompleteTask(taskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    getAllSubTasks(taskId: number): Promise<SubTask[]> {
+
+    createNewSubTask(taskId: number, title: string): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    createNewSubTask(taskId: number, title: string): Promise<number> {
+
+    deleteSubTask(subTaskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    deleteSubTask(subTaskId: number): Promise<boolean> {
+
+    setSubTaskSort(subTaskId: number, sort: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    setSubTaskSort(subTaskId: number, sort: number): Promise<boolean> {
+
+    completeSubTask(subTaskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    completeSubTask(subTaskId: number): Promise<boolean> {
+
+    uncompleteSubTask(subTaskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
-    uncompleteSubTask(subTaskId: number): Promise<boolean> {
-        throw new Error("Method not implemented.");
+
+    async getMyDayTasks(): Promise<Task[]> {
+        return await this.query<Task[]>('/myday');
     }
-    getMyDayTasks(): Promise<Task[]> {
-        throw new Error("Method not implemented.");
+
+    async getImportantTasks(): Promise<Task[]> {
+        return await this.query<Task[]>('/important');
     }
+
     addTaskToMyDay(taskId: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }

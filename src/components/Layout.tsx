@@ -7,8 +7,10 @@ export interface LayoutProps {
 
 const Layout = (props: LayoutProps) : ReactElement => {
     return (
-        <div style={{height: '100vh', width: '100%'}}>
+        <div className="layout">
+            <div className="sidebar"></div>
             <div>
+                <div></div>
                 {props.children}
             </div>
         </div>

@@ -1,3 +1,7 @@
+// To-Do Plus
+// models.ts
+// @author Miroslav Safar (xsafar23)
+
 export type TaskStatus = "inprogress" | "completed";
 export type Importance = "low" | "normal" | "high";
 export type Nullable<T> = T | null;

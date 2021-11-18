@@ -2,8 +2,41 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <style>
+      .loading {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-wrapper {
+  margin: auto;
+  width: 140px;
+  height: 140px;
+}
+
+.loading-indicator {
+  border: 3px solid #f3f3f3; /* Light grey */
+  border-top: 3px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+    </style>
   </head>
   <body>
-    <h1>Loading...</h1>
+    <div class="loading">
+      <div class="loading-wrapper">
+        <div class="loading-indicator"></div>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { useTasksByTaskList } from "../client";
+import { useTasksByTaskList } from "../data/hooks";
 
 export interface TasksProps {
     taskListId: number

@@ -2,7 +2,7 @@ import { TaskList } from "../../lib/models";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import TaskListList from "../../src/components/TaskListList";
-import { useTaskLists } from "../client";
+import { useTaskLists } from "../data/hooks";
 import Tasks from "../components/Tasks";
 
 const TaskListView = () => {

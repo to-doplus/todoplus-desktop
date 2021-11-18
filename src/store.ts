@@ -1,3 +1,7 @@
+// To-Do Plus
+// store.ts
+// @author Miroslav Safar (xsafar23)
+
 import { applyMiddleware, configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import { createMemoryHistory } from 'history';
