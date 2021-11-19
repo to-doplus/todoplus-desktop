@@ -25,9 +25,10 @@ export async function createNewTask(taskListId: number, title: string): Promise<
 }
 
 export async function createNewSubTask(taskListId: number, taskId: number, title: string): Promise<boolean> {
-    const newSubtask = await client.createNewSubTask(taskId, title);
-    if(!newSubtask){
+    const updatedTask = await client.createNewSubTask(taskId, title);
+    if (!updatedTask){
         return false;
     }
+    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(tsk => tsk.id !== updatedTask.id)), updatedTask], false);
     return true;
 }
