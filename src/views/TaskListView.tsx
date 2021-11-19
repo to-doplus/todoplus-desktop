@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import TaskListList from "../../src/components/TaskListList";
 import { useTaskLists } from "../data/hooks";
 import Tasks from "../components/Tasks";
+import TaskDetails from "../components/TaskDetails";
 
 const TaskListView = () => {
     const params = useParams();

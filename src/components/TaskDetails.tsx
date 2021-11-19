@@ -1,10 +1,11 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
-import { useTaskLists } from "../data/hooks";
-import { useTasksByTaskList } from "../data/hooks";
-import { createNewSubTask } from "../../src/data/actions";
+import { useTaskLists, useTasksByTaskList } from "../data/hooks";
+import { createNewSubTask } from "../../src/data/subtask_actions";
+import { Task } from "../../lib/models";
 
 export interface TaskDetailsProps {
+  task: Task
 }
 
 const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
@@ -12,7 +13,6 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
 {/*
   *   const lists = useTaskLists();
   *   console.log(lists);
-  * 
   *   let ret;
   *   // Need ret for "Rendered more hooks than during the previous render..." ?
   *   if(lists.isLoading) {
@@ -26,6 +26,7 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
   *   if(!ret && lists && lists.data && lists.data[0]){
   *     listId = lists.data[0].id;
   *   }
+  * 
   */}
 
   let listId = 1;
