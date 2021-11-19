@@ -2,6 +2,8 @@ import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../src/components/Layout";
 import TaskListList from "../components/TaskListList";
+import TaskDetails from "../components/TaskDetails";
+
 const Home = () : ReactElement => {
     return (
         <Layout>
@@ -10,6 +12,7 @@ const Home = () : ReactElement => {
                 Settings Page
             </Link>
             <TaskListList />
+            <TaskDetails/>
         </Layout>
     );
 }

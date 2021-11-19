@@ -23,7 +23,7 @@ export interface Task extends Entity {
     dueTime: Nullable<Date>,
     completeTime: Nullable<Date>,
     importance: Importance,
-    subtasks: SubTask[],
+    subTasks: SubTask[],
     descripton: Nullable<string>,
     sort: number
 }

@@ -1,6 +1,10 @@
 :root {
   --main-bg-color: royalblue;
   --sidebar-bg-color: #293249;
+  --sidebar-bg-color-darker: #1c2333;
+	--sidebar-text-color: #DCDCDC;
+	--sidebar-text-color-darker: #BBB;
+	--sidebar-text-color-darkest: #999;
 }
 
 body {
@@ -16,3 +20,102 @@ body {
   font-size: 1.2rem;
   width: fit-content;
 }
+
+.taskDetails{
+	background-color: var(--sidebar-bg-color);
+	position: absolute;
+	right: 0;
+	top: 0;
+	float: right;
+	display: block;
+	width: 30%;
+	height: 100%;
+}
+
+.taskDetailsTitle{
+	color: var(--sidebar-text-color);
+	margin: 10% 7%;
+}
+
+.taskDetailsTitleCheckbox{
+	display: inline;
+}
+
+.taskDetailsTitleText{
+	display: inline;
+	margin-left: 5%;
+	font-weight: bold;
+}
+
+.taskDetailsTitleImportant{
+	display: inline;
+	float: right;
+}
+
+.taskDetailsSubtasks{
+	margin: 10% 7%;
+	color: var(--sidebar-text-color);
+	overflow-y: auto;
+}
+
+.taskDetailsSubtask{
+	/* margin-bottom: 5%; */
+	color: var(--sidebar-text-color);
+}
+
+.taskDetailsSubtaskText{
+	display: inline; 
+}
+
+.taskDetailsSubtaskDelete{
+	float: right;
+	display: inline; 
+}
+
+.taskDetailsSubtaskSeparator{
+	margin: 15px 0px;
+	border: none;
+	height: 1px;
+	background-color: var(--sidebar-text-color-darkest);
+}
+
+.taskDetailsSubtaskPlus, .taskDetailsSubtaskPlusText{
+	color: var(--sidebar-text-color-darker);
+}
+
+.taskDetailsSubtaskNew{
+	width: 100%;
+	display: flex;
+}
+
+/* todo somehow make the input and the plus icon nicely share the width? */
+.taskDetailsSubtaskForm{
+}
+
+.taskDetailsNewSubtaskInput{
+	background-color: inherit;
+	color: var(--sidebar-text-color-darker);
+	font-size: 12pt;
+	width: calc(95% - 50px);
+	float: left;
+	padding: 3%;
+	outline: none;
+	border: none;
+}
+
+.taskDetailsNewSubtaskInput::placeholder{
+	color: var(--sidebar-text-color-darker);
+	opacity: 1;
+}
+
+.taskDetailsNewSubtaskInput:focus{
+	background-color: var(--sidebar-bg-color-darker);
+	color: var(--sidebar-text-color);
+}
+
+.taskDetailsSubtaskPlus{
+	display: inline;
+	float: right;
+	padding: 3% 0%;
+}
+
