@@ -124,14 +124,14 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async getMyDayTasks(): Promise<Task[]> {
-        return await this.query<Task[]>('/myday');
+        return await this.query<Task[]>('/tasklists/c/myday/tasks');
     }
 
     async getImportantTasks(): Promise<Task[]> {
-        return await this.query<Task[]>('/important');
+        return await this.query<Task[]>('/tasklists/c/important/tasks');
     }
 
-    addTaskToMyDay(taskId: number): Promise<boolean> {
+    addTaskToMyDay(taskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 

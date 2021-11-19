@@ -1,5 +1,6 @@
-import React, { ReactElement } from "react";
+import React, { Fragment, ReactElement, useState } from "react";
 import { useTasksByTaskList } from "../data/hooks";
+import TaskDetails from "./TaskDetails";
 
 export interface TasksProps {
     taskListId: number
@@ -7,9 +8,16 @@ export interface TasksProps {
 
 const Tasks = (props: TasksProps) : ReactElement => {
     const {isLoading, isError, data: tasks} = useTasksByTaskList(Number(props.taskListId));
+    const [selected, setSelected] = useState(null);
+
 
     if(isLoading) {
         return <div>Loading...</div>
+    }
+
+    let taskDetails = <Fragment />
+    if(selected != null) {
+        taskDetails = <TaskDetails task={tasks[0]} />
     }
 
     return (
@@ -19,6 +27,7 @@ const Tasks = (props: TasksProps) : ReactElement => {
                     {task.title}
                 </div>
             ))}
+            {taskDetails}
         </div>
     )
 

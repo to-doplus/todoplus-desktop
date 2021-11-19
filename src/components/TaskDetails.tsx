@@ -1,12 +1,11 @@
 import React, { ReactElement, useState } from "react";
 import { Link } from "react-router-dom";
-import { useTaskLists } from "../data/hooks";
-import { useTasksByTaskList } from "../data/hooks";
-import { createNewSubTask } from "../../src/data/actions";
 import { TaskList, Task, SubTask, Nullable } from "../../lib/models"
-
+import { useTaskLists, useTasksByTaskList } from "../data/hooks";
+import { createNewSubTask } from "../../src/data/subtask_actions";
 
 export interface TaskDetailsProps {
+  task: Task
 }
 
 

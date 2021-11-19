@@ -31,5 +31,9 @@ export function useTasksByTaskList(taskListId: number): AsyncDataProps<Task[]> {
 }
 
 export function useMyDayTasks(): AsyncDataProps<Task[]> {
-    return useAsyncData<Task[]>(`/myday`);
+    return useAsyncData<Task[]>(`/tasklists/c/myday/tasks`);
+}
+
+export function useImportantTasks(): AsyncDataProps<Task[]> {
+    return useAsyncData<Task[]>(`/tasklists/c/important/tasks`);
 }
