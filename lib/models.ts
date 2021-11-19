@@ -25,7 +25,8 @@ export interface Task extends Entity {
     importance: Importance,
     subTasks: SubTask[],
     descripton: Nullable<string>,
-    sort: number
+    sort: number,
+    myDay: boolean
 }
 
 export interface SubTask extends Entity {

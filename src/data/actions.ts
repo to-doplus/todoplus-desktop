@@ -24,11 +24,14 @@ export async function createNewTask(taskListId: number, title: string): Promise<
     return true;
 }
 
-export async function createNewSubTask(taskListId: number, taskId: number, title: string): Promise<boolean> {
-    const updatedTask = await client.createNewSubTask(taskId, title);
-    if (!updatedTask){
+export async function addToMyDay(taskListId: number, taskId: number): Promise<boolean> {
+    const updatedTask = await client.addTaskToMyDay(taskId);
+    if(!updatedTask) {
         return false;
     }
     mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(tsk => tsk.id !== updatedTask.id)), updatedTask], false);
+    mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => [...list, updatedTask], false);
     return true;
 }
+
+

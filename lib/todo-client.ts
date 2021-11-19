@@ -33,5 +33,5 @@ export interface ToDoListClient {
     uncompleteSubTask(subTaskId: number): Promise<Task>;
 
     getMyDayTasks(): Promise<Task[]>;
-    addTaskToMyDay(taskId: number): Promise<boolean>;
+    addTaskToMyDay(taskId: number): Promise<Task>;
 }
