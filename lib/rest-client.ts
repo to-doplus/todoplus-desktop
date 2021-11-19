@@ -134,6 +134,10 @@ class TodoListRestClient implements ToDoListClient {
     addTaskToMyDay(taskId: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
+
+    removeTaskFromMyDay(taskId: number): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
 }
 
 export default TodoListRestClient

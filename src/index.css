@@ -1,9 +1,13 @@
 :root {
   --main-bg-color: royalblue;
+  --sidebar-bg-color-lighter: #3e465b;
   --sidebar-bg-color: #293249;
   --sidebar-bg-color-darker: #1c2333;
-	--sidebar-text-color: #DCDCDC;
-	--sidebar-text-color-darker: #BBB;
+  --sidebar-bg-color-darkest: #141924;
+	--sidebar-text-color-lightest: #fff;
+	--sidebar-text-color-lighter: #e6e6e6;
+	--sidebar-text-color: #dcdcdc;
+	--sidebar-text-color-darker: #bbb;
 	--sidebar-text-color-darkest: #999;
 }
 
@@ -34,7 +38,9 @@ body {
 
 .taskDetailsTitle{
 	color: var(--sidebar-text-color);
-	margin: 10% 7%;
+	font-size: 14pt;
+	margin: 25px 20px;
+	margin-bottom: 35px;
 }
 
 .taskDetailsTitleCheckbox{
@@ -43,34 +49,44 @@ body {
 
 .taskDetailsTitleText{
 	display: inline;
-	margin-left: 5%;
+	margin-left: 10px;
 	font-weight: bold;
 }
 
-.taskDetailsTitleImportant{
-	display: inline;
-	float: right;
-}
+/*
+ * .taskDetailsTitleImportant{
+ *   display: inline;
+ *   float: right;
+ * }
+ */
 
 .taskDetailsSubtasks{
-	margin: 10% 7%;
+	margin: 0px 20px;
 	color: var(--sidebar-text-color);
 	overflow-y: auto;
 }
+
 
 .taskDetailsSubtask{
 	/* margin-bottom: 5%; */
 	color: var(--sidebar-text-color);
 }
 
+.taskDetailsSubtaskComplete{
+	float: left;
+	display: inline-block; 
+}
+
 .taskDetailsSubtaskText{
-	display: inline; 
+	margin: 0 10px;
+	display: inline-block; 
 }
 
 .taskDetailsSubtaskDelete{
 	float: right;
-	display: inline; 
+	display: inline-block; 
 }
+
 
 .taskDetailsSubtaskSeparator{
 	margin: 15px 0px;
@@ -79,26 +95,26 @@ body {
 	background-color: var(--sidebar-text-color-darkest);
 }
 
-.taskDetailsSubtaskPlus, .taskDetailsSubtaskPlusText{
-	color: var(--sidebar-text-color-darker);
-}
 
-.taskDetailsSubtaskNew{
-	width: 100%;
-	display: flex;
+.taskDetailsNewSubtask{
+	/* display: flex; */
 }
 
 /* todo somehow make the input and the plus icon nicely share the width? */
-.taskDetailsSubtaskForm{
+.taskDetailsNewSubtaskForm{
+	display: inline;
+	float: left;
+	/* -15 because icons are 15px wide, 40px for extra margin around the icon */
+	width: calc(100% - 15px - 40px);
 }
 
 .taskDetailsNewSubtaskInput{
 	background-color: inherit;
 	color: var(--sidebar-text-color-darker);
 	font-size: 12pt;
-	width: calc(95% - 50px);
-	float: left;
-	padding: 3%;
+	padding: 10px;
+	width: 100%;
+	height: 30px;
 	outline: none;
 	border: none;
 }
@@ -108,14 +124,65 @@ body {
 	opacity: 1;
 }
 
-.taskDetailsNewSubtaskInput:focus{
+.taskDetailsNewSubtaskInput:hover{
 	background-color: var(--sidebar-bg-color-darker);
-	color: var(--sidebar-text-color);
 }
 
-.taskDetailsSubtaskPlus{
+.taskDetailsNewSubtaskInput:focus{
+	background-color: var(--sidebar-bg-color-darkest);
+	color: var(--sidebar-text-color-lightest);
+}
+
+.taskDetailsNewSubtaskIcon{
+	color: var(--sidebar-text-color-darker);
 	display: inline;
 	float: right;
-	padding: 3% 0%;
+	height: 30px;
+	padding: 15px 0px;
 }
 
+
+.taskDetailsMyDay, .taskDetailsDueDate{
+	background-color: var(--sidebar-bg-color-darker);
+	color: var(--sidebar-text-color);
+	font-size: 14pt;
+	padding: 10px 10px;
+	border-radius: 10px;
+	margin: 15px 15px;
+}
+
+.taskDetailsMyDay:hover, .taskDetailsDueDate:hover{
+	background-color: var(--sidebar-bg-color-darkest);
+}
+
+.taskDetailsMyDay{
+	margin-top: 40px;
+}
+
+.taskDetailsMyDayIcon{
+	display: inline;
+	float: left;
+}
+
+.taskDetailsMyDayText{
+	display: inline; 
+	margin: 15px;
+}
+
+.taskDetailsDueDate{
+}
+
+.taskDetailsDueDateIcon{
+	float: left;
+	display: inline;
+}
+
+.taskDetailsDueDateText{
+	display: inline; 
+	margin: 15px;
+}
+
+.taskDetailsTitleCheckbox, .taskDetailsMyDay, .taskDetailsDueDate, 
+.taskDetailsSubtaskComplete, .taskDetailsSubtaskDelete{
+	cursor: pointer;
+}
