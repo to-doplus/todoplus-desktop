@@ -4,7 +4,7 @@
 ** @author: Patrik Skaloš (xskalo01)
 */
 
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { TaskList, Task, SubTask, Nullable } from "../../lib/models"
 import { deleteSubTask, setSubTaskTitle, completeSubTask, uncompleteSubTask } from "../../src/data/subtask_actions";
 
@@ -29,9 +29,9 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
   ** Functions
   */
 
-  const getSubtaskText = () => {
-    setTitle(props.subtask.title);
-  }
+  useEffect(() => {
+      setTitle(props.subtask.title);
+  }, [props.subtask.title])
 
   const getSubtaskCompleteIcon = () : ReactElement => {
     let icon;

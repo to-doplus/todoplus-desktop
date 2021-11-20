@@ -4,7 +4,7 @@
 ** @author: Patrik Skaloš (xskalo01)
 */
 
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TaskList, Task, SubTask, Nullable } from "../../lib/models"
 import { useTaskLists, useTasksByTaskList } from "../data/hooks";
@@ -27,6 +27,10 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
 
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
   const [taskTitle, setTaskTitle] = useState(props.task.title);
+
+  useEffect(() => {
+      setTaskTitle(props.task.title);
+  }, [props.task.title])
 
 
   /*
