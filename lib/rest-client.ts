@@ -5,12 +5,6 @@
 import { TaskList, Task, SubTask, Importance, TaskStatus, Nullable } from "./models";
 import { ToDoListClient } from "./todo-client";
 
-interface UpdateTaskListRequest {
-    displayName?: string;
-    color?: string;
-    description?: string;
-}
-
 class TodoListRestClient implements ToDoListClient {
 
     URL: string;
@@ -135,7 +129,16 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async setTaskImportance(taskListId: number, taskId: number, importance: Importance): Promise<Task> {
-        throw new Error("Method not implemented.");
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}`, {
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                importance: importance
+            })
+        });
+        return (await response.json() as Task);
     }
 
     async setTaskSort(taskListId: number, taskId: number, sort: number): Promise<Task> {
@@ -176,7 +179,10 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async deleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
-        throw new Error("Method not implemented.");
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks/${subTaskId}`, {
+            method: 'delete'
+        });
+        return (await response.json() as Task);
     }
 
     async setSubTaskTitle(taskListId: number, taskId: number, subTaskId: number, title: string) : Promise<Task> {
@@ -206,7 +212,10 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async completeSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
-        throw new Error("Method not implemented.");
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks/${subTaskId}/close`, {
+            method: 'put'
+        });
+        return (await response.json() as Task);
     }
 
     async uncompleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
