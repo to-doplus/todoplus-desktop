@@ -26,6 +26,7 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
   */
 
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
+  const [taskTitle, setTaskTitle] = useState(props.task.title);
 
 
   /*
@@ -34,21 +35,21 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
 
   const getTaskCompleteIcon = () : ReactElement => {
     let icon;
-    if(props.task.status === "inprogress"){
-      icon = "fa-check-circle";
-    }else{
+    if(props.task.status === "INPROGRESS"){
       icon = "fa-circle";
+    }else{
+      icon = "fa-check-circle";
     }
     return(
       <div className="taskDetailsTitleCheckbox" onClick={setTaskCompletion}>
-        <i className={`far ${icon}`}/>
+        <i className={`far fa-lg ${icon}`}/>
       </div>
     );
   }
 
   const setTaskCompletion = async () => {
     let ret;
-    if(props.task.status === "inprogress"){
+    if(props.task.status === "INPROGRESS"){
       console.log("Marking task as completed. Id: " + props.task.id);
       ret = await completeTask(props.taskListId, props.task.id);
     }else{
@@ -60,10 +61,11 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
     }
   }
 
-  const setTaskTitle = async (newTitle: string) => {
-    if(props.task.title !== newTitle){
-      console.log("Changing the title from '" + props.task.title + "' to '" + newTitle + "'");
-      if(await setTitleOfTask(props.taskListId, props.task.id, newTitle)){
+  const submitTaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(props.task.title !== taskTitle){
+      console.log("Changing the title from '" + props.task.title + "' to '" + taskTitle + "'");
+      if(await setTitleOfTask(props.taskListId, props.task.id, taskTitle)){
         // TODO err
       }
     }
@@ -97,11 +99,21 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
     setNewSubtaskValue("");
   }
 
-  const getMyDayIcon = () : ReactElement => {
-    if(props.task.myDay === true){
-      return <i className="taskDetailsMyDayIcon fas fa-sun"></i>
+  const getMyDayButton = () : ReactElement => {
+    if(props.task.myDay === false){
+      return (
+        <div className="taskDetailsMyDay" onClick={changeMyDay}>
+          <i className="taskDetailsMyDayIcon far fa-sun" />
+          <p className="taskDetailsMyDayText">Add to My day</p>
+        </div>
+      );
     }else{
-      return <i className="taskDetailsMyDayIcon far fa-sun"/>
+      return (
+        <div className="taskDetailsMyDay" onClick={changeMyDay}>
+          <i className="taskDetailsMyDayIcon fas fa-sun" />
+          <p className="taskDetailsMyDayText">Remove from My day</p>
+        </div>
+      );
     }
   }
 
@@ -109,11 +121,9 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
     let ret;
     if(props.task.myDay === false){
       console.log("Adding to my day");
-      // props.task.myDay = true;
       ret = await addTaskToMyDay(props.taskListId, props.task.id);
     }else{
       console.log("Removing from my day");
-      // props.task.myDay = false;
       ret = await removeTaskFromMyDay(props.taskListId, props.task.id);
     }
     if(ret){
@@ -126,14 +136,6 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
     console.log("Setting due date to " + dueDate);
     if(await setTaskDue(props.taskListId, props.task.id, dueDate)){
       // TODO
-    }
-  }
-
-  const getMyDayText = () : ReactElement => {
-    if(props.task.myDay === false){
-      return <p className="taskDetailsMyDayText">Add to My day</p>
-    }else{
-      return <p className="taskDetailsMyDayText">Remove from My day</p>
     }
   }
 
@@ -155,10 +157,23 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
 
   return(
     <div className="taskDetails">
-
       <div className="taskDetailsTitle">
         {getTaskCompleteIcon()}
-        <p className="taskDetailsTitleText">{props.task.title}</p>
+        <form className="taskDetailsTitleForm"
+            onSubmit={(e) => submitTaskTitle(e)}>
+          <input type="text"
+              className={`
+                taskDetailsTitleInput
+                ${
+                  props.task.status === "INPROGRESS" ?
+                    "" : "taskDetailsTitleInputCompleted"
+                }`
+              }
+              required value={taskTitle} spellCheck="false"
+              onChange={(e) => {setTaskTitle(e.target.value)}}/>
+        </form>
+
+
       </div>
 
       <div className="taskDetailsSubtasks">
@@ -176,10 +191,7 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
 
       </div>
 
-      <div className="taskDetailsMyDay" onClick={changeMyDay}>
-        {getMyDayIcon()}
-        {getMyDayText()}
-      </div>
+      {getMyDayButton()}
 
       <div className="taskDetailsDueDate">
         <i className="taskDetailsDueDateIcon far fa-calendar-plus"/>

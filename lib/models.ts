@@ -2,8 +2,8 @@
 // models.ts
 // @author Miroslav Safar (xsafar23)
 
-export type TaskStatus = "inprogress" | "completed";
-export type Importance = "low" | "normal" | "high";
+export type TaskStatus = "INPROGRESS" | "COMPLETED";
+export type Importance = "LOW" | "NORMAL" | "HIGH";
 export type Nullable<T> = T | null;
 
 export interface Entity {
