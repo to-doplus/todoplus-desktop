@@ -15,7 +15,7 @@ class TodoListRestClient implements ToDoListClient {
 
     URL: string;
 
-    constructor(URL :string) {
+    constructor(URL: string) {
         this.URL = URL;
     }
 
@@ -35,7 +35,7 @@ class TodoListRestClient implements ToDoListClient {
 
     async createNewTaskList(title: string): Promise<TaskList> {
         const response = await fetch(`${this.URL}/tasklists`, {
-        method: 'post',
+            method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'
             }),
@@ -46,15 +46,15 @@ class TodoListRestClient implements ToDoListClient {
         return (await response.json() as TaskList);
     }
 
-    deleteTaskList(taskListId: number): Promise<boolean> {
+    async deleteTaskList(taskListId: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
 
-    setTaskListTitle(taskListId: number, title: string): Promise<TaskList> {
+    async setTaskListTitle(taskListId: number, title: string): Promise<TaskList> {
         throw new Error("Method not implemented.");
     }
 
-    setTaskListColor(taskListId: number, color: string): Promise<TaskList> {
+    async setTaskListColor(taskListId: number, color: string): Promise<TaskList> {
         throw new Error("Method not implemented.");
     }
 
@@ -75,51 +75,93 @@ class TodoListRestClient implements ToDoListClient {
         return (await response.json() as Task);
     }
 
-    deleteTask(taskId: number): Promise<boolean> {
+    async deleteTask(taskListId: number, taskId: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
 
-    setTaskTitle(taskId: number, title: string): Promise<Task> {
+    async setTaskTitle(taskListId: number, taskId: number, title: string): Promise<Task> {
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks`, {
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                title: title
+            })
+        });
+        return (await response.json() as Task);
+    }
+
+    async setTaskDue(taskListId: number, taskId: number, date: Nullable<Date>): Promise<Task> {
+        if(!date) {
+            //TODO: Add new endpoint to remove dueDate
+        }
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks`, {
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                dueDate: date
+            })
+        });
+        return (await response.json() as Task);
+    }
+
+    async setTaskImportance(taskListId: number, taskId: number, importance: Importance): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
-    setTaskDue(taskId: number, date: Nullable<Date>): Promise<Task> {
+    async setTaskSort(taskListId: number, taskId: number, sort: number): Promise<Task> {
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks`, {
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                sort: sort
+            })
+        });
+        return (await response.json() as Task);
+    }
+
+    async completeTask(taskListId: number, taskId: number): Promise<Task> {
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/close`, {
+            method: 'put'
+        });
+        return (await response.json() as Task);
+    }
+
+    async uncompleteTask(taskListId: number, taskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
-    setTaskImportance(taskId: number, importance: Importance): Promise<Task> {
+    async createNewSubTask(taskListId: number, taskId: number, title: string): Promise<Task> {
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks`, {
+            method: 'post',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                title: title
+            })
+        });
+        return (await response.json() as Task);
+    }
+
+    async deleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
-    setTaskSort(taskId: number, sort: number): Promise<Task> {
+    async setSubTaskSort(taskListId: number, taskId: number, subTaskId: number, sort: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
-    completeTask(taskId: number): Promise<Task> {
+    async completeSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
-    uncompleteTask(taskId: number): Promise<Task> {
-        throw new Error("Method not implemented.");
-    }
-
-    createNewSubTask(taskId: number, title: string): Promise<Task> {
-        throw new Error("Method not implemented.");
-    }
-
-    deleteSubTask(subTaskId: number): Promise<Task> {
-        throw new Error("Method not implemented.");
-    }
-
-    setSubTaskSort(subTaskId: number, sort: number): Promise<Task> {
-        throw new Error("Method not implemented.");
-    }
-
-    completeSubTask(subTaskId: number): Promise<Task> {
-        throw new Error("Method not implemented.");
-    }
-
-    uncompleteSubTask(subTaskId: number): Promise<Task> {
+    async uncompleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
@@ -131,12 +173,18 @@ class TodoListRestClient implements ToDoListClient {
         return await this.query<Task[]>('/tasklists/c/important/tasks');
     }
 
-    addTaskToMyDay(taskId: number): Promise<Task> {
-        throw new Error("Method not implemented.");
+    async addTaskToMyDay(taskId: number): Promise<Task> {
+        const response = await fetch(`${this.URL}/tasklists/c/myday/tasks/add/${taskId}`, {
+            method: 'put'
+        });
+        return (await response.json() as Task);
     }
 
-    removeTaskFromMyDay(taskId: number): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    async removeTaskFromMyDay(taskId: number): Promise<Task> {
+        const response = await fetch(`${this.URL}/tasklists/c/myday/tasks/remove/${taskId}`, {
+            method: 'put'
+        });
+        return (await response.json() as Task);
     }
 }
 

@@ -2,7 +2,7 @@
 // todo-client.ts
 // @author Miroslav Safar (xsafar23)
 
-import { Task, TaskList, SubTask, TaskStatus, Importance, Nullable } from "./models";
+import { Task, TaskList, Importance, Nullable } from "./models";
 
 export interface ToDoListClient {
     query<T>(query: string, ...args: any[]): Promise<T>;
@@ -15,23 +15,24 @@ export interface ToDoListClient {
 
     getAllTasks(taskListId: number): Promise<Task[]>;
     createNewTask(taskListId: number, title: string): Promise<Task>;
-    deleteTask(taskId: number): Promise<boolean>;
+    deleteTask(taskListId: number, taskId: number): Promise<boolean>;
 
-    setTaskTitle(taskId: number, title: string): Promise<Task>;
-    setTaskDue(taskId: number, date: Nullable<Date>): Promise<Task>;
-    setTaskImportance(taskId: number, importance: Importance): Promise<Task>;
-    
-    setTaskSort(taskId: number, sort: number): Promise<Task>;
-    completeTask(taskId: number): Promise<Task>;
-    uncompleteTask(taskId: number): Promise<Task>;
+    setTaskTitle(taskListId: number, taskId: number, title: string): Promise<Task>;
+    setTaskDue(taskListId: number, taskId: number, date: Nullable<Date>): Promise<Task>;
+    setTaskImportance(taskListId: number, taskId: number, importance: Importance): Promise<Task>;
 
-    createNewSubTask(taskId: number, title: string): Promise<Task>;
-    deleteSubTask(subTaskId: number): Promise<Task>;
+    setTaskSort(taskListId: number, taskId: number, sort: number): Promise<Task>;
+    completeTask(taskListId: number, taskId: number): Promise<Task>;
+    uncompleteTask(taskListId: number, taskId: number): Promise<Task>;
 
-    setSubTaskSort(subTaskId: number, sort: number): Promise<Task>;
-    completeSubTask(subTaskId: number): Promise<Task>;
-    uncompleteSubTask(subTaskId: number): Promise<Task>;
+    createNewSubTask(taskListId: number, taskId: number, title: string): Promise<Task>;
+    deleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task>;
+
+    setSubTaskSort(taskListId: number, taskId: number, subTaskId: number, sort: number): Promise<Task>;
+    completeSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task>;
+    uncompleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task>;
 
     getMyDayTasks(): Promise<Task[]>;
     addTaskToMyDay(taskId: number): Promise<Task>;
+    removeTaskFromMyDay(taskId: number) : Promise<Task>;
 }
