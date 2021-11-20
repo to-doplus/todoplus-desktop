@@ -5,10 +5,11 @@
 */
 
 import React, { ReactElement, useState } from "react";
-import { setTitleOfTask, setTaskDue, completeTask, uncompleteTask, createNewSubTask, deleteSubTask, setSubTaskTitle, completeSubTask, uncompleteSubTask, addTaskToMyDay, removeTaskFromMyDay } from "../../src/data/subtask_actions";
 import { Link } from "react-router-dom";
 import { TaskList, Task, SubTask, Nullable } from "../../lib/models"
 import { useTaskLists, useTasksByTaskList } from "../data/hooks";
+import Subtask from "./Subtask";
+import { setTitleOfTask, setTaskDue, completeTask, uncompleteTask, createNewSubTask, addTaskToMyDay, removeTaskFromMyDay } from "../../src/data/subtask_actions";
 
 
 
@@ -25,7 +26,6 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
   */
 
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
-  const [click, setClick] = useState("");
 
 
   /*
@@ -66,62 +66,22 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
     }
   }
 
-  const getSubtasks = () : ReactElement[] => {
+  const getSubtaskList = () : ReactElement => {
     if(props.task.subTasks){
-      return props.task.subTasks.map((subtask) => {
-        return (
-          <div className="taskDetailsSubtask">
-            {getSubtaskCompleteIcon(subtask)}
-            <p className="taskDetailsSubtaskText">{subtask.title}</p>
-            <i className="taskDetailsSubtaskDelete far fa-times-circle"
-                onClick={() => deleteSubtask(subtask)}/>
-            <hr className="taskDetailsSubtaskSeparator"/>
-          </div>
-        );
-      });
+      return (
+        <div className="taskDetailsSubtasksList">
+        {props.task.subTasks.map((subtask) => {
+          return (
+            <Subtask 
+                taskListId={props.taskListId} 
+                task={props.task} 
+                subtask={subtask} />
+          );
+        })}
+        </div>
+      );
     }else{
       return (null);
-    }
-  }
-
-  const getSubtaskCompleteIcon = (subtask: SubTask) : ReactElement => {
-    let icon;
-    if(subtask.status === "inprogress"){
-      icon = "fa-check-circle";
-    }else{
-      icon = "fa-circle";
-    }
-    return <i className={`taskDetailsSubtaskComplete far ${icon}`}
-        onClick={() => setSubtaskCompletion(subtask)}/>;
-  }
-
-  const setSubtaskCompletion = async (subtask: SubTask) => {
-    let ret;
-    if(subtask.status === "inprogress"){
-      console.log("Setting subtask as completed. Id: " + subtask.id);
-      ret = await completeSubTask(props.taskListId, props.task.id, subtask.id);
-    }else{
-      console.log("Setting subtask as in progress. Id: " + subtask.id);
-      ret = await uncompleteSubTask(props.taskListId, props.task.id, subtask.id);
-    }
-    if(ret){
-      // TODO
-    }
-  }
-
-  const setSubtaskTitle = async (subtask: SubTask, newTitle: string) => {
-    if(subtask.title !== newTitle){
-      console.log("Changing subtask title from '" + subtask.title + "' to '" + newTitle);
-      if(await setSubTaskTitle(props.taskListId, props.task.id, subtask.id, newSubtaskValue)){
-        // TODO
-      }
-    }
-  }
-
-  const deleteSubtask = async (subtask: SubTask) => {
-    console.log("Deleting a subtask. Id: " + subtask.id);
-    if(await deleteSubTask(props.taskListId, props.task.id, subtask.id)){
-      // TODO
     }
   }
 
@@ -143,7 +103,6 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
   }
 
   const changeMyDay = async () => {
-    setClick("");
     let ret;
     if(props.task.myDay === false){
       console.log("Adding to my day");
@@ -200,9 +159,7 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
       </div>
 
       <div className="taskDetailsSubtasks">
-        <div className="taskDetailsSubtasksList">
-          {getSubtasks()}
-        </div>
+        {getSubtaskList()}
 
         <div className="taskDetailsNewSubtask">
           <form className="taskDetailsNewSubtaskForm" 
