@@ -22,49 +22,54 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
   ** State
   */
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(props.subtask.title);
 
 
   /*
   ** Functions
   */
 
-  const getSubtaskCompleteIcon = (subtask: SubTask) : ReactElement => {
+  const getSubtaskText = () => {
+    setTitle(props.subtask.title);
+  }
+
+  const getSubtaskCompleteIcon = () : ReactElement => {
     let icon;
-    if(subtask.status === "inprogress"){
+    if(props.subtask.status === "inprogress"){
       icon = "fa-check-circle";
     }else{
       icon = "fa-circle";
     }
     return <i className={`taskDetailsSubtaskComplete far ${icon}`}
-        onClick={() => setSubtaskCompletion(subtask)}/>;
+        onClick={setSubtaskCompletion}/>;
   }
 
-  const setSubtaskCompletion = async (subtask: SubTask) => {
+  const setSubtaskCompletion = async () => {
     let ret;
-    if(subtask.status === "inprogress"){
-      console.log("Setting subtask as completed. Id: " + subtask.id);
-      ret = await completeSubTask(props.taskListId, props.task.id, subtask.id);
+    if(props.subtask.status === "inprogress"){
+      console.log("Setting subtask as completed. Id: " + props.subtask.id);
+      ret = await completeSubTask(props.taskListId, props.task.id, props.subtask.id);
     }else{
-      console.log("Setting subtask as in progress. Id: " + subtask.id);
-      ret = await uncompleteSubTask(props.taskListId, props.task.id, subtask.id);
+      console.log("Setting subtask as in progress. Id: " + props.subtask.id);
+      ret = await uncompleteSubTask(props.taskListId, props.task.id, props.subtask.id);
     }
     if(ret){
       // TODO
     }
   }
 
-  const setSubtaskTitle = async (subtask: SubTask, newTitle: string) => {
-    if(props.subtask.title !== newTitle){
-      console.log("Changing subtask title from '" + subtask.title + "' to '" + newTitle);
+  const setSubtaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(props.subtask.title !== title){
+      console.log("Changing subtask title from '" + props.subtask.title + "' to '" + title + "'");
       if(await setSubTaskTitle(props.taskListId, props.task.id, props.subtask.id, title)){
         // TODO
       }
     }
   }
 
-  const deleteSubtask = async (subtask: SubTask) => {
-    console.log("Deleting a subtask. Id: " + subtask.id);
+  const deleteSubtask = async () => {
+    console.log("Deleting a subtask. Id: " + props.subtask.id);
     if(await deleteSubTask(props.taskListId, props.task.id, props.subtask.id)){
       // TODO
     }
@@ -73,13 +78,25 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
 
   return (
     <div className="taskDetailsSubtask">
-      {getSubtaskCompleteIcon(props.subtask)}
-      <p className="taskDetailsSubtaskText">{props.subtask.title}</p>
+
+      {getSubtaskCompleteIcon()}
+
+      <form className="taskDetailsSubtaskTitleForm"
+          onSubmit={(e) => {setSubtaskTitle(e)}}>
+        <input type="text" className="taskDetailsSubtaskTitleInput"
+            required value={title}
+            onChange={(e) => {setTitle(e.target.value)}}/>
+      </form>
+
       <i className="taskDetailsSubtaskDelete far fa-times-circle"
-          onClick={() => deleteSubtask(props.subtask)}/>
+          onClick={() => deleteSubtask()}/>
+
       <hr className="taskDetailsSubtaskSeparator"/>
+
     </div>
   );
 }
+
+      // <p className="taskDetailsSubtaskText">{props.subtask.title}</p>
 
 export default Subtask

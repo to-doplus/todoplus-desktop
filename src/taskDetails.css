@@ -59,33 +59,53 @@
 }
 
 
+/* TODO */
 .taskDetailsSubtask{
-	/* margin-bottom: 5%; */
-	color: var(--sidebar-text-color);
+	/* height: 30px; */
+	/* margin: 10px 0px; */
+	/* color: var(--sidebar-text-color); */
 }
+
+/* TODO */
 
 .taskDetailsSubtaskComplete{
 	float: left;
-	display: inline-block; 
+	position: relative;
+	top: 9px;
 }
-
-.taskDetailsSubtaskText{
-	margin: 0 10px;
-	display: inline-block; 
+.taskDetailsSubtaskTitleForm{
+	height: 100%;
+	width: calc(100% - 15px - 15px - 40px);
+	margin: 0px 10px;
+	margin-bottom: 8px;
+	float: left;
 }
-
 .taskDetailsSubtaskDelete{
 	float: right;
-	display: inline-block; 
+	position: relative;
+	top: 9px;
 }
 
+
+.taskDetailsSubtaskText{
+	/* margin: 0 10px; */
+	/* display: inline-block;  */
+}
+
+.taskDetailsSubtaskTitleInput{
+	color: var(--sidebar-text-color-lighter);
+	height: 15px;
+}
 
 .taskDetailsSubtaskSeparator{
-	margin: 15px 0px;
-	border: none;
-	height: 1px;
+	display: block;
 	background-color: var(--sidebar-text-color-darkest);
+	height: 1px;
+	width: 100%;
+	border: none;
+	/* margin: 10px 0px; */
 }
+
 
 
 .taskDetailsNewSubtask{
@@ -100,27 +120,36 @@
 	width: calc(100% - 15px - 40px);
 }
 
-.taskDetailsNewSubtaskInput{
+.taskDetailsNewSubtaskInput, 
+.taskDetailsSubtaskTitleInput{
 	background-color: inherit;
-	color: var(--sidebar-text-color-darker);
 	font-size: 12pt;
 	padding: 10px;
 	width: 100%;
-	height: 30px;
 	outline: none;
 	border: none;
 }
+
+
+.taskDetailsNewSubtaskInput{
+	color: var(--sidebar-text-color-darker);
+	height: 30px;
+}
+
+
 
 .taskDetailsNewSubtaskInput::placeholder{
 	color: var(--sidebar-text-color-darker);
 	opacity: 1;
 }
 
-.taskDetailsNewSubtaskInput:hover{
+.taskDetailsNewSubtaskInput:hover,
+.taskDetailsSubtaskTitleInput:hover{
 	background-color: var(--sidebar-bg-color-darker);
 }
 
-.taskDetailsNewSubtaskInput:focus{
+.taskDetailsNewSubtaskInput:focus,
+.taskDetailsSubtaskTitleInput:focus{
 	background-color: var(--sidebar-bg-color-darkest);
 	color: var(--sidebar-text-color-lightest);
 }
@@ -132,6 +161,7 @@
 	height: 30px;
 	padding: 15px 0px;
 }
+
 
 
 .taskDetailsMyDay, .taskDetailsDueDate{
@@ -178,3 +208,4 @@
 .taskDetailsSubtaskComplete, .taskDetailsSubtaskDelete{
 	cursor: pointer;
 }
+

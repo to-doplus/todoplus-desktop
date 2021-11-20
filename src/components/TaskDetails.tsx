@@ -59,7 +59,7 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
 
   const setTaskTitle = async (newTitle: string) => {
     if(props.task.title !== newTitle){
-      console.log("Changing the title from '" + props.task.title + "' to '" + newTitle);
+      console.log("Changing the title from '" + props.task.title + "' to '" + newTitle + "'");
       if(await setTitleOfTask(props.taskListId, props.task.id, newTitle)){
         // TODO err
       }
@@ -106,11 +106,11 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
     let ret;
     if(props.task.myDay === false){
       console.log("Adding to my day");
-      props.task.myDay = true;
+      // props.task.myDay = true;
       ret = await addTaskToMyDay(props.taskListId, props.task.id);
     }else{
       console.log("Removing from my day");
-      props.task.myDay = false;
+      // props.task.myDay = false;
       ret = await removeTaskFromMyDay(props.taskListId, props.task.id);
     }
     if(ret){
