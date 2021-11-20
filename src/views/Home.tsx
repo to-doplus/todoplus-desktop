@@ -12,7 +12,6 @@ const Home = () : ReactElement => {
                 Settings Page
             </Link>
             <TaskListList />
-            <TaskDetails/>
         </Layout>
     );
 }

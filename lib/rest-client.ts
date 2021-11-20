@@ -107,19 +107,23 @@ class TodoListRestClient implements ToDoListClient {
         throw new Error("Method not implemented.");
     }
 
-    deleteSubTask(subTaskId: number): Promise<Task> {
+    deleteSubTask(taskId: number, subTaskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
-    setSubTaskSort(subTaskId: number, sort: number): Promise<Task> {
+    setSubtaskTitle(taskId: number, subtaskId: number, title: string): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
-    completeSubTask(subTaskId: number): Promise<Task> {
+    setSubTaskSort(taskId: number, subTaskId: number, sort: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
-    uncompleteSubTask(subTaskId: number): Promise<Task> {
+    completeSubTask(taskId: number, subTaskId: number): Promise<Task> {
+        throw new Error("Method not implemented.");
+    }
+
+    uncompleteSubTask(taskId: number, subTaskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 
@@ -135,7 +139,7 @@ class TodoListRestClient implements ToDoListClient {
         throw new Error("Method not implemented.");
     }
 
-    removeTaskFromMyDay(taskId: number): Promise<boolean> {
+    removeTaskFromMyDay(taskId: number): Promise<Task> {
         throw new Error("Method not implemented.");
     }
 }

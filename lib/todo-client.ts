@@ -26,12 +26,15 @@ export interface ToDoListClient {
     uncompleteTask(taskId: number): Promise<Task>;
 
     createNewSubTask(taskId: number, title: string): Promise<Task>;
-    deleteSubTask(subTaskId: number): Promise<Task>;
+    deleteSubTask(taskId: number, subTaskId: number): Promise<Task>;
+    setSubtaskTitle(taskId: number, subTaskId: number, title: string): Promise<Task>;
 
-    setSubTaskSort(subTaskId: number, sort: number): Promise<Task>;
-    completeSubTask(subTaskId: number): Promise<Task>;
-    uncompleteSubTask(subTaskId: number): Promise<Task>;
+    setSubTaskSort(taskId: number, subTaskId: number, sort: number): Promise<Task>;
+    completeSubTask(taskId: number, subTaskId: number): Promise<Task>;
+    uncompleteSubTask(taskId: number, subTaskId: number): Promise<Task>;
 
     getMyDayTasks(): Promise<Task[]>;
     addTaskToMyDay(taskId: number): Promise<Task>;
+    removeTaskFromMyDay(taskId: number): Promise<Task>;
+
 }

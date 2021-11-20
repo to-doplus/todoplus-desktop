@@ -4,6 +4,7 @@ import { createNewTaskList } from "../../src/data/actions";
 import { useInput } from "../../src/hooks/input";
 import { useTaskLists } from "../data/hooks";
 import Button from "./Button";
+import Tasks from "./Tasks";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface TaskListListProps {
@@ -44,6 +45,7 @@ const TaskListList = (props: TaskListListProps) : ReactElement => {
                         id="taskListName-input" placeholder={"Nový seznam"} {...bindName}></input>
                 <Button onClick={create}>+</Button>
             </div>
+            <Tasks taskListId={1} />
         </div>
     );
 }
