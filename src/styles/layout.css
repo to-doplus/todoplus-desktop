@@ -1,9 +1,56 @@
 .layout {
-    width: '100%';
+    width: 100%;
+    height: 100%;
+    display: flex;
 }
 
 .layout .sidebar {
     background-color: var(--sidebar-bg-color);
-    height: '100vh';
-    width: 200px;
+    height: calc(100vh - 24px);
+    width: 180px;
+    display: block;
+    top: 0;
+    position: sticky;
+    padding: 12px;
 }
+
+.layout .sidebar .icon {
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    margin-left: 8px;
+    margin-right: 4px;
+}
+
+.layout .sidebar .sidebar-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.layout .sidebar .tasklist {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.layout .sidebar .newTaskList {
+    color:white;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+}
+
+.layout .container {
+    margin: 12px;
+}
+
+.layout a {
+    text-decoration: none;
+}
+

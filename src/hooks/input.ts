@@ -1,3 +1,7 @@
+// To-Do Plus
+// input.ts
+// @author Miroslav Safar (xsafar23)
+
 import { Dispatch, SetStateAction, useState } from "react";
 
 export interface InputBind<S> {

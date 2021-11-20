@@ -7,7 +7,7 @@ import client from "./client";
 import { Task } from "../../lib/models"
 
 export async function createNewSubTask(taskListId: number, taskId: number, title: string): Promise<boolean> {
-    const updatedTask = await client.createNewSubTask(taskId, title);
+    const updatedTask = await client.createNewSubTask(taskListId, taskId, title);
     if (!updatedTask) {
         return false;
     }

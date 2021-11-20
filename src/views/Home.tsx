@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
-import Layout from "../../src/components/Layout";
-import TaskListList from "../components/TaskListList";
+import Layout from "../components/layout/Layout";
+import TaskListList from "../components/layout/TaskListList";
 import TaskDetails from "../components/TaskDetails";
 
 const Home = () : ReactElement => {
@@ -11,8 +11,7 @@ const Home = () : ReactElement => {
             <Link to="/settings">
                 Settings Page
             </Link>
-            <TaskListList />
-            <TaskDetails/>
+     {/*      <TaskDetails/> --> */}
         </Layout>
     );
 }

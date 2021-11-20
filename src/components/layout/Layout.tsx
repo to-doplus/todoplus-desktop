@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
-import Button from "./Button";
+import Button from "../Button";
+import Sidebar from "./Sidebar";
 
 export interface LayoutProps {
     children?: React.ReactNode;
@@ -8,9 +9,8 @@ export interface LayoutProps {
 const Layout = (props: LayoutProps) : ReactElement => {
     return (
         <div className="layout">
-            <div className="sidebar"></div>
-            <div>
-                <div></div>
+            <Sidebar/>
+            <div className="container">
                 {props.children}
             </div>
         </div>
