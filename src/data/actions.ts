@@ -29,7 +29,7 @@ export async function addToMyDay(taskListId: number, taskId: number): Promise<bo
     if(!updatedTask) {
         return false;
     }
-    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(tsk => tsk.id !== updatedTask.id)), updatedTask], false);
+    // mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(tsk => tsk.id !== updatedTask.id)), updatedTask], false);
     mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => [...list, updatedTask], false);
     return true;
 }

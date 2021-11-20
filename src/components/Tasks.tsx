@@ -15,10 +15,12 @@ const Tasks = (props: TasksProps) : ReactElement => {
         return <div>Loading...</div>
     }
 
-    let taskDetails = <Fragment />
-    if(selected != null) {
-        taskDetails = <TaskDetails task={tasks[0]} />
-    }
+    {/*
+      * let taskDetails = <Fragment />
+      * if(selected != null) {
+      *     let taskDetails = <TaskDetails task={tasks[0]} />
+      * }
+      */}
 
     return (
         <div>
@@ -27,7 +29,7 @@ const Tasks = (props: TasksProps) : ReactElement => {
                     {task.title}
                 </div>
             ))}
-            {taskDetails}
+            <TaskDetails taskListId={props.taskListId} task={tasks.filter(task => task.id === 1)[0]}/>
         </div>
     )
 
