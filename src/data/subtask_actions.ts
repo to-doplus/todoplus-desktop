@@ -8,7 +8,7 @@ import { Task, Nullable } from "../../lib/models"
 
 // completeTask(taskId: number): Promise<Task> ;
 export async function completeTask(taskListId: number, taskId: number): Promise<boolean> {
-  const updatedTask = await client.completeTask(taskId);
+  const updatedTask = await client.completeTask(taskListId, taskId);
   if (!updatedTask) {
     return false;
   }
@@ -18,7 +18,7 @@ export async function completeTask(taskListId: number, taskId: number): Promise<
 
 // uncompleteTask(taskId: number): Promise<Task> ;
 export async function uncompleteTask(taskListId: number, taskId: number): Promise<boolean> {
-  const updatedTask = await client.uncompleteTask(taskId);
+  const updatedTask = await client.uncompleteTask(taskListId, taskId);
   if (!updatedTask) {
     return false;
   }
@@ -28,7 +28,7 @@ export async function uncompleteTask(taskListId: number, taskId: number): Promis
 
 // setTaskTitle(taskId: number, title: string): Promise<Task> {
 export async function setTitleOfTask(taskListId: number, taskId: number, title: string): Promise<boolean> {
-  const updatedTask = await client.setTaskTitle(taskId, title);
+  const updatedTask = await client.setTaskTitle(taskListId, taskId, title);
   if (!updatedTask) {
     return false;
   }
@@ -59,7 +59,7 @@ export async function removeTaskFromMyDay(taskListId: number, taskId: number): P
 
 // setTaskDue(taskId: number, date: Nullable<Date>): Promise<Task> {
 export async function setTaskDue(taskListId: number, taskId: number, date: Nullable<Date>): Promise<boolean> {
-  const updatedTask = await client.setTaskDue(taskId, date);
+  const updatedTask = await client.setTaskDue(taskListId, taskId, date);
   if (!updatedTask) {
     return false;
   }
@@ -69,7 +69,7 @@ export async function setTaskDue(taskListId: number, taskId: number, date: Nulla
 
 // createNewSubTask(taskId: number, title: string): Promise<Task> ;
 export async function createNewSubTask(taskListId: number, taskId: number, title: string): Promise<boolean> {
-  const updatedTask = await client.createNewSubTask(taskId, title);
+  const updatedTask = await client.createNewSubTask(taskListId, taskId, title);
   if (!updatedTask) {
     return false;
   }
@@ -79,7 +79,7 @@ export async function createNewSubTask(taskListId: number, taskId: number, title
 
 // deleteSubTask
 export async function deleteSubTask(taskListId: number, taskId: number, subtaskId: number): Promise<boolean> {
-  const updatedTask = await client.deleteSubTask(taskId, subtaskId);
+  const updatedTask = await client.deleteSubTask(taskListId, taskId, subtaskId);
   if (!updatedTask) {
     return false;
   }
@@ -89,7 +89,7 @@ export async function deleteSubTask(taskListId: number, taskId: number, subtaskI
 
 // setSubtaskTitle
 export async function setSubTaskTitle(taskListId: number, taskId: number, subtaskId: number, title: string): Promise<boolean> {
-  const updatedTask = await client.setSubtaskTitle(taskId, subtaskId, title);
+  const updatedTask = await client.setSubTaskTitle(taskListId, taskId, subtaskId, title);
   if (!updatedTask) {
     return false;
   }
@@ -99,7 +99,7 @@ export async function setSubTaskTitle(taskListId: number, taskId: number, subtas
 
 // completeSubTask(subTaskId: number): Promise<Task> ;
 export async function completeSubTask(taskListId: number, taskId: number, subtaskId: number): Promise<boolean> {
-  const updatedTask = await client.completeSubTask(taskId, subtaskId);
+  const updatedTask = await client.completeSubTask(taskListId, taskId, subtaskId);
   if (!updatedTask) {
     return false;
   }
@@ -109,7 +109,7 @@ export async function completeSubTask(taskListId: number, taskId: number, subtas
 
 // uncompleteSubTask(subTaskId: number): Promise<Task> {
 export async function uncompleteSubTask(taskListId: number, taskId: number, subtaskId: number): Promise<boolean> {
-  const updatedTask = await client.uncompleteSubTask(taskId, subtaskId);
+  const updatedTask = await client.uncompleteSubTask(taskListId, taskId, subtaskId);
   if (!updatedTask) {
     return false;
   }

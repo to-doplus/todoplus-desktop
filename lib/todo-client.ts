@@ -28,6 +28,7 @@ export interface ToDoListClient {
     createNewSubTask(taskListId: number, taskId: number, title: string): Promise<Task>;
     deleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task>;
 
+    setSubTaskTitle(taskListId: number, taskId: number, subTaskId: number, title: string): Promise<Task>
     setSubTaskSort(taskListId: number, taskId: number, subTaskId: number, sort: number): Promise<Task>;
     completeSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task>;
     uncompleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task>;
