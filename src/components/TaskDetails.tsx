@@ -39,8 +39,11 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
     }else{
       icon = "fa-circle";
     }
-    return <i className={`taskDetailsTitleCheckbox far ${icon}`}
-        onClick={setTaskCompletion}/>;
+    return(
+      <div className="taskDetailsTitleCheckbox" onClick={setTaskCompletion}>
+        <i className={`far ${icon}`}/>
+      </div>
+    );
   }
 
   const setTaskCompletion = async () => {
@@ -68,10 +71,10 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
 
   const getSubtaskList = () : ReactElement => {
     if(props.task.subTasks){
-      return (
+      return(
         <div className="taskDetailsSubtasksList">
         {props.task.subTasks.map((subtask) => {
-          return (
+          return(
             <Subtask 
                 taskListId={props.taskListId} 
                 task={props.task} 
@@ -150,7 +153,7 @@ const TaskDetails = (props: TaskDetailsProps) : ReactElement => {
   console.log(props.task);
 
 
-  return (
+  return(
     <div className="taskDetails">
 
       <div className="taskDetailsTitle">

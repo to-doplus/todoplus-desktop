@@ -40,8 +40,11 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     }else{
       icon = "fa-circle";
     }
-    return <i className={`taskDetailsSubtaskComplete far ${icon}`}
-        onClick={setSubtaskCompletion}/>;
+    return(
+      <div className="taskDetailsSubtaskComplete" onClick={setSubtaskCompletion}> 
+        <i className={`far ${icon}`}/>
+      </div>
+    )
   }
 
   const setSubtaskCompletion = async () => {
@@ -88,15 +91,14 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
             onChange={(e) => {setTitle(e.target.value)}}/>
       </form>
 
-      <i className="taskDetailsSubtaskDelete far fa-times-circle"
-          onClick={() => deleteSubtask()}/>
+      <div className="taskDetailsSubtaskDelete" onClick={deleteSubtask}>
+        <i className="far fa-times-circle" />
+      </div>
 
       <hr className="taskDetailsSubtaskSeparator"/>
 
     </div>
   );
 }
-
-      // <p className="taskDetailsSubtaskText">{props.subtask.title}</p>
 
 export default Subtask
