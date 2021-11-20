@@ -52,7 +52,7 @@ export async function removeTaskFromMyDay(taskListId: number, taskId: number): P
   if (!updatedTask) {
     return false;
   }
-  // mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
   // TODO
   return true;
 }

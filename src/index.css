@@ -25,6 +25,23 @@ body {
 	width: 100%;
 }
 
+.overlay {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  background-color: rgba(153, 153, 153, 0.342);
+}
+
+.center-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .button {
   background-color: var(--main-bg-color);
   color: white;

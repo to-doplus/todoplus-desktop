@@ -1,4 +1,5 @@
 import React, { Fragment, ReactElement, useState } from "react";
+import { Task } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 
@@ -8,7 +9,7 @@ export interface TasksProps {
 
 const Tasks = (props: TasksProps) : ReactElement => {
     const {isLoading, isError, data: tasks} = useTasksByTaskList(Number(props.taskListId));
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState<number>(-1);
 
 
     if(isLoading) {
@@ -21,15 +22,25 @@ const Tasks = (props: TasksProps) : ReactElement => {
       *     let taskDetails = <TaskDetails task={tasks[0]} />
       * }
       */}
+    const select = (taskId: number) => {
+        if(selected === taskId){
+            setSelected(-1);
+            return;
+        }
+        setSelected(taskId);
+    }
+
+    const selectedTask : Task = tasks.find(tsk => tsk.id === selected);
 
     return (
         <div>
             {tasks.filter(task => !task.completeTime).map(task => (
-                <div key={task.id}>
+                <div key={task.id} onClick={() => {select(task.id)}}>
                     {task.title}
                 </div>
             ))}
-            <TaskDetails taskListId={props.taskListId} task={tasks.filter(task => task.id === 1)[0]}/>
+            {selectedTask ? <TaskDetails taskListId={props.taskListId} task={selectedTask}/> : <Fragment />}
+            
         </div>
     )
 
