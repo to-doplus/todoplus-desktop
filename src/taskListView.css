@@ -1,0 +1,87 @@
+/*
+ * To-Do Plus
+ * taskDetails.css
+ * @author: Michaela Pařilová(xparil04
+ */
+
+ :root{
+	--sidebar-bg-color-lighter: #3e465b;
+	--sidebar-bg-color: #293249;
+	--sidebar-bg-color-darker: #1c2333;
+	--sidebar-bg-color-darkest: #141924;
+	--sidebar-text-color-lightest: #fff;
+	--sidebar-text-color-lighter: #e6e6e6;
+	--sidebar-text-color: #dcdcdc;
+	--sidebar-text-color-darker: #bbb;
+	--sidebar-text-color-darkest: #999;
+}
+
+.taskListViewBg{
+	background-image: url("placeholder-bg.webp");
+ 	background-color: #cccccc;
+	color: var(--sidebar-text-color-lightest);
+}
+
+.taskBox{
+	background-color: rgba(41, 50, 73, 0.6);
+	margin-bottom: 15px;
+	width: 1000px;
+	height: 25px;
+	display: flex;
+	padding: 10px 10px;
+	border-radius: 10px;
+	justify-content: left;
+  	align-items: center;
+}
+
+.taskBox:hover{
+	background-color: rgba(41, 50, 73, 1.0);
+}
+
+.taskBox .icon{
+	float: left;
+	display: inline;
+	padding-right: 10px;
+	cursor: pointer;
+}
+
+.taskBox .content{
+	font-size: 16px;
+}
+
+
+.taskListViewBg .inputContainer{
+	display: flex;
+	position:absolute;                 
+    bottom:0; 
+	margin-bottom: 10px;
+	width: 1000px;
+	height: 25px;
+	background-color: rgba(41, 50, 73, 0.6);
+	border-radius: 10px;
+	justify-content: left;
+  	align-items: center;
+	padding: 10px 10px;
+	
+}
+
+.taskListViewBg .inputContainer:hover{
+	background-color: rgba(41, 50, 73, 1.0);
+}
+
+.taskListViewBg .inputContainer .icon{
+	float: left;
+	display: inline;
+	padding-right: 10px;
+	cursor: pointer;
+	font-size: 1.13em;
+}
+
+.taskListViewBg .inputContainer input.taskAddTask{
+	background-color: rgba(41, 50, 73, 0.0);
+	border: none;
+	display: inline;
+	flex-direction: column;
+	font-size: 16px;
+	height: 25px;
+}
