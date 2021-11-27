@@ -1,4 +1,4 @@
-import { TaskList } from "../../lib/models";
+import { TaskList, Task } from "../../lib/models";
 import React, { ReactElement, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import TaskListList from "../components/layout/TaskListList";
@@ -6,7 +6,6 @@ import { useTaskLists } from "../data/hooks";
 import Tasks from "../components/Tasks";
 import TaskDetails from "../components/TaskDetails";
 import Layout from "../components/layout/Layout";
-import { createNewTask } from "../data/actions";
 
 
 const TaskListView = () => {
@@ -16,6 +15,10 @@ const TaskListView = () => {
 
     if (isLoading) {
         return <div>Loading...</div>;
+    }
+
+    if (isError) {
+        return <div>Error??</div>;
     }
 
     const taskList: TaskList = taskLists.find(taskList => taskList.id === taskListId);

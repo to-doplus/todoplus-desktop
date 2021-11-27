@@ -1,10 +1,11 @@
-import React, { Fragment, ReactElement, useState, ChangeEvent } from "react";
+import React, { Fragment, ReactElement, useState } from "react";
 import { createNewTask } from "../data/actions";
-import { Task } from "../../lib/models";
+import { Task, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 import { useInput } from "../hooks/input";
 import Button from "./Button";
+import { completeTask, uncompleteTask } from "../data/subtask_actions";
 
 export interface TasksProps {
     taskListId: number
@@ -18,6 +19,10 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     if (isLoading) {
         return <div>Loading...</div>
+    }
+
+    if (isError) {
+        return <div>Error??</div>
     }
 
     {/*
@@ -34,8 +39,25 @@ const Tasks = (props: TasksProps): ReactElement => {
         setSelected(taskId);
     }
 
+    const createTask = async (e: React.FormEvent<HTMLFormElement>) => {
+        console.log("Task name: " + taskName + " , id: " + props.taskListId);
+        e.preventDefault();
+        const success = await createNewTask(props.taskListId, taskName);
+        if (success) {
+            setName("");
+        }
+    }
 
-    const getTaskIcon = (taskStatus: string): ReactElement => {
+    const createTaskByButton = async () => {
+        console.log("Task name: " + taskName + " , id: " + props.taskListId);
+        const success = await createNewTask(props.taskListId, taskName);
+        if (success) {
+            setName("");
+        }
+    }
+
+
+    const getTaskIcon = (taskId : number, taskStatus: string): ReactElement => {
         let icon;
         if (taskStatus === "INPROGRESS") {
             icon = "fa-circle";
@@ -43,19 +65,21 @@ const Tasks = (props: TasksProps): ReactElement => {
             icon = "fa-check-circle";
         }
         return (
-            <div className="taskDetailsTaskComplete">
+            <div className="taskDetailsTaskComplete" onClick={() => setTaskCompleted(taskId, taskStatus)}>
                 <i className={`far fa-lg ${icon}`} />
             </div>
         )
     }
 
-    const createTask = async (e: React.FormEvent<HTMLFormElement>) => {
-        console.log("Adding a new subtask: " + taskName + " , id: " + props.taskListId);
-        e.preventDefault();
-        const success = await createNewTask(props.taskListId, taskName);
-        if (success) {
-            setName("");
+    const setTaskCompleted = async (taskId : number, taskStatus : string) => {
+        if(taskStatus === "INPROGRESS"){
+          console.log("Task completed!");
+          const success = await completeTask(props.taskListId, taskId);
+        }else{
+          console.log("Task uncompleted!");
+          const success = await uncompleteTask(props.taskListId, taskId);
         }
+        
       }
 
 
@@ -68,7 +92,7 @@ const Tasks = (props: TasksProps): ReactElement => {
             {tasks.filter(task => !task.completeTime).map(task => (
                 <div className="taskBox" key={task.id} onClick={() => { select(task.id) }}>
                     <div className="icon">
-                        {getTaskIcon(task.status)}
+                        {getTaskIcon(task.id,task.status)}
                     </div>
                     <div className="content">
                         {task.title}
@@ -78,18 +102,18 @@ const Tasks = (props: TasksProps): ReactElement => {
             {selectedTask ? <TaskDetails taskListId={props.taskListId} task={selectedTask} /> : <Fragment />}
             {<div className="inputContainer">
                 <div className="icon">
-                    <i className="fas fa-plus"></i>
+                    <Button className="hiddenButton" onClick={createTaskByButton}><i className="fas fa-plus"></i></Button>
                 </div>
-                <form onSubmit={(e) => {createTask(e)}}>
-                <input
-                    type="text"
-                    name="taskName"
-                    className="taskAddTask"
-                    placeholder="Add task..."
-                    {...bindName}
-                    onChange={(e) => {setName(e.target.value)}}
+                <form onSubmit={(e) => { createTask(e) }}>
+                    <input
+                        type="text"
+                        name="taskName"
+                        className="taskAddTask"
+                        placeholder="Add task..."
+                        {...bindName}
+                        onChange={(e) => { setName(e.target.value) }}
                     >
-                </input>
+                    </input>
                 </form>
 
             </div>}
