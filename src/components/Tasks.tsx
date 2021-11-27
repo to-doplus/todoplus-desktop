@@ -1,8 +1,10 @@
-import React, { Fragment, ReactElement, useState } from "react";
+import React, { Fragment, ReactElement, useState, ChangeEvent } from "react";
 import { createNewTask } from "../data/actions";
 import { Task } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
+import { useInput } from "../hooks/input";
+import Button from "./Button";
 
 export interface TasksProps {
     taskListId: number
@@ -11,6 +13,7 @@ export interface TasksProps {
 const Tasks = (props: TasksProps): ReactElement => {
     const { isLoading, isError, data: tasks } = useTasksByTaskList(Number(props.taskListId));
     const [selected, setSelected] = useState<number>(-1);
+    const [taskName, setName, bindName] = useInput("");
 
 
     if (isLoading) {
@@ -30,9 +33,9 @@ const Tasks = (props: TasksProps): ReactElement => {
         }
         setSelected(taskId);
     }
-  
 
-    const getTaskCompleteIcon = (taskStatus: string): ReactElement => {
+
+    const getTaskIcon = (taskStatus: string): ReactElement => {
         let icon;
         if (taskStatus === "INPROGRESS") {
             icon = "fa-circle";
@@ -46,8 +49,17 @@ const Tasks = (props: TasksProps): ReactElement => {
         )
     }
 
+    const createTask = async (e: React.FormEvent<HTMLFormElement>) => {
+        console.log("Adding a new subtask: " + taskName + " , id: " + props.taskListId);
+        e.preventDefault();
+        const success = await createNewTask(props.taskListId, taskName);
+        if (success) {
+            setName("");
+        }
+      }
 
-    
+
+
 
     const selectedTask: Task = tasks.find(tsk => tsk.id === selected);
 
@@ -56,7 +68,7 @@ const Tasks = (props: TasksProps): ReactElement => {
             {tasks.filter(task => !task.completeTime).map(task => (
                 <div className="taskBox" key={task.id} onClick={() => { select(task.id) }}>
                     <div className="icon">
-                        {getTaskCompleteIcon(task.status)}
+                        {getTaskIcon(task.status)}
                     </div>
                     <div className="content">
                         {task.title}
@@ -64,17 +76,23 @@ const Tasks = (props: TasksProps): ReactElement => {
                 </div>
             ))}
             {selectedTask ? <TaskDetails taskListId={props.taskListId} task={selectedTask} /> : <Fragment />}
-            <div className="inputContainer">
-                    <div className="icon">
-                        <i className="fas fa-plus"></i>
-                    </div>
-                    <input
-                        type="text"
-                        className="taskAddTask"
-                        placeholder="Add task..."
-
-                    />
+            {<div className="inputContainer">
+                <div className="icon">
+                    <i className="fas fa-plus"></i>
                 </div>
+                <form onSubmit={(e) => {createTask(e)}}>
+                <input
+                    type="text"
+                    name="taskName"
+                    className="taskAddTask"
+                    placeholder="Add task..."
+                    {...bindName}
+                    onChange={(e) => {setName(e.target.value)}}
+                    >
+                </input>
+                </form>
+
+            </div>}
 
         </div>
     )
