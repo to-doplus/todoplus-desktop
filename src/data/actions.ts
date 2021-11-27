@@ -6,7 +6,7 @@ import { mutate } from "swr";
 import client from "./client";
 import { Task, TaskList } from "../../lib/models"
 
-export async function createNewTaskList(title: string) : Promise<boolean> {
+export async function createNewTaskList(title: string): Promise<boolean> {
     const newTaskList = await client.createNewTaskList(title);
     if (!newTaskList) {
         return false;
@@ -26,11 +26,39 @@ export async function createNewTask(taskListId: number, title: string): Promise<
 
 export async function addToMyDay(taskListId: number, taskId: number): Promise<boolean> {
     const updatedTask = await client.addTaskToMyDay(taskId);
-    if(!updatedTask) {
+    if (!updatedTask) {
         return false;
     }
     // mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(tsk => tsk.id !== updatedTask.id)), updatedTask], false);
     mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => [...list, updatedTask], false);
+    return true;
+}
+
+export async function completeTask(taskListId: number, taskId: number): Promise<boolean> {
+    const updatedTask = await client.completeTask(taskListId, taskId);
+    if (!updatedTask) {
+        return false;
+    }
+    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+    return true;
+}
+
+export async function uncompleteTask(taskListId: number, taskId: number): Promise<boolean> {
+    const updatedTask = await client.uncompleteTask(taskListId, taskId);
+    if (!updatedTask) {
+        return false;
+    }
+    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+    return true;
+}
+
+// idk? task se neodstrani okamzite
+export async function deleteTask(taskListId: number, taskId: number): Promise<boolean> {
+    const updatedTask = await client.deleteTask(taskListId, taskId);
+    if (!updatedTask) {
+        return false;
+    }
+    mutate(`/tasklists/${taskListId}/tasks`, updatedTask, false);
     return true;
 }
 

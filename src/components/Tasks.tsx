@@ -1,11 +1,10 @@
 import React, { Fragment, ReactElement, useState } from "react";
-import { createNewTask } from "../data/actions";
+import { createNewTask, completeTask, uncompleteTask, deleteTask } from "../data/actions";
 import { Task, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 import { useInput } from "../hooks/input";
 import Button from "./Button";
-import { completeTask, uncompleteTask } from "../data/subtask_actions";
 
 export interface TasksProps {
     taskListId: number
@@ -57,11 +56,12 @@ const Tasks = (props: TasksProps): ReactElement => {
     }
 
 
-    const getTaskIcon = (taskId : number, taskStatus: string): ReactElement => {
+    const getTaskIcon = (taskId: number, taskStatus: string): ReactElement => {
         let icon;
         if (taskStatus === "INPROGRESS") {
             icon = "fa-circle";
         } else {
+            //nefunguje
             icon = "fa-check-circle";
         }
         return (
@@ -71,18 +71,32 @@ const Tasks = (props: TasksProps): ReactElement => {
         )
     }
 
-    const setTaskCompleted = async (taskId : number, taskStatus : string) => {
-        if(taskStatus === "INPROGRESS"){
-          console.log("Task completed!");
-          const success = await completeTask(props.taskListId, taskId);
-        }else{
-          console.log("Task uncompleted!");
-          const success = await uncompleteTask(props.taskListId, taskId);
+    const setTaskCompleted = async (taskId: number, taskStatus: string) => {
+        if (taskStatus === "INPROGRESS") {
+            console.log("Task completed!");
+            const success = await completeTask(props.taskListId, taskId);
+            if (success) {
+                //TODO
+            }
+        } else {
+            console.log("Task uncompleted!");
+            //uncompleteTask neni implementovana
+            const success = await uncompleteTask(props.taskListId, taskId);
+            if (success) {
+                //TODO
+            }
+        }
+
+    }
+
+    const taskDelete = async (taskId: number) => {
+        console.log("Deleting task id: " + taskId);
+        const success = await deleteTask(props.taskListId, taskId)
+        if (success) {
+            //TODO
         }
         
-      }
-
-
+    }
 
 
     const selectedTask: Task = tasks.find(tsk => tsk.id === selected);
@@ -92,10 +106,26 @@ const Tasks = (props: TasksProps): ReactElement => {
             {tasks.filter(task => !task.completeTime).map(task => (
                 <div className="taskBox" key={task.id} onClick={() => { select(task.id) }}>
                     <div className="icon">
-                        {getTaskIcon(task.id,task.status)}
+                        {getTaskIcon(task.id, task.status)}
                     </div>
                     <div className="content">
                         {task.title}
+                    </div>
+                    <div className="buttonToDelete">
+                    <Button className="hiddenButtonDelete" onClick={() => taskDelete(task.id)}>x</Button>
+                    </div>
+                </div>
+            ))}
+            {tasks.filter(task => task.completeTime).map(task => (
+                <div className="taskBox" key={task.id} onClick={() => { select(task.id) }}>
+                    <div className="icon">
+                        {getTaskIcon(task.id, task.status)}
+                    </div>
+                    <div className="content">
+                        {task.title}
+                    </div>
+                    <div className="buttonToDelete">
+                    <Button className="hiddenButtonDelete" onClick={() => taskDelete(task.id)}>x</Button>
                     </div>
                 </div>
             ))}
@@ -115,6 +145,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                     >
                     </input>
                 </form>
+
 
             </div>}
 

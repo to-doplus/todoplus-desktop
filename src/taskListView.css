@@ -50,6 +50,15 @@
 	font-size: 16px;
 }
 
+.taskBox .buttonToDelete{
+	position:absolute;
+	padding-left: 970px;
+}
+
+.taskBox .buttonToDelete .hiddenButtonDelete{
+	border: none;
+	cursor: pointer;
+}
 
 .taskListViewBg .inputContainer{
 	display: flex;
