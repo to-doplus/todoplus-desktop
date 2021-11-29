@@ -27,8 +27,8 @@ const Tasks = (props: TasksProps): ReactElement => {
         return <div>Error??</div>
     }
 
-    const progressTasks : Task[] = tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort);
-    const completedTasks : Task[] = tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort);
+    const progressTasks : Task[] = tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
+    const completedTasks : Task[] = tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
 
     {/*
       * let taskDetails = <Fragment />
