@@ -29,10 +29,25 @@
   	align-items: center;
 }
 
+.taskBoxCompleted{
+	background-color: rgba(41, 50, 73, 0.6);
+	margin-bottom: 15px;
+	width: auto;
+	height: 25px;
+	display: flex;
+	padding: 10px 10px;
+	border-radius: 10px;
+	justify-content: left;
+  	align-items: center;
+	color: var(--sidebar-text-color-darkest);
+}
+
+.taskBoxCompleted:hover,
 .taskBox:hover{
 	background-color: rgba(41, 50, 73, 1.0);
 }
 
+.taskBoxCompleted .icon,
 .taskBox .icon{
 	float: left;
 	display: inline;
@@ -40,17 +55,24 @@
 	cursor: pointer;
 }
 
+.taskBoxCompleted .content,
 .taskBox .content{
 	font-size: 16px;
 }
 
-.taskBox .buttonToDelete{
+.taskBoxCompleted .buttonSetImportance,
+.taskBox .buttonSetImportance{
 	margin-left: auto;
 }
 
-.taskBox .buttonToDelete .hiddenButtonDelete{
+.taskBoxCompleted  .buttonSetImportance .taskSetImportanceButton,
+.taskBox .buttonSetImportance .taskSetImportanceButton{
 	border: none;
 	cursor: pointer;
+}
+
+.taskBoxCompleted  .buttonSetImportance .taskSetImportanceButton .taskImportanceIcon{
+	color: var(--sidebar-text-color-darkest);
 }
 
 .taskListViewBg .inputContainer{

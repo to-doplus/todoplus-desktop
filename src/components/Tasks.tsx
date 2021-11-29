@@ -1,6 +1,6 @@
 import React, { Fragment, MouseEvent, ReactElement, useState } from "react";
-import { createNewTask, completeTask, uncompleteTask, deleteTask } from "../data/actions";
-import { Task, TaskStatus } from "../../lib/models";
+import { createNewTask, completeTask, uncompleteTask, deleteTask, setImportance } from "../data/taskActions";
+import { Importance, Task, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 import { useInput } from "../hooks/input";
@@ -28,8 +28,8 @@ const Tasks = (props: TasksProps): ReactElement => {
         return <div>Error??</div>
     }
 
-    const completedTasks : Task[] = tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
-    const progressTasks : Task[] = tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
+    const completedTasks: Task[] = tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
+    const progressTasks: Task[] = tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
 
     {/*
       * let taskDetails = <Fragment />
@@ -80,7 +80,6 @@ const Tasks = (props: TasksProps): ReactElement => {
             }
         } else {
             console.log("Task uncompleted!");
-            //uncompleteTask neni implementovana
             const success = await uncompleteTask(props.taskListId, taskId);
             if (success) {
                 //TODO
@@ -89,6 +88,39 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     }
 
+    // co delat s low importance?
+    const setTaskImportance = async (taskId: number, taskImportance: Importance) => {
+        if (taskImportance === "NORMAL") {
+            const success = await setImportance(props.taskListId, taskId, "HIGH");
+            if (success) {
+                //TODO
+            }
+        }
+        else if (taskImportance === "HIGH") {
+            const success = await setImportance(props.taskListId, taskId, "NORMAL");
+            if (success) {
+                //TODO
+            }
+        }
+        console.log("Importance of task id: " + taskId + " is " + taskImportance);
+
+    }
+
+    const getTaskImportanceIcon = (taskImportance: Importance): ReactElement => {
+        if (taskImportance === "NORMAL") {
+            return (
+                <i className="taskImportanceIcon far fa-star" />
+            )
+        }
+        else if (taskImportance === "HIGH") {
+            return (
+                <i className="taskImportanceIcon fas fa-star" />
+            )
+        }
+    }
+
+
+    // asi nepotrebuju -- pouzije Tedro
     const taskDelete = async (taskId: number) => {
         console.log("Deleting task id: " + taskId);
         const success = await deleteTask(props.taskListId, taskId)
@@ -114,21 +146,25 @@ const Tasks = (props: TasksProps): ReactElement => {
                     <div className="content">
                         {task.title}
                     </div>
-                    <div className="buttonToDelete">
-                        <Button className="hiddenButtonDelete" onClick={() => taskDelete(task.id)}>x</Button>
+                    <div className="buttonSetImportance">
+                        <Button className="taskSetImportanceButton" onClick={() => setTaskImportance(task.id, task.importance)}>
+                            {getTaskImportanceIcon(task.importance)}
+                        </Button>
                     </div>
                 </div>
             ))}
             {completedTasks.map(task => (
-                <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
+                <div className="taskBoxCompleted" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
                     <div className="icon">
                         {getTaskIcon(task.id, task.status)}
                     </div>
                     <div className="content">
                         {task.title}
                     </div>
-                    <div className="buttonToDelete">
-                        <Button className="hiddenButtonDelete" onClick={() => taskDelete(task.id)}>x</Button>
+                    <div className="buttonSetImportance">
+                        <Button className="taskSetImportanceButton" onClick={() => setTaskImportance(task.id, task.importance)}>
+                            {getTaskImportanceIcon(task.importance)}
+                        </Button>
                     </div>
                 </div>
             ))}
