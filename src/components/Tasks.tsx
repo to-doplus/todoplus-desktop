@@ -64,7 +64,6 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     const getTaskIcon = (taskId: number, taskStatus: string): ReactElement => {
         const icon = taskStatus === "INPROGRESS" ? "fa-circle" : "fa-check-circle";
-        let icon;
         return (
             <div className="taskDetailsTaskComplete" onClick={() => setTaskCompleted(taskId, taskStatus)}>
                 <i className={`far fa-lg ${icon}`} />
