@@ -160,7 +160,10 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async uncompleteTask(taskListId: number, taskId: number): Promise<Task> {
-        throw new Error("Method not implemented.");
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/reopen`, {
+            method: 'put'
+        });
+        return (await response.json() as Task);
     }
 
     async createNewSubTask(taskListId: number, taskId: number, title: string): Promise<Task> {
@@ -217,7 +220,10 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async uncompleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
-        throw new Error("Method not implemented.");
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks/${subTaskId}/reopen`, {
+            method: 'put'
+        });
+        return (await response.json() as Task);
     }
 
     async getMyDayTasks(): Promise<Task[]> {

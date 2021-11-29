@@ -27,8 +27,8 @@ const Tasks = (props: TasksProps): ReactElement => {
         return <div>Error??</div>
     }
 
-    const progressTasks : Task[] = tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
     const completedTasks : Task[] = tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
+    const progressTasks : Task[] = tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
 
     {/*
       * let taskDetails = <Fragment />
@@ -63,13 +63,8 @@ const Tasks = (props: TasksProps): ReactElement => {
 
 
     const getTaskIcon = (taskId: number, taskStatus: string): ReactElement => {
+        const icon = taskStatus === "INPROGRESS" ? "fa-circle" : "fa-check-circle";
         let icon;
-        if (taskStatus === "INPROGRESS") {
-            icon = "fa-circle";
-        } else {
-            //nefunguje
-            icon = "fa-check-circle";
-        }
         return (
             <div className="taskDetailsTaskComplete" onClick={() => setTaskCompleted(taskId, taskStatus)}>
                 <i className={`far fa-lg ${icon}`} />
@@ -106,6 +101,7 @@ const Tasks = (props: TasksProps): ReactElement => {
 
 
     const selectedTask: Task = tasks.find(tsk => tsk.id === selected);
+    console.log(selectedTask);
 
     return (
         <div className="taskListPage">
@@ -137,7 +133,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                     </div>
                 </div>
             ))}
-            {selectedTask ? <TaskDetails taskListId={props.taskListId} task={selectedTask} /> : <Fragment />}
+            {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={props.taskListId} task={selectedTask} /> : <Fragment />}
             {<div className="inputContainer">
                 <div className="icon">
                     <Button className="hiddenButton" onClick={createTaskByButton}><i className="fas fa-plus"></i></Button>

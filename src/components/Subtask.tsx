@@ -7,6 +7,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { TaskList, Task, SubTask, Nullable } from "../../lib/models"
 import { deleteSubTask, setSubTaskTitle, completeSubTask, uncompleteSubTask } from "../../src/data/subtask_actions";
+import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 
 
 export interface SubtaskProps {
@@ -32,20 +33,6 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
   useEffect(() => {
       setTitle(props.subtask.title);
   }, [props.subtask.title])
-
-  const getSubtaskCompleteIcon = () : ReactElement => {
-    let icon;
-    if(props.subtask.status === "INPROGRESS"){
-      icon = "fa-circle";
-    }else{
-      icon = "fa-check-circle";
-    }
-    return(
-      <div className="taskDetailsSubtaskComplete" onClick={setSubtaskCompletion}> 
-        <i className={`far fa-lg ${icon}`}/>
-      </div>
-    )
-  }
 
   const setSubtaskCompletion = async () => {
     let ret;
@@ -81,8 +68,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
 
   return (
     <div className="taskDetailsSubtask">
-
-      {getSubtaskCompleteIcon()}
+      <TaskCompleteIcon className="taskDetailsSubtaskComplete" status={props.subtask.status} onClick={setSubtaskCompletion}/>
 
       <form className="taskDetailsSubtaskTitleForm"
           onSubmit={(e) => {setSubtaskTitle(e)}}>
