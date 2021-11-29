@@ -44,7 +44,6 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}`, {
             method: 'delete'
         });
-        await response.json();
         return (response.ok);
     }
 
@@ -95,7 +94,6 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}`, {
             method: 'delete'
         });
-        await response.json();
         return (response.ok);
     }
 

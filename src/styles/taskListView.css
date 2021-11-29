@@ -5,28 +5,22 @@
    TODO: sjednotit hlavicky :)
  */
 
- :root{
-	--sidebar-bg-color-lighter: #3e465b;
-	--sidebar-bg-color: #293249;
-	--sidebar-bg-color-darker: #1c2333;
-	--sidebar-bg-color-darkest: #141924;
-	--sidebar-text-color-lightest: #fff;
-	--sidebar-text-color-lighter: #e6e6e6;
-	--sidebar-text-color: #dcdcdc;
-	--sidebar-text-color-darker: #bbb;
-	--sidebar-text-color-darkest: #999;
-}
-
 .taskListViewBg{
 	background-image: url("placeholder-bg.webp");
  	background-color: #cccccc;
 	color: var(--sidebar-text-color-lightest);
 }
 
+.taskListPage{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
 .taskBox{
 	background-color: rgba(41, 50, 73, 0.6);
 	margin-bottom: 15px;
-	width: 1000px;
+	width: auto;
 	height: 25px;
 	display: flex;
 	padding: 10px 10px;
@@ -51,8 +45,7 @@
 }
 
 .taskBox .buttonToDelete{
-	position:absolute;
-	padding-left: 970px;
+	margin-left: auto;
 }
 
 .taskBox .buttonToDelete .hiddenButtonDelete{
@@ -61,17 +54,17 @@
 }
 
 .taskListViewBg .inputContainer{
-	display: flex;
-	position:absolute;                 
+	display: flex;              
     bottom:0; 
 	margin-bottom: 10px;
-	width: 1000px;
+	width: auto;
 	height: 25px;
 	background-color: rgba(41, 50, 73, 0.6);
 	border-radius: 10px;
 	justify-content: left;
   	align-items: center;
 	padding: 10px 10px;
+	margin-top: auto;
 	
 }
 

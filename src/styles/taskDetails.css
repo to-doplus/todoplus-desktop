@@ -4,18 +4,6 @@
  * @author: Patrik Skaloš (xskalo01)
  */
 
-:root{
-	--sidebar-bg-color-lighter: #3e465b;
-	--sidebar-bg-color: #293249;
-	--sidebar-bg-color-darker: #1c2333;
-	--sidebar-bg-color-darkest: #141924;
-	--sidebar-text-color-lightest: #fff;
-	--sidebar-text-color-lighter: #e6e6e6;
-	--sidebar-text-color: #dcdcdc;
-	--sidebar-text-color-darker: #bbb;
-	--sidebar-text-color-darkest: #999;
-}
-
 
 .taskDetails{
 	background-color: var(--sidebar-bg-color);

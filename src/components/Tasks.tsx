@@ -7,7 +7,9 @@ import { useInput } from "../hooks/input";
 import Button from "./Button";
 
 export interface TasksProps {
-    taskListId: number
+    taskListId: number,
+    displayName: string,
+    description: string
 }
 
 const Tasks = (props: TasksProps): ReactElement => {
@@ -15,6 +17,7 @@ const Tasks = (props: TasksProps): ReactElement => {
     const [selected, setSelected] = useState<number>(-1);
     const [taskName, setName, bindName] = useInput("");
 
+    //TODO Nějakej state, podle čeho budeme řadit
 
     if (isLoading) {
         return <div>Loading...</div>
@@ -23,6 +26,9 @@ const Tasks = (props: TasksProps): ReactElement => {
     if (isError) {
         return <div>Error??</div>
     }
+
+    const progressTasks : Task[] = tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort);
+    const completedTasks : Task[] = tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort);
 
     {/*
       * let taskDetails = <Fragment />
@@ -95,15 +101,17 @@ const Tasks = (props: TasksProps): ReactElement => {
         if (success) {
             //TODO
         }
-        
+
     }
 
 
     const selectedTask: Task = tasks.find(tsk => tsk.id === selected);
 
     return (
-        <div>
-            {tasks.filter(task => !task.completeTime).map(task => (
+        <div className="taskListPage">
+            <h1>{props.displayName}</h1>
+            <h4>{props.description}</h4>
+            {progressTasks.map(task => (
                 <div className="taskBox" key={task.id} onClick={() => { select(task.id) }}>
                     <div className="icon">
                         {getTaskIcon(task.id, task.status)}
@@ -112,11 +120,11 @@ const Tasks = (props: TasksProps): ReactElement => {
                         {task.title}
                     </div>
                     <div className="buttonToDelete">
-                    <Button className="hiddenButtonDelete" onClick={() => taskDelete(task.id)}>x</Button>
+                        <Button className="hiddenButtonDelete" onClick={() => taskDelete(task.id)}>x</Button>
                     </div>
                 </div>
             ))}
-            {tasks.filter(task => task.completeTime).map(task => (
+            {completedTasks.map(task => (
                 <div className="taskBox" key={task.id} onClick={() => { select(task.id) }}>
                     <div className="icon">
                         {getTaskIcon(task.id, task.status)}
@@ -125,7 +133,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         {task.title}
                     </div>
                     <div className="buttonToDelete">
-                    <Button className="hiddenButtonDelete" onClick={() => taskDelete(task.id)}>x</Button>
+                        <Button className="hiddenButtonDelete" onClick={() => taskDelete(task.id)}>x</Button>
                     </div>
                 </div>
             ))}

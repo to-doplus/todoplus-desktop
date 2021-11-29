@@ -26,9 +26,7 @@ const TaskListView = () => {
     return (
         <div className="taskListViewBg">
             <Layout>
-                <h1>{taskList.displayName}</h1>
-                <h4>{taskList.description}</h4>
-                <Tasks taskListId={taskListId} />
+                <Tasks displayName={taskList.displayName} description={taskList.description} taskListId={taskListId} />
             </Layout>
         </div>
     )

@@ -4,7 +4,7 @@
 
 import { mutate } from "swr";
 import client from "./client";
-import { Task, TaskList } from "../../lib/models"
+import { Importance, Task, TaskList } from "../../lib/models"
 
 export async function createNewTaskList(title: string): Promise<boolean> {
     const newTaskList = await client.createNewTaskList(title);
@@ -54,11 +54,20 @@ export async function uncompleteTask(taskListId: number, taskId: number): Promis
 
 // idk? task se neodstrani okamzite
 export async function deleteTask(taskListId: number, taskId: number): Promise<boolean> {
-    const updatedTask = await client.deleteTask(taskListId, taskId);
+    const success = await client.deleteTask(taskListId, taskId);
+    if (!success) {
+        return false;
+    }
+    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== taskId))], false);
+    return true;
+}
+
+export async function setImportance(taskListId: number, taskId: number, importance: Importance): Promise<boolean> {
+    const updatedTask = await client.setTaskImportance(taskListId, taskId, importance);
     if (!updatedTask) {
         return false;
     }
-    mutate(`/tasklists/${taskListId}/tasks`, updatedTask, false);
+    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
     return true;
 }
 
