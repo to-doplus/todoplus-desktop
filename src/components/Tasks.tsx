@@ -1,10 +1,11 @@
-import React, { Fragment, ReactElement, useState } from "react";
+import React, { Fragment, MouseEvent, ReactElement, useState } from "react";
 import { createNewTask, completeTask, uncompleteTask, deleteTask } from "../data/actions";
 import { Task, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 import { useInput } from "../hooks/input";
 import Button from "./Button";
+import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 
 export interface TasksProps {
     taskListId: number,
@@ -36,7 +37,8 @@ const Tasks = (props: TasksProps): ReactElement => {
       *     let taskDetails = <TaskDetails task={tasks[0]} />
       * }
       */}
-    const select = (taskId: number) => {
+    const select = (e: MouseEvent, taskId: number) => {
+        e.stopPropagation();
         if (selected === taskId) {
             setSelected(-1);
             return;
@@ -62,16 +64,14 @@ const Tasks = (props: TasksProps): ReactElement => {
     }
 
 
-    const getTaskIcon = (taskId: number, taskStatus: string): ReactElement => {
-        const icon = taskStatus === "INPROGRESS" ? "fa-circle" : "fa-check-circle";
+    const getTaskIcon = (taskId: number, taskStatus: TaskStatus): ReactElement => {
         return (
-            <div className="taskDetailsTaskComplete" onClick={() => setTaskCompleted(taskId, taskStatus)}>
-                <i className={`far fa-lg ${icon}`} />
-            </div>
+            <TaskCompleteIcon status={taskStatus} className="taskDetailsTaskComplete" onClick={(e: MouseEvent) => setTaskCompleted(e, taskId, taskStatus)} />
         )
     }
 
-    const setTaskCompleted = async (taskId: number, taskStatus: string) => {
+    const setTaskCompleted = async (e: MouseEvent, taskId: number, taskStatus: string) => {
+        e.stopPropagation();
         if (taskStatus === "INPROGRESS") {
             console.log("Task completed!");
             const success = await completeTask(props.taskListId, taskId);
@@ -103,11 +103,11 @@ const Tasks = (props: TasksProps): ReactElement => {
     console.log(selectedTask);
 
     return (
-        <div className="taskListPage">
+        <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
             <h1>{props.displayName}</h1>
             <h4>{props.description}</h4>
             {progressTasks.map(task => (
-                <div className="taskBox" key={task.id} onClick={() => { select(task.id) }}>
+                <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
                     <div className="icon">
                         {getTaskIcon(task.id, task.status)}
                     </div>
@@ -120,7 +120,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                 </div>
             ))}
             {completedTasks.map(task => (
-                <div className="taskBox" key={task.id} onClick={() => { select(task.id) }}>
+                <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
                     <div className="icon">
                         {getTaskIcon(task.id, task.status)}
                     </div>

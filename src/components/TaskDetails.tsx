@@ -139,7 +139,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   */
 
   return (
-    <div className="taskDetails">
+    <div className="taskDetails" onClick={(e) => e.stopPropagation()}>
       <div className="taskDetailsTitle">
         <TaskCompleteIcon status={props.task.status} onClick={() => {setTaskCompletion(props.taskListId, props.task.id, props.task.status)}}/>
         <form className="taskDetailsTitleForm"

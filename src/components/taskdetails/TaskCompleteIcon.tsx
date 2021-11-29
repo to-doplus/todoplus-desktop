@@ -1,5 +1,5 @@
 import { TaskStatus } from "../../../lib/models";
-import React, { ReactElement, ReactNode } from "react"
+import React, { MouseEventHandler, ReactElement, ReactNode } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 
@@ -8,7 +8,7 @@ export interface TaskCompleteIconProps {
   status: TaskStatus,
   size?: SizeProp,
   className?: string
-  onClick: () => void
+  onClick: MouseEventHandler<HTMLDivElement>
 }
 
 const TaskCompleteIcon = (props: TaskCompleteIconProps): ReactElement => {
