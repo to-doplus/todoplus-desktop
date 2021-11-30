@@ -12,6 +12,8 @@ import Settings from "./views/Settings"
 import TaskListView from "./views/TaskListView"
 import Important from "./views/Important"
 import MyDay from "./views/MyDay"
+import Login from "./views/Login"
+import Register from "./views/Register"
 
 const App = () : ReactElement => {
     
@@ -20,6 +22,8 @@ const App = () : ReactElement => {
             <HistoryRouter history={history}>
                 <Routes>
                     <Route path="/" element={<Home/>} />
+                    <Route path="/login" element={<Login/>} />
+                    <Route path="/register" element={<Register/>} />
                     <Route path="/myday" element={<MyDay/>} />
                     <Route path="/important" element={<Important/>} />
                     <Route path="/tasklists/:taskListId" element={<TaskListView/>} />

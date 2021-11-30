@@ -11,6 +11,9 @@ const Home = () : ReactElement => {
             <Link to="/settings">
                 Settings Page
             </Link>
+            <Link to="/login">
+                Login Page
+            </Link>
      {/*      <TaskDetails/> --> */}
         </Layout>
     );

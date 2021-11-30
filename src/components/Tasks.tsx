@@ -9,27 +9,29 @@ import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 
 export interface TasksProps {
     taskListId: number,
+    isLoading: boolean,
+    isError: boolean,
+    tasks: Task[],
     displayName: string,
     description: string
 }
 
 const Tasks = (props: TasksProps): ReactElement => {
-    const { isLoading, isError, data: tasks } = useTasksByTaskList(Number(props.taskListId));
     const [selected, setSelected] = useState<number>(-1);
     const [taskName, setName, bindName] = useInput("");
 
     //TODO Nějakej state, podle čeho budeme řadit
 
-    if (isLoading) {
+    if (props.isLoading) {
         return <div>Loading...</div>
     }
 
-    if (isError) {
+    if (props.isError) {
         return <div>Error??</div>
     }
 
-    const completedTasks: Task[] = tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
-    const progressTasks: Task[] = tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
+    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
+    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
 
     {/*
       * let taskDetails = <Fragment />
@@ -131,7 +133,7 @@ const Tasks = (props: TasksProps): ReactElement => {
     }
 
 
-    const selectedTask: Task = tasks.find(tsk => tsk.id === selected);
+    const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
     console.log(selectedTask);
 
     return (
