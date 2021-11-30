@@ -6,6 +6,7 @@ import TaskDetails from "./TaskDetails";
 import { useInput } from "../hooks/input";
 import Button from "./Button";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
+import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 import MenuList from "./MenuList";
 
 export interface TasksProps {
@@ -92,7 +93,8 @@ const Tasks = (props: TasksProps): ReactElement => {
     }
 
     // co delat s low importance?
-    const setTaskImportance = async (taskId: number, taskImportance: Importance) => {
+    const setTaskImportance = async (e: MouseEvent, taskId: number, taskImportance: Importance) => {
+        e.stopPropagation();
         if (taskImportance === "NORMAL") {
             const success = await setImportance(props.taskListId, taskId, "HIGH");
             if (success) {
@@ -109,17 +111,11 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     }
 
-    const getTaskImportanceIcon = (taskImportance: Importance): ReactElement => {
-        if (taskImportance === "NORMAL") {
-            return (
-                <i className="taskImportanceIcon far fa-star" />
-            )
-        }
-        else if (taskImportance === "HIGH") {
-            return (
-                <i className="taskImportanceIcon fas fa-star" />
-            )
-        }
+    const getTaskImportanceIcon = (taskId: number, taskImportance: Importance): ReactElement => {
+        const color : string = taskImportance === "HIGH" ? "goldenrod" : "white";
+        return (
+            <TaskImporatnceIcon taskImportance={taskImportance} color={color} className="taskImportanceIcon" onClick={(e: MouseEvent) => setTaskImportance(e, taskId, taskImportance)} />
+        )
     }
 
 
@@ -140,10 +136,10 @@ const Tasks = (props: TasksProps): ReactElement => {
     return (
         <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
             <div className="taskNameAndList">
-            <h1>{props.displayName}</h1>
-            <div className="taskMenuList">
-                <MenuList></MenuList>
-            </div>
+                <h1>{props.displayName}</h1>
+                <div className="taskMenuList">
+                    <MenuList></MenuList>
+                </div>
             </div>
             <h4>{props.description}</h4>
             {progressTasks.map(task => (
@@ -155,9 +151,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         {task.title}
                     </div>
                     <div className="buttonSetImportance">
-                        <Button className="taskSetImportanceButton" onClick={() => setTaskImportance(task.id, task.importance)}>
-                            {getTaskImportanceIcon(task.importance)}
-                        </Button>
+                        {getTaskImportanceIcon(task.id, task.importance)}
                     </div>
                 </div>
             ))}
@@ -170,9 +164,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         {task.title}
                     </div>
                     <div className="buttonSetImportance">
-                        <Button className="taskSetImportanceButton" onClick={() => setTaskImportance(task.id, task.importance)}>
-                            {getTaskImportanceIcon(task.importance)}
-                        </Button>
+                        {getTaskImportanceIcon(task.id, task.importance)}
                     </div>
                 </div>
             ))}

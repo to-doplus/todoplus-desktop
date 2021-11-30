@@ -93,6 +93,10 @@
 	color: var(--sidebar-text-color-darkest);
 }
 
+.taskBox  .buttonSetImportance .taskImportanceIcon{
+	color: goldenrod;
+}
+
 .taskListViewBg .inputContainer{
 	display: flex;              
     bottom:0; 
