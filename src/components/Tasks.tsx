@@ -6,6 +6,7 @@ import TaskDetails from "./TaskDetails";
 import { useInput } from "../hooks/input";
 import Button from "./Button";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
+import MenuList from "./MenuList";
 
 export interface TasksProps {
     taskListId: number,
@@ -138,7 +139,12 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     return (
         <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
+            <div className="taskNameAndList">
             <h1>{props.displayName}</h1>
+            <div className="taskMenuList">
+                <MenuList></MenuList>
+            </div>
+            </div>
             <h4>{props.description}</h4>
             {progressTasks.map(task => (
                 <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
