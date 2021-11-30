@@ -19,11 +19,12 @@ import TextField from '@mui/material/TextField';
 ** TODO:
 ** Lose focus after hitting enter when renaming a task or a subtask
 ** Multiline subtask title support (not that urgent)
-** Make text unselectable ("add to my day", for example)
 ** Print countdown next to due date (if set)
 ** When due date is set, clicking near the edge of the button doesn't reset it
 ** as it should
-** Break line of a subtask title when it's too long...
+** A notification of the due date??
+** 'Important' button in the task details menu
+** 'Delete' button for a task
 */
 
 export interface TaskDetailsProps {
@@ -106,14 +107,14 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
       return (
         <div className="taskDetailsMyDay" onClick={changeMyDay}>
           <i className="taskDetailsMyDayIcon fas fa-sun" />
-          <p className="taskDetailsMyDayText">Add to My day</p>
+          <p className="taskDetailsMyDayText unselectable">Add to My day</p>
         </div>
       );
     } else {
       return (
         <div className="taskDetailsMyDay myDayToggle" onClick={changeMyDay}>
           <i className="taskDetailsMyDayIcon fas fa-sun" />
-          <p className="taskDetailsMyDayText">Remove from My day</p>
+          <p className="taskDetailsMyDayText unselectable">Remove from My day</p>
         </div>
       );
     }
@@ -168,7 +169,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         <div className="taskDetailsDueDate dueDateToggle">
           <div className="taskDetailsDueDateButton" onClick={toggleShowDueDate}>
             <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
-            <p className="taskDetailsDueDateText">Due date set to:</p>
+            <p className="taskDetailsDueDateText unselectable">Due date set to:</p>
           </div>
           <div className="taskDetailsDueDateInput">
             <TextField
@@ -189,7 +190,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         <div className="taskDetailsDueDate" onClick={toggleShowDueDate}>
           <div className="taskDetailsDueDateButton">
             <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
-            <p className="taskDetailsDueDateText">Due date not set</p>
+            <p className="taskDetailsDueDateText unselectable">Due date not set</p>
           </div>
         </div>
       );
@@ -206,7 +207,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
       <div className="taskDetailsTitle">
         <TaskCompleteIcon status={props.task.status} onClick={() => {setTaskCompletion(props.taskListId, props.task.id, props.task.status)}}/>
-        <form className="taskDetailsTitleForm"
+        <form className="taskDetailsTitleForm unselectable"
           onSubmit={(e) => submitTaskTitle(e)}>
           <input type="text"
             className={`taskDetailsTitleInput ${props.task.status === "INPROGRESS" ? "" : "taskDetailsTitleInputCompleted"}`}
@@ -220,7 +221,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         {getSubtaskList()}
 
         <div className="taskDetailsNewSubtask">
-          <form className="taskDetailsNewSubtaskForm"
+          <form className="taskDetailsNewSubtaskForm unselectable"
             onSubmit={(e) => { newSubtaskSubmit(e) }}>
             <input type="text" className="taskDetailsNewSubtaskInput"
               placeholder="New subtask" required value={newSubtaskValue}

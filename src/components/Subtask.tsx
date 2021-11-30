@@ -70,11 +70,11 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     <div className="taskDetailsSubtask">
       <TaskCompleteIcon className="taskDetailsSubtaskComplete" status={props.subtask.status} onClick={setSubtaskCompletion}/>
 
-      <form className="taskDetailsSubtaskTitleForm"
+      <form className="taskDetailsSubtaskTitleForm unselectable"
           onSubmit={(e) => {setSubtaskTitle(e)}}>
         <input type="text" 
             className={`
-              taskDetailsSubtaskTitleInput 
+              taskDetailsSubtaskTitleInput
               ${ 
                 props.subtask.status === "INPROGRESS" ? 
                   "" : "taskDetailsSubtaskTitleInputCompleted"

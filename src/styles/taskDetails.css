@@ -4,7 +4,6 @@
  * @author: Patrik Skaloš (xskalo01)
  */
 
-
 .taskDetails{
 	background-color: var(--sidebar-bg-color);
 	position: absolute;
@@ -17,71 +16,80 @@
 	height: 100%;
 }
 
-.taskDetailsTitle{
-	color: var(--sidebar-text-color-lighter);
-	margin: 25px 20px;
-	margin-bottom: 35px;
+.taskDetailsNewSubtaskInput:hover,
+.taskDetailsSubtaskTitleInput:hover,
+.taskDetailsTitleInput:hover{
+	background-color: var(--sidebar-bg-color-darker);
+}
+.taskDetailsNewSubtaskInput:focus,
+.taskDetailsSubtaskTitleInput:focus,
+.taskDetailsTitleInput:focus{
+	background-color: var(--sidebar-bg-color-darkest);
+	color: var(--sidebar-text-color-lightest);
 }
 
+.taskDetailsTitle{
+	color: var(--sidebar-text-color-lighter);
+	margin: 15px 20px;
+}
 .taskDetailsTitleCheckbox{
 	display: inline;
 }
-
 .taskDetailsTitleForm{
 	display: inline;
-	margin-left: 10px;
+	margin-left: 5px;
 }
-
 .taskDetailsTitleInput{
 	display: inline;
 	background-color: inherit;
 	color: var(--sidebar-text-color-lighter);
 	font-weight: bold;
-	font-size: 14pt;
+	font-size: 12pt;
 	padding: 10px;
 	width: calc(100% - 60px);
 	outline: none;
 	border: none;
 }
 
-
 .taskDetailsSubtasks{
 	margin: 0px 20px;
 	color: var(--sidebar-text-color);
 	overflow-y: auto;
+	font-size: 11pt;
 }
-
-
 .taskDetailsSubtaskComplete{
 	float: left;
 	position: relative;
-	top: 7px;
 }
 .taskDetailsSubtaskTitleForm{
 	height: 100%;
-
-	width: calc(100% - 85px);
-	margin: 0px 10px;
-	margin-bottom: 8px;
+	width: calc(100% - 70px);
+	margin-left: 7px;
+	margin-bottom: 7px;
 	float: left;
 }
 .taskDetailsSubtaskDelete{
 	float: right;
 	position: relative;
-	top: 7px;
 }
-
-
+.taskDetailsSubtaskComplete,
+.taskDetailsSubtaskDelete{
+	top: 2px;
+}
 .taskDetailsSubtaskTitleInput{
+	background-color: inherit;
 	color: var(--sidebar-text-color-lighter);
-	height: 15px;
+	height: 5px;
+	font-size: 11pt;
+	padding: 10px 7px;
+	width: 100%;
+	outline: none;
+	border: none;
 }
-
 .taskDetailsSubtaskTitleInputCompleted,
 .taskDetailsTitleInputCompleted{
 	color: var(--sidebar-text-color-darkest);
 }
-
 .taskDetailsSubtaskSeparator{
 	display: block;
 	background-color: var(--sidebar-text-color-darkest);
@@ -94,11 +102,9 @@
 .taskDetailsNewSubtaskForm{
 	display: inline;
 	float: left;
-	width: calc(100% - 15px - 40px);
+	width: calc(100% - 40px);
 }
-
-.taskDetailsNewSubtaskInput, 
-.taskDetailsSubtaskTitleInput{
+.taskDetailsNewSubtaskInput{
 	background-color: inherit;
 	font-size: 12pt;
 	padding: 10px;
@@ -106,53 +112,30 @@
 	outline: none;
 	border: none;
 }
-
-
 .taskDetailsNewSubtaskInput{
 	color: var(--sidebar-text-color-darker);
-	height: 30px;
+	height: 15px;
 }
-
-
-
 .taskDetailsNewSubtaskInput::placeholder{
 	color: var(--sidebar-text-color-darker);
 	opacity: 1;
 }
-
-.taskDetailsNewSubtaskInput:hover,
-.taskDetailsSubtaskTitleInput:hover,
-.taskDetailsTitleInput:hover{
-	background-color: var(--sidebar-bg-color-darker);
-}
-
-.taskDetailsNewSubtaskInput:focus,
-.taskDetailsSubtaskTitleInput:focus,
-.taskDetailsTitleInput:focus{
-	background-color: var(--sidebar-bg-color-darkest);
-	color: var(--sidebar-text-color-lightest);
-}
-
 .taskDetailsNewSubtaskIcon{
 	color: var(--sidebar-text-color-darker);
 	display: inline;
 	float: right;
 	height: 20px;
-	padding: 15px 0px;
+	padding: 6px 0px;
 }
-
-
 
 .taskDetailsMyDay, .taskDetailsDueDate{
 	background-color: var(--sidebar-bg-color-darker);
 	color: var(--sidebar-text-color);
-	font-size: 14pt;
+	font-size: 12pt;
 	padding: 10px 10px;
 	border-radius: 10px;
 	margin: 15px 15px;
 }
-
-
 .taskDetailsMyDay:hover, .taskDetailsDueDate:hover{
 	background-color: var(--sidebar-bg-color-darkest);
 }
@@ -160,45 +143,47 @@
 .taskDetailsMyDay{
 	margin-top: 40px;
 }
-
 .taskDetailsMyDayIcon{
 	display: inline;
 	float: left;
 }
-
 .taskDetailsMyDayText{
 	display: inline; 
 	margin: 15px;
 }
-
+.myDayToggle, .dueDateToggle{
+	background-color: var(--sidebar-bg-toggle-color);
+	color: var(--sidebar-text-color-lightest);
+}
+.myDayToggle:hover, .dueDateToggle:hover{
+	background-color: var(--sidebar-bg-toggle-color-darker);
+}
 
 .taskDetailsDueDate{
 }
-
 .taskDetailsDueDateButton{
 }
-
 .taskDetailsDueDateText{
 	display: inline; 
 	padding: 15px;
 }
-
 .taskDetailsDueDateInput{
 	width: 100%;
 	text-align: center;
 	margin-top: 10px;
 }
 
-.myDayToggle, .dueDateToggle{
-	background-color: var(--sidebar-bg-toggle-color);
-	color: var(--sidebar-text-color-lightest);
-}
-
-.myDayToggle:hover, .dueDateToggle:hover{
-	background-color: var(--sidebar-bg-toggle-color-darker);
-}
 
 .taskDetailsTitleCheckbox, .taskDetailsMyDay, .taskDetailsDueDateButton, 
 .taskDetailsSubtaskComplete, .taskDetailsSubtaskDelete{
 	cursor: pointer;
+}
+
+.unselectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
