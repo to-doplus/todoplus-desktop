@@ -16,7 +16,6 @@ export interface SubtaskProps {
   subtask: SubTask
 }
 
-
 const Subtask = (props: SubtaskProps) : ReactElement => {
 
   /*
@@ -34,6 +33,9 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
       setTitle(props.subtask.title);
   }, [props.subtask.title])
 
+  /*
+  ** Set subtask as completed or in progress (based on the previous state)
+  */
   const setSubtaskCompletion = async () => {
     let ret;
     if(props.subtask.status === "INPROGRESS"){
@@ -48,6 +50,9 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     }
   }
 
+  /*
+  ** Set the subtask title
+  */
   const setSubtaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(props.subtask.title !== title){
@@ -58,6 +63,9 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     }
   }
 
+  /*
+  ** Delete the subtask
+  */
   const deleteSubtask = async () => {
     console.log("Deleting a subtask. Id: " + props.subtask.id);
     if(await deleteSubTask(props.taskListId, props.task.id, props.subtask.id)){
@@ -65,6 +73,10 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     }
   }
 
+
+  /*
+  ** Rendering
+  */
 
   return (
     <div className="taskDetailsSubtask">

@@ -17,14 +17,21 @@ import TextField from '@mui/material/TextField';
 
 /*
 ** TODO:
+** 'Important' button in the task details menu (upper right corner)
+** Lower bar: date created and a 'Delete' button for a task
+** Color of toggled myDay and dueDate needs changing. This is hideous
+*/
+/*
+** todo (not urgent):
+** A notification of the due date?
 ** Lose focus after hitting enter when renaming a task or a subtask
 ** Multiline subtask title support (not that urgent)
-** Print countdown next to due date (if set)
 ** When due date is set, clicking near the edge of the button doesn't reset it
 ** as it should
-** A notification of the due date??
-** 'Important' button in the task details menu
-** 'Delete' button for a task
+*/
+/*
+** todo if we're bored
+** Print countdown next to due date (if set)
 */
 
 export interface TaskDetailsProps {
@@ -32,6 +39,9 @@ export interface TaskDetailsProps {
   task: Task
 }
 
+/*
+** Set the task as completed or in progress based on the previous state
+*/
 const setTaskCompletion = async (taskListId: number, taskId: number, currentStatus: string) => {
   let ret;
   if (currentStatus === "INPROGRESS") {
@@ -46,10 +56,22 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
   }
 }
 
+/*
+** Returns a string representing date and time in format YYYY-MM-DDT09:00
+** Yes, the time is fixed to 9:00
+*/
+const getActualDateAndTime = () : string => {
+  const date = new Date();
+  return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + "T09:00";
+}
+
+
 const TaskDetails = (props: TaskDetailsProps): ReactElement => {
+
   /*
-  ** State
+  ** States
   */
+
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
   const [showDueDate, setShowDueDate] = useState(props.task.dueTime === null ? false : true);
   const [newDueDateValue, setNewDueDateValue] = useState(props.task.dueTime === null ? "" : props.task.dueTime);
@@ -64,6 +86,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   ** Functions
   */
 
+  /*
+  ** Submit the new task title
+  */
   const submitTaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (props.task.title !== taskTitle) {
@@ -74,6 +99,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
+  /*
+  ** Fetch a list of subtasks to be displayed
+  */
   const getSubtaskList = (): ReactElement => {
     if (props.task.subTasks) {
       return (
@@ -93,6 +121,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
+  /*
+  ** Create a new subtask
+  */
   const newSubtaskSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log("Adding a new subtask: " + newSubtaskValue);
     e.preventDefault();
@@ -102,6 +133,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     setNewSubtaskValue("");
   }
 
+  /*
+  ** Returns a myDay button (elements it consists of) based on the actual state
+  */
   const getMyDayButton = (): ReactElement => {
     if (props.task.myDay === false) {
       return (
@@ -120,6 +154,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
+  /*
+  ** Add to my day or remove from it
+  */
   const changeMyDay = async () => {
     let ret;
     if (props.task.myDay === false) {
@@ -135,11 +172,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   }
 
 
-  const getActualDateAndTime = () : string => {
-    const date = new Date();
-    return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + "T09:00";
-  }
-
+  /*
+  ** Show or hide the due date setting
+  */
   const toggleShowDueDate = async () => {
     if(!showDueDate){
       setDueDate(getActualDateAndTime());
@@ -149,6 +184,10 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     setShowDueDate(!showDueDate);
   }
 
+  /*
+  ** Set the due date (receives a string, if it is not a null, parses it and
+  ** sends it to setTaskDue as a parameter, otherwise sends null)
+  */
   const setDueDate = async (inputDate: string) => {
     let date;
     if(inputDate !== null){
@@ -163,6 +202,11 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
+
+  /*
+  ** Get the due date button (and the form if necessary) - elements it consists
+  ** of based on the state
+  */
   const getDueDate = (): ReactElement => {
     if (showDueDate) {
       return(
@@ -199,7 +243,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
 
   /*
-  ** Actual work
+  ** Rendering
   */
 
   return (
