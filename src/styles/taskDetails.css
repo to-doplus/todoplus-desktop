@@ -151,6 +151,7 @@
 	margin: 15px 15px;
 }
 
+
 .taskDetailsMyDay:hover, .taskDetailsDueDate:hover{
 	background-color: var(--sidebar-bg-color-darkest);
 }
@@ -167,6 +168,10 @@
 .taskDetailsMyDayText{
 	display: inline; 
 	margin: 15px;
+}
+
+.myDayToggle{
+	background: var(--sidebar-bg-toggle-color);
 }
 
 .taskDetailsDueDate{
@@ -186,4 +191,3 @@
 .taskDetailsSubtaskComplete, .taskDetailsSubtaskDelete{
 	cursor: pointer;
 }
-

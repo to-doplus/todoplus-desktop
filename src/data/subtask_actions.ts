@@ -48,10 +48,10 @@ export async function removeTaskFromMyDay(taskListId: number, taskId: number): P
   mutate(`/tasklists/c/important/tasks`, (list: Task[]) => {
     if(!list) return list;
     if(list.find(tsk => tsk.id === taskId)){
-        return [...list.filter(tsk => tsk.id !== taskId), updatedTask];
+      return [...list.filter(tsk => tsk.id !== taskId), updatedTask];
     }
     return list;
-}, false);
+  }, false);
   // TODO
   return true;
 }

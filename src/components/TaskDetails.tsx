@@ -14,6 +14,15 @@ import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import { addTaskToMyDay, createNewSubTask } from "../data/actions";
 import { setTaskDue } from "../data/taskActions";
 
+/*
+** TODO:
+** Due date setting
+** My day icon does not change based on the state, but the text does. Wtf
+** Lose focus after hitting enter when renaming a task or a subtask
+** Multiline subtask title support (not that urgent)
+** Make text unselectable ("add to my day", for example)
+*/
+
 export interface TaskDetailsProps {
   taskListId: number
   task: Task
@@ -63,7 +72,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     if (props.task.subTasks) {
       return (
         <div className="taskDetailsSubtasksList">
-          {props.task.subTasks.map((subtask) => {
+          {props.task.subTasks.sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title)).map((subtask) => {
             return (
               <Subtask
                 taskListId={props.taskListId}
@@ -91,13 +100,13 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     if (props.task.myDay === false) {
       return (
         <div className="taskDetailsMyDay" onClick={changeMyDay}>
-          <i className="taskDetailsMyDayIcon far fa-sun" />
+          <i className="taskDetailsMyDayIcon fas fa-sun" />
           <p className="taskDetailsMyDayText">Add to My day</p>
         </div>
       );
     } else {
       return (
-        <div className="taskDetailsMyDay" onClick={changeMyDay}>
+        <div className="taskDetailsMyDay myDayToggle" onClick={changeMyDay}>
           <i className="taskDetailsMyDayIcon fas fa-sun" />
           <p className="taskDetailsMyDayText">Remove from My day</p>
         </div>
@@ -182,4 +191,3 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 }
 
 export default TaskDetails
-
