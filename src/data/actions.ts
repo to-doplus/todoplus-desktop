@@ -52,4 +52,22 @@ export async function createNewTask(taskListId: number, title: string): Promise<
     return true;
 }
 
+export async function addTaskToMyDay(taskListId: number, taskId: number): Promise<boolean> {
+    const updatedTask = await client.addTaskToMyDay(taskId);
+    if (!updatedTask) {
+      return false;
+    }
+    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(!list ? [] : list.filter(tsk => tsk.id !== taskId)), updatedTask], false);
+    mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => [...list, updatedTask], false);
+    mutate(`/tasklists/c/important/tasks`, (list: Task[]) => {
+      if(!list) return list;
+      if(list.find(tsk => tsk.id === taskId)){
+          return [...list.filter(tsk => tsk.id !== taskId), updatedTask];
+      }
+      return list;
+  }, false);
+    // TODO
+    return true;
+  }
+
 

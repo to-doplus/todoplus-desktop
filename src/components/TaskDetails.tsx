@@ -11,7 +11,7 @@ import { useTaskLists, useTasksByTaskList } from "../data/hooks";
 import Subtask from "./Subtask";
 import { setTitleOfTask, completeTask, uncompleteTask, removeTaskFromMyDay } from "../../src/data/subtask_actions";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
-import { createNewSubTask } from "../data/actions";
+import { addTaskToMyDay, createNewSubTask } from "../data/actions";
 import { setTaskDue } from "../data/taskActions";
 
 export interface TaskDetailsProps {
@@ -182,7 +182,4 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 }
 
 export default TaskDetails
-function addTaskToMyDay(taskListId: number, id: number): any {
-  throw new Error("Function not implemented.");
-}
 
