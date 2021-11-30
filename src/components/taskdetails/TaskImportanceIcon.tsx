@@ -9,7 +9,7 @@ export interface TaskImportanceIconProps {
   color: string,
   size?: SizeProp,
   className?: string
-  onClick: MouseEventHandler<HTMLDivElement>
+  onClick?: MouseEventHandler<HTMLDivElement>
 }
 
 const TaskImportanceIcon = (props: TaskImportanceIconProps): ReactElement => {

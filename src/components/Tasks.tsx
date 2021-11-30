@@ -118,6 +118,15 @@ const Tasks = (props: TasksProps): ReactElement => {
         )
     }
 
+    const getCompleteTaskImportanceIcon = (taskId: number, taskImportance: Importance): ReactElement => {
+        const color : string = taskImportance === "HIGH" ? "grey" : "grey";
+        return (
+            <TaskImporatnceIcon taskImportance={taskImportance} color={color} className="taskImportanceIcon" />
+        )
+    }
+
+    
+
 
     // asi nepotrebuju -- pouzije Tedro
     const taskDelete = async (taskId: number) => {
@@ -164,7 +173,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         {task.title}
                     </div>
                     <div className="buttonSetImportance">
-                        {getTaskImportanceIcon(task.id, task.importance)}
+                        {getCompleteTaskImportanceIcon(task.id, task.importance)}
                     </div>
                 </div>
             ))}

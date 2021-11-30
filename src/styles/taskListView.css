@@ -83,18 +83,13 @@
 	margin-left: auto;
 }
 
-.taskBoxCompleted  .buttonSetImportance .taskSetImportanceButton,
-.taskBox .buttonSetImportance .taskSetImportanceButton{
-	border: none;
+.taskBoxCompleted  .buttonSetImportance .taskImportanceIcon,
+.taskBox .buttonSetImportance .taskImportanceIcon{
 	cursor: pointer;
 }
 
-.taskBoxCompleted  .buttonSetImportance .taskSetImportanceButton .taskImportanceIcon{
+.taskBoxCompleted  .buttonSetImportance .taskImportanceIcon{
 	color: var(--sidebar-text-color-darkest);
-}
-
-.taskBox  .buttonSetImportance .taskImportanceIcon{
-	color: goldenrod;
 }
 
 .taskListViewBg .inputContainer{
