@@ -8,6 +8,7 @@
 .taskDetails{
 	background-color: var(--sidebar-bg-color);
 	position: absolute;
+	overflow-y: scroll;
 	right: 0;
 	top: 0;
 	float: right;
@@ -170,24 +171,34 @@
 	margin: 15px;
 }
 
-.myDayToggle{
-	background: var(--sidebar-bg-toggle-color);
-}
 
 .taskDetailsDueDate{
 }
 
-.taskDetailsDueDateIcon{
-	float: left;
-	display: inline;
+.taskDetailsDueDateButton{
 }
 
 .taskDetailsDueDateText{
 	display: inline; 
-	margin: 15px;
+	padding: 15px;
 }
 
-.taskDetailsTitleCheckbox, .taskDetailsMyDay, .taskDetailsDueDate, 
+.taskDetailsDueDateInput{
+	width: 100%;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.myDayToggle, .dueDateToggle{
+	background-color: var(--sidebar-bg-toggle-color);
+	color: var(--sidebar-text-color-lightest);
+}
+
+.myDayToggle:hover, .dueDateToggle:hover{
+	background-color: var(--sidebar-bg-toggle-color-darker);
+}
+
+.taskDetailsTitleCheckbox, .taskDetailsMyDay, .taskDetailsDueDateButton, 
 .taskDetailsSubtaskComplete, .taskDetailsSubtaskDelete{
 	cursor: pointer;
 }

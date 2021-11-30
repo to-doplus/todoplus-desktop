@@ -13,14 +13,17 @@ import { setTitleOfTask, completeTask, uncompleteTask, removeTaskFromMyDay } fro
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import { addTaskToMyDay, createNewSubTask } from "../data/actions";
 import { setTaskDue } from "../data/taskActions";
+import TextField from '@mui/material/TextField';
 
 /*
 ** TODO:
-** Due date setting
-** My day icon does not change based on the state, but the text does. Wtf
 ** Lose focus after hitting enter when renaming a task or a subtask
 ** Multiline subtask title support (not that urgent)
 ** Make text unselectable ("add to my day", for example)
+** Print countdown next to due date (if set)
+** When due date is set, clicking near the edge of the button doesn't reset it
+** as it should
+** Break line of a subtask title when it's too long...
 */
 
 export interface TaskDetailsProps {
@@ -47,6 +50,8 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   ** State
   */
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
+  const [showDueDate, setShowDueDate] = useState(props.task.dueTime === null ? false : true);
+  const [newDueDateValue, setNewDueDateValue] = useState(props.task.dueTime === null ? "" : props.task.dueTime);
   const [taskTitle, setTaskTitle] = useState(props.task.title);
 
   // Update state on props change
@@ -128,19 +133,66 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
-  const setDueDate = async (dueDate: Nullable<Date>) => {
-    let ret;
-    console.log("Setting due date to " + dueDate);
-    if (await setTaskDue(props.taskListId, props.task.id, dueDate)) {
+
+  const getActualDateAndTime = () : string => {
+    const date = new Date();
+    return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + "T09:00";
+  }
+
+  const toggleShowDueDate = async () => {
+    if(!showDueDate){
+      setDueDate(getActualDateAndTime());
+    }else{
+      setDueDate(null);
+    }
+    setShowDueDate(!showDueDate);
+  }
+
+  const setDueDate = async (inputDate: string) => {
+    let date;
+    if(inputDate !== null){
+      setNewDueDateValue(inputDate);
+      date = new Date(inputDate);
+    }else{
+      date = null;
+    }
+    console.log("Setting due date to " + date);
+    if (await setTaskDue(props.taskListId, props.task.id, date)) {
       // TODO
     }
   }
 
   const getDueDate = (): ReactElement => {
-    if (props.task.dueTime) {
-      return <p className="taskDetailsDueDateText">{props.task.dueTime}</p>
+    if (showDueDate) {
+      return(
+        <div className="taskDetailsDueDate dueDateToggle">
+          <div className="taskDetailsDueDateButton" onClick={toggleShowDueDate}>
+            <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
+            <p className="taskDetailsDueDateText">Due date set to:</p>
+          </div>
+          <div className="taskDetailsDueDateInput">
+            <TextField
+              type="datetime-local"
+              defaultValue={getActualDateAndTime()}
+              onChange={(e) => { setDueDate(e.target.value) }}
+              sx={{ input: { color: 'white' } }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              style ={{ width: '100%' }}
+            />
+          </div>
+        </div>
+      );
     } else {
-      return <p className="taskDetailsDueDateText">Due date not set</p>;
+      return(
+        <div className="taskDetailsDueDate" onClick={toggleShowDueDate}>
+          <div className="taskDetailsDueDateButton">
+            <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
+            <p className="taskDetailsDueDateText">Due date not set</p>
+          </div>
+        </div>
+      );
     }
   }
 
@@ -151,6 +203,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
   return (
     <div className="taskDetails" onClick={(e) => e.stopPropagation()}>
+
       <div className="taskDetailsTitle">
         <TaskCompleteIcon status={props.task.status} onClick={() => {setTaskCompletion(props.taskListId, props.task.id, props.task.status)}}/>
         <form className="taskDetailsTitleForm"
@@ -160,11 +213,10 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
             required value={taskTitle} spellCheck="false"
             onChange={(e) => { setTaskTitle(e.target.value) }} />
         </form>
-
-
       </div>
 
       <div className="taskDetailsSubtasks">
+
         {getSubtaskList()}
 
         <div className="taskDetailsNewSubtask">
@@ -176,15 +228,11 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
           </form>
           <i className="taskDetailsNewSubtaskIcon fas fa-plus" />
         </div>
-
       </div>
 
       {getMyDayButton()}
 
-      <div className="taskDetailsDueDate">
-        <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
-        {getDueDate()}
-      </div>
+      {getDueDate()}
 
     </div>
   );
