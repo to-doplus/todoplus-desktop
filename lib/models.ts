@@ -19,6 +19,7 @@ export interface TaskList extends Entity {
 export interface Task extends Entity {
     title: string,
     status: TaskStatus,
+    taskListId: number,
     createTime: Nullable<Date>,
     dueTime: Nullable<Date>,
     completeTime: Nullable<Date>,

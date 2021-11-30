@@ -1,5 +1,5 @@
 import React, { Fragment, MouseEvent, ReactElement, useState } from "react";
-import { createNewTask, completeTask, uncompleteTask, deleteTask, setImportance } from "../data/taskActions";
+import { deleteTask, setImportance } from "../data/taskActions";
 import { Importance, Task, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
@@ -8,9 +8,11 @@ import Button from "./Button";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 import MenuList from "./MenuList";
+import { createNewTask } from "../data/actions";
+import { completeTask, uncompleteTask } from "../data/subtask_actions";
 
 export interface TasksProps {
-    taskListId: number,
+    taskListId?: number,
     isLoading: boolean,
     isError: boolean,
     tasks: Task[],
@@ -76,15 +78,19 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     const setTaskCompleted = async (e: MouseEvent, taskId: number, taskStatus: string) => {
         e.stopPropagation();
+
+        const task = props.tasks.find(tsk => tsk.id == taskId);
+        if(!task) return;
+
         if (taskStatus === "INPROGRESS") {
             console.log("Task completed!");
-            const success = await completeTask(props.taskListId, taskId);
+            const success = await completeTask(task.taskListId, taskId);
             if (success) {
                 //TODO
             }
         } else {
             console.log("Task uncompleted!");
-            const success = await uncompleteTask(props.taskListId, taskId);
+            const success = await uncompleteTask(task.taskListId, taskId);
             if (success) {
                 //TODO
             }
@@ -95,14 +101,17 @@ const Tasks = (props: TasksProps): ReactElement => {
     // co delat s low importance?
     const setTaskImportance = async (e: MouseEvent, taskId: number, taskImportance: Importance) => {
         e.stopPropagation();
+        const task = props.tasks.find(tsk => tsk.id == taskId);
+        if(!task) return;
+
         if (taskImportance === "NORMAL") {
-            const success = await setImportance(props.taskListId, taskId, "HIGH");
+            const success = await setImportance(task.taskListId, taskId, "HIGH");
             if (success) {
                 //TODO
             }
         }
         else if (taskImportance === "HIGH") {
-            const success = await setImportance(props.taskListId, taskId, "NORMAL");
+            const success = await setImportance(task.taskListId, taskId, "NORMAL");
             if (success) {
                 //TODO
             }
@@ -130,8 +139,11 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     // asi nepotrebuju -- pouzije Tedro
     const taskDelete = async (taskId: number) => {
+        const task = props.tasks.find(tsk => tsk.id == taskId);
+        if(!task) return;
+
         console.log("Deleting task id: " + taskId);
-        const success = await deleteTask(props.taskListId, taskId)
+        const success = await deleteTask(task.taskListId, taskId)
         if (success) {
             //TODO
         }
@@ -177,7 +189,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                     </div>
                 </div>
             ))}
-            {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={props.taskListId} task={selectedTask} /> : <Fragment />}
+            {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={selectedTask.taskListId} task={selectedTask} /> : <Fragment />}
             {<div className="inputContainer">
                 <div className="icon">
                     <Button className="hiddenButton" onClick={createTaskByButton}><i className="fas fa-plus"></i></Button>

@@ -5,6 +5,7 @@
 import { mutate } from "swr";
 import client from "./client";
 import { Task, Nullable } from "../../lib/models"
+import { mutateTask } from "./actions";
 
 // completeTask
 export async function completeTask(taskListId: number, taskId: number): Promise<boolean> {
@@ -12,7 +13,7 @@ export async function completeTask(taskListId: number, taskId: number): Promise<
   if (!updatedTask) {
     return false;
   }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutateTask(updatedTask);
   return true;
 }
 
@@ -22,7 +23,7 @@ export async function uncompleteTask(taskListId: number, taskId: number): Promis
   if (!updatedTask) {
     return false;
   }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutateTask(updatedTask);
   return true;
 }
 
@@ -32,17 +33,7 @@ export async function setTitleOfTask(taskListId: number, taskId: number, title: 
   if (!updatedTask) {
     return false;
   }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
-  return true;
-}
-
-// addTaskToMyDay
-export async function addTaskToMyDay(taskListId: number, taskId: number): Promise<boolean> {
-  const updatedTask = await client.addTaskToMyDay(taskId);
-  if (!updatedTask) {
-    return false;
-  }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutateTask(updatedTask);
   return true;
 }
 
@@ -52,28 +43,16 @@ export async function removeTaskFromMyDay(taskListId: number, taskId: number): P
   if (!updatedTask) {
     return false;
   }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(!list ? [] : list.filter(tsk => tsk.id !== taskId)), updatedTask], false);
+  mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => [...(!list ? [] : list.filter(tsk => tsk.id !== taskId))], false);
+  mutate(`/tasklists/c/important/tasks`, (list: Task[]) => {
+    if(!list) return list;
+    if(list.find(tsk => tsk.id === taskId)){
+        return [...list.filter(tsk => tsk.id !== taskId), updatedTask];
+    }
+    return list;
+}, false);
   // TODO
-  return true;
-}
-
-// setTaskDue
-export async function setTaskDue(taskListId: number, taskId: number, date: Nullable<Date>): Promise<boolean> {
-  const updatedTask = await client.setTaskDue(taskListId, taskId, date);
-  if (!updatedTask) {
-    return false;
-  }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
-  return true;
-}
-
-// createNewSubTask
-export async function createNewSubTask(taskListId: number, taskId: number, title: string): Promise<boolean> {
-  const updatedTask = await client.createNewSubTask(taskListId, taskId, title);
-  if (!updatedTask) {
-    return false;
-  }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
   return true;
 }
 
@@ -83,7 +62,7 @@ export async function deleteSubTask(taskListId: number, taskId: number, subtaskI
   if (!updatedTask) {
     return false;
   }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutateTask(updatedTask);
   return true;
 }
 
@@ -93,7 +72,7 @@ export async function setSubTaskTitle(taskListId: number, taskId: number, subtas
   if (!updatedTask) {
     return false;
   }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutateTask(updatedTask);
   return true;
 }
 
@@ -103,7 +82,7 @@ export async function completeSubTask(taskListId: number, taskId: number, subtas
   if (!updatedTask) {
     return false;
   }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutateTask(updatedTask);
   return true;
 }
 
@@ -113,6 +92,6 @@ export async function uncompleteSubTask(taskListId: number, taskId: number, subt
   if (!updatedTask) {
     return false;
   }
-  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(list.filter(task => task.id !== updatedTask.id)), updatedTask], false);
+  mutateTask(updatedTask);
   return true;
 }

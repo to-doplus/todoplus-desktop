@@ -9,8 +9,10 @@ import { Link } from "react-router-dom";
 import { TaskList, Task, SubTask, Nullable } from "../../lib/models"
 import { useTaskLists, useTasksByTaskList } from "../data/hooks";
 import Subtask from "./Subtask";
-import { setTitleOfTask, setTaskDue, completeTask, uncompleteTask, createNewSubTask, addTaskToMyDay, removeTaskFromMyDay } from "../../src/data/subtask_actions";
+import { setTitleOfTask, completeTask, uncompleteTask, removeTaskFromMyDay } from "../../src/data/subtask_actions";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
+import { createNewSubTask } from "../data/actions";
+import { setTaskDue } from "../data/taskActions";
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -180,3 +182,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 }
 
 export default TaskDetails
+function addTaskToMyDay(taskListId: number, id: number): any {
+  throw new Error("Function not implemented.");
+}
+
