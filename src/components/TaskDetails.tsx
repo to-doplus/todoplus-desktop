@@ -60,7 +60,7 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
 ** Returns a string representing date and time in format YYYY-MM-DDT09:00
 ** Yes, the time is fixed to 9:00
 */
-const getActualDateAndTime = () : string => {
+const getInitialDueDate = () : string => {
   const date = new Date();
   return date.getFullYear() + "-" 
     + ("0" + date.getMonth()).slice(-2) + "-" 
@@ -112,6 +112,16 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   }
 
   /*
+  ** Delete the task
+  */
+  const taskDeletion = async () => {
+    const ret = await deleteTask(props.taskListId, props.task.id);
+    if(!ret){
+      // TODO err
+    }
+  }
+
+  /*
   ** Create a new subtask
   */
   const newSubtaskSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -142,15 +152,15 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   }
 
   /*
-  ** Show or hide the due date setting
+  ** Show (and initialize) or hide the due date setting
   */
   const toggleShowDueDate = async () => {
-    if(!showDueDate){
-      setDueDate(getActualDateAndTime());
-    }else{
-      setDueDate(null);
-    }
+    let date = null;
     setShowDueDate(!showDueDate);
+    if(showDueDate){
+      date = getInitialDueDate();
+    }
+    setDueDate(date);
   }
 
   /*
@@ -158,12 +168,10 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   ** sends it to setTaskDue as a parameter, otherwise sends null)
   */
   const setDueDate = async (inputDate: string) => {
-    let date;
-    if(inputDate !== null){
+    let date = null;
+    if(inputDate !== null && !isNaN(Date.parse(inputDate))){
       setNewDueDateValue(inputDate);
       date = new Date(inputDate);
-    }else{
-      date = null;
     }
     console.log("Setting due date to " + date);
     const ret = await setTaskDue(props.taskListId, props.task.id, date);
@@ -186,15 +194,14 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
           </div>
           <div className="taskDetailsDueDateInput">
             <TextField
-              type="datetime-local"
-              defaultValue={getActualDateAndTime()}
-              onChange={(e) => { setDueDate(e.target.value) }}
-              sx={{ input: { color: 'white' } }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              style ={{ width: '100%' }}
-            />
+                type="datetime-local"
+                defaultValue={getInitialDueDate()}
+                onChange={(e) => { setDueDate(e.target.value) }}
+                sx={{ input: { color: 'white' } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                style ={{ width: '100%' }} />
           </div>
         </div>
       );
@@ -230,35 +237,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     console.log("Changing the importance of task: " + props.task.id);
   }
 
-
-  /*
-  ** Returns icon of the task importance button based on the task importance
-  */
-  const getTaskImportanceIcon = (): ReactElement => {
-    let color: string;
-    if(props.task.status === "INPROGRESS"){
-      color = props.task.importance === "HIGH" ? "goldenrod" : "white";
-    }else{
-      color = props.task.importance === "HIGH" ? "grey" : "white";
-    }
-    return (
-      <TaskImporatnceIcon 
-      taskImportance={props.task.importance} color={color} 
-      className="taskDetailsImportanceIcon" 
-      onClick={(e) => setTaskImportance(e)}/>
-    )
-  }
-
-  /*
-  ** Delete the task
-  */
-  const taskDeletion = async () => {
-    const ret = await deleteTask(props.taskListId, props.task.id);
-    if(!ret){
-      // TODO err
-    }
-  }
-
   /*
   ** Rendering
   */
@@ -286,7 +264,11 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         </form>
 
         {/* Task importance icon */}
-        {getTaskImportanceIcon()}
+        <TaskImporatnceIcon 
+            taskImportance={props.task.importance} 
+            color={props.task.importance === "HIGH" ? (props.task.status === "INPROGRESS" ? "goldenrod" : "grey") : "white"}
+            className="taskDetailsImportanceIcon" 
+            onClick={(e) => setTaskImportance(e)}/>
 
       </div> {/* Task title */}
 
