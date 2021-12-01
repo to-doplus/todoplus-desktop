@@ -56,6 +56,15 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
 }
 
 /*
+** Lose focus after a form is submitted
+*/
+const loseFocus = () => {
+  if(document.activeElement instanceof HTMLElement){
+    document.activeElement.blur()
+  }
+}
+
+/*
 ** Returns a string representing date and time in format YYYY-MM-DDT09:00
 ** Yes, the time is fixed to 9:00
 */
@@ -216,7 +225,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
         {/* Task title form */}
         <form className="taskDetailsTitleForm unselectable"
-            onSubmit={(e) => submitTaskTitle(e)}>
+            onSubmit={(e) => {submitTaskTitle(e); loseFocus()}}>
           <input type="text"
               className={`taskDetailsTitleInput ${props.task.status === "INPROGRESS" ? "" : "taskDetailsTitleInputCompleted"}`}
               onChange={(e) => { setTaskTitle(e.target.value) }}

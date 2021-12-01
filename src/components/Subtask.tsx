@@ -15,6 +15,15 @@ export interface SubtaskProps {
   subtask: SubTask
 }
 
+/*
+** Lose focus after a form is submitted
+*/
+const loseFocus = () => {
+  if(document.activeElement instanceof HTMLElement){  
+    document.activeElement.blur()
+  }
+}
+
 const Subtask = (props: SubtaskProps) : ReactElement => {
 
   /*
@@ -81,7 +90,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
 
       {/* Subtask title input form */}
       <form className="taskDetailsSubtaskTitleForm unselectable"
-          onSubmit={(e) => {setSubtaskTitle(e)}}>
+          onSubmit={(e) => {setSubtaskTitle(e); loseFocus()}}>
         <input type="text" 
             className={`taskDetailsSubtaskTitleInput 
                 ${props.subtask.status === "INPROGRESS" ? 
