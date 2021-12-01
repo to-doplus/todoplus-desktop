@@ -13,13 +13,10 @@ const MyDay = (): ReactElement => {
         return (
             <Fragment>
                 <Layout backgroundClass="taskListViewBg">
-                    <h1>Můj den</h1>
-                </Layout>
-                <Overlay>
                     <CenterWrapper>
                         <Loading />
                     </CenterWrapper>
-                </Overlay>
+                </Layout>
             </Fragment>
         )
     }
@@ -27,9 +24,9 @@ const MyDay = (): ReactElement => {
     const today = new Date().toLocaleDateString();
 
     return (
-            <Layout backgroundClass="taskListViewBg">
-                <Tasks isError={isError} isLoading={isLoading} tasks={data} displayName={"Můj den"} description={today} taskListId={-1} />
-            </Layout>
+        <Layout backgroundClass="taskListViewBg">
+            <Tasks isError={isError} isLoading={isLoading} tasks={data} displayName={"My day"} description={today} taskListId={-1} />
+        </Layout>
     );
 }
 

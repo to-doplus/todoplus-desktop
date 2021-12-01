@@ -6,15 +6,16 @@
 
 .taskDetailsMenu{
 	background-color: var(--sidebar-bg-color);
-	position: absolute;
 	right: 0;
 	top: 0;
 	float: right;
 	display: block;
-	width: 35%;
-	height: 100%;
+	height: 100vh;
+	position: sticky;
 	/* opacity: 0.9; */
 	overflow-y: hidden;
+	margin-top: -12px;
+	margin-bottom: -12px;
 }
 
 .taskDetails{

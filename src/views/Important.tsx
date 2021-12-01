@@ -24,7 +24,7 @@ const Important = (): ReactElement => {
     return (
         <div className="taskListViewBg">
             <Layout>
-                <Tasks isError={isError} isLoading={isLoading} tasks={data} displayName={"Důležité"} description={"Ty nejdůležitější úkoly ze tvého seznamu."} taskListId={-1} />
+                <Tasks isError={isError} isLoading={isLoading} tasks={data} displayName={"Important"} description={"Ty nejdůležitější úkoly ze tvého seznamu."} taskListId={-1} />
             </Layout>
         </div>
     );

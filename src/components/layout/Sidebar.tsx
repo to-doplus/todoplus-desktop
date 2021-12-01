@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import Divider from "../Divider";
 import BuildInTaskLists from "./BuildInTaskLists";
+import NewTaskListButton from "./NewTaskListButton";
 import TaskListList from "./TaskListList";
 
 const Sidebar = () : ReactElement => {
@@ -12,15 +13,7 @@ const Sidebar = () : ReactElement => {
                     <Divider/>
                     <TaskListList />
                 </div>
-                <div className="newTaskList">
-                    <div className="icon">
-                        <i className="fas fa-plus"></i>
-                    </div>
-                    Nový seznam
-                    <div className="icon" style={{marginLeft: "auto"}}>
-                        <i className="fas fa-clipboard-list"></i>
-                    </div>
-                </div>
+                <NewTaskListButton />
             </div>
         </div>
     )

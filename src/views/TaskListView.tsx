@@ -20,7 +20,7 @@ const TaskListView = () => {
     if (isLoading) {
         return (
             <Fragment>
-                <Layout>
+                <Layout backgroundClass="taskListViewBg">
                     <CenterWrapper>
                         <Loading />
                     </CenterWrapper>
@@ -35,14 +35,10 @@ const TaskListView = () => {
 
     const taskList: TaskList = taskLists.find(taskList => taskList.id === taskListId);
 
-
-
     return (
-        <div className="taskListViewBg">
-            <Layout>
-                <Tasks isError={isErrorTasks} isLoading={isLoadingTasks} tasks={tasks} displayName={taskList.displayName} description={taskList.description} taskListId={taskListId} />
-            </Layout>
-        </div>
+        <Layout backgroundClass="taskListViewBg">
+            <Tasks isError={isErrorTasks} isLoading={isLoadingTasks} tasks={tasks} displayName={taskList.displayName} description={taskList.description} taskListId={taskListId} />
+        </Layout>
     )
 }
 

@@ -25,13 +25,13 @@ export function mutateTask(task: Task) {
     }, false);
 }
 
-export async function createNewTaskList(title: string): Promise<boolean> {
+export async function createNewTaskList(title: string): Promise<number> {
     const newTaskList = await client.createNewTaskList(title);
     if (!newTaskList) {
-        return false;
+        return undefined;
     }
     mutate(`/tasklists`, (list: TaskList[]) => [...list, newTaskList], false);
-    return true;
+    return newTaskList.id;
 }
 
 export async function createNewSubTask(taskListId: number, taskId: number, title: string): Promise<boolean> {

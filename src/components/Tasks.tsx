@@ -1,4 +1,4 @@
-import React, { Fragment, MouseEvent, ReactElement, useState } from "react";
+import React, { Fragment, MouseEvent, ReactElement, useCallback, useState } from "react";
 import { deleteTask, setImportance } from "../data/taskActions";
 import { Importance, Task, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
@@ -10,6 +10,8 @@ import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 import MenuList from "./MenuList";
 import { createNewTask } from "../data/actions";
 import { completeTask, uncompleteTask } from "../data/subtask_actions";
+import CenterWrapper from "./CenterWrapper";
+import Loading from "./Loading";
 
 export interface TasksProps {
     taskListId?: number,
@@ -20,6 +22,10 @@ export interface TasksProps {
     description: string
 }
 
+const showPopupMenu = () => {
+    window.electron.ipcRenderer.send("open-dropdown", "taskList");
+}
+
 const Tasks = (props: TasksProps): ReactElement => {
     const [selected, setSelected] = useState<number>(-1);
     const [taskName, setName, bindName] = useInput("");
@@ -27,7 +33,11 @@ const Tasks = (props: TasksProps): ReactElement => {
     //TODO Nějakej state, podle čeho budeme řadit
 
     if (props.isLoading) {
-        return <div>Loading...</div>
+        return (
+            <CenterWrapper>
+                <Loading />
+            </CenterWrapper>
+        )
     }
 
     if (props.isError) {
@@ -50,7 +60,7 @@ const Tasks = (props: TasksProps): ReactElement => {
             return;
         }
         setSelected(taskId);
-    }
+    };
 
     const createTask = async (e: React.FormEvent<HTMLFormElement>) => {
         console.log("Task name: " + taskName + " , id: " + props.taskListId);
@@ -69,18 +79,11 @@ const Tasks = (props: TasksProps): ReactElement => {
         }
     }
 
-
-    const getTaskIcon = (taskId: number, taskStatus: TaskStatus): ReactElement => {
-        return (
-            <TaskCompleteIcon status={taskStatus} className="taskDetailsTaskComplete" onClick={(e: MouseEvent) => setTaskCompleted(e, taskId, taskStatus)} />
-        )
-    }
-
     const setTaskCompleted = async (e: MouseEvent, taskId: number, taskStatus: string) => {
         e.stopPropagation();
 
         const task = props.tasks.find(tsk => tsk.id == taskId);
-        if(!task) return;
+        if (!task) return;
 
         if (taskStatus === "INPROGRESS") {
             console.log("Task completed!");
@@ -102,7 +105,7 @@ const Tasks = (props: TasksProps): ReactElement => {
     const setTaskImportance = async (e: MouseEvent, taskId: number, taskImportance: Importance) => {
         e.stopPropagation();
         const task = props.tasks.find(tsk => tsk.id == taskId);
-        if(!task) return;
+        if (!task) return;
 
         if (taskImportance === "NORMAL") {
             const success = await setImportance(task.taskListId, taskId, "HIGH");
@@ -121,94 +124,70 @@ const Tasks = (props: TasksProps): ReactElement => {
     }
 
     const getTaskImportanceIcon = (taskId: number, taskImportance: Importance): ReactElement => {
-        const color : string = taskImportance === "HIGH" ? "goldenrod" : "white";
+        const color: string = taskImportance === "HIGH" ? "goldenrod" : "white";
         return (
             <TaskImporatnceIcon taskImportance={taskImportance} color={color} className="taskImportanceIcon" onClick={(e: MouseEvent) => setTaskImportance(e, taskId, taskImportance)} />
         )
     }
 
-    const getCompleteTaskImportanceIcon = (taskId: number, taskImportance: Importance): ReactElement => {
-        const color : string = taskImportance === "HIGH" ? "grey" : "grey";
-        return (
-            <TaskImporatnceIcon taskImportance={taskImportance} color={color} className="taskImportanceIcon" />
-        )
-    }
-
-    
-
-
-    // asi nepotrebuju -- pouzije Tedro
-    const taskDelete = async (taskId: number) => {
-        const task = props.tasks.find(tsk => tsk.id == taskId);
-        if(!task) return;
-
-        console.log("Deleting task id: " + taskId);
-        const success = await deleteTask(task.taskListId, taskId)
-        if (success) {
-            //TODO
-        }
-
-    }
-
-
     const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
     console.log(selectedTask);
 
     return (
-        <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
-            <div className="taskNameAndList">
-                <h1>{props.displayName}</h1>
-                <div className="taskMenuList">
-                    <MenuList></MenuList>
+        <div className="taskListLayout">
+            <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
+                <div className="taskNameAndList">
+                    <h1>{props.displayName}</h1>
+                    <div className="taskMenuList">
+                        <MenuList></MenuList>
+                    </div>
                 </div>
+                <button onClick={() => showPopupMenu()}>Test button</button>
+                <h4>{props.description}</h4>
+                {progressTasks.map(task => (
+                    <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
+                        <div className="icon">
+                            <TaskCompleteIcon status={task.status} className="taskDetailsTaskComplete" onClick={(e: MouseEvent) => setTaskCompleted(e, task.id, task.status)} />
+                        </div>
+                        <div className="content">
+                            {task.title}
+                        </div>
+                        <div className="buttonSetImportance">
+                            {getTaskImportanceIcon(task.id, task.importance)}
+                        </div>
+                    </div>
+                ))}
+                {completedTasks.map(task => (
+                    <div className="taskBoxCompleted" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
+                        <div className="icon">
+                            <TaskCompleteIcon status={task.status} className="taskDetailsTaskComplete" onClick={(e: MouseEvent) => setTaskCompleted(e, task.id, task.status)} />
+                        </div>
+                        <div className="content">
+                            {task.title}
+                        </div>
+                        <div className="buttonSetImportance">
+                            <TaskImporatnceIcon taskImportance={task.importance} color={"grey"} className="taskImportanceIcon" />
+                        </div>
+                    </div>
+                ))}
+                {<div className="inputContainer">
+                    <div className="icon">
+                        <Button className="hiddenButton" onClick={createTaskByButton}><i className="fas fa-plus"></i></Button>
+                    </div>
+                    <form onSubmit={(e) => { createTask(e) }}>
+                        <input
+                            type="text"
+                            name="taskName"
+                            className="taskAddTask"
+                            placeholder="Add task..."
+                            {...bindName}
+                            onChange={(e) => { setName(e.target.value) }}
+                        >
+                        </input>
+                    </form>
+                </div>}
             </div>
-            <h4>{props.description}</h4>
-            {progressTasks.map(task => (
-                <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
-                    <div className="icon">
-                        {getTaskIcon(task.id, task.status)}
-                    </div>
-                    <div className="content">
-                        {task.title}
-                    </div>
-                    <div className="buttonSetImportance">
-                        {getTaskImportanceIcon(task.id, task.importance)}
-                    </div>
-                </div>
-            ))}
-            {completedTasks.map(task => (
-                <div className="taskBoxCompleted" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
-                    <div className="icon">
-                        {getTaskIcon(task.id, task.status)}
-                    </div>
-                    <div className="content">
-                        {task.title}
-                    </div>
-                    <div className="buttonSetImportance">
-                        {getCompleteTaskImportanceIcon(task.id, task.importance)}
-                    </div>
-                </div>
-            ))}
             {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={selectedTask.taskListId} task={selectedTask} /> : <Fragment />}
-            {<div className="inputContainer">
-                <div className="icon">
-                    <Button className="hiddenButton" onClick={createTaskByButton}><i className="fas fa-plus"></i></Button>
-                </div>
-                <form onSubmit={(e) => { createTask(e) }}>
-                    <input
-                        type="text"
-                        name="taskName"
-                        className="taskAddTask"
-                        placeholder="Add task..."
-                        {...bindName}
-                        onChange={(e) => { setName(e.target.value) }}
-                    >
-                    </input>
-                </form>
-
-
-            </div>}
-
         </div>
     )
 
