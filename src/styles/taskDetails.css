@@ -36,7 +36,7 @@
 
 .taskDetailsTitle{
 	color: var(--sidebar-text-color-lighter);
-	margin: 15px 20px;
+	margin: 10px 20px;
 }
 .taskDetailsTitleCheckbox{
 	display: inline;
@@ -50,7 +50,7 @@
 	background-color: inherit;
 	color: var(--sidebar-text-color-lighter);
 	font-weight: bold;
-	font-size: 12pt;
+	font-size: 14pt;
 	padding: 10px;
 	width: calc(100% - 75px);
 	outline: none;
@@ -189,8 +189,8 @@
 .taskDetailsLowerBar{
 	background-color: var(--sidebar-bg-color-darker);
 	width: calc(100% - 20px);
-	bottom: 0;
 	padding: 10px;
+	margin-top: 5px;
 }
 .taskDetailsDateCreated{
 	color: white;
@@ -205,8 +205,6 @@
 .fa-trash-alt{
 	color: red;
 }
-
-
 
 .taskDetailsTitleCheckbox, 
 .taskDetailsImportanceIcon,

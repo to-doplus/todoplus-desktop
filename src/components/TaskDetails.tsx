@@ -18,7 +18,6 @@ import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 
 /*
 ** TODO:
-** Lower bar: date created and a 'Delete' button for a task
 ** Refactor this code. It's ugly as hell
 ** Color of toggled myDay and dueDate needs changing. This is hideous
 */
@@ -57,6 +56,31 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
   }
 }
 
+/*
+** Returns a string representing date and time in format YYYY-MM-DDT09:00
+** Yes, the time is fixed to 9:00
+*/
+const getActualDateAndTime = () : string => {
+  const date = new Date();
+  return date.getFullYear() + "-" 
+    + ("0" + date.getMonth()).slice(-2) + "-" 
+    + ("0" + date.getDate()).slice(-2) 
+    + "T09:00";
+}
+
+/*
+** Fetch the task create time and parse it
+*/
+const getTaskCreateTime = (createTime: Nullable<Date>): string => {
+  const date = new Date(createTime);
+  const month = date.getMonth();
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const min = date.getMinutes();
+  return "Date created: " + month + "/" + day + "/" + year + " " + hour + ":" + min;
+}
+
 const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
   /*
@@ -74,10 +98,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   }, [props.task.title])
 
   /*
-  ** Functions
-  */
-
-  /*
   ** Submit the new task title
   */
   const submitTaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -88,28 +108,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
       if(!ret) {
         // TODO err
       }
-    }
-  }
-
-  /*
-  ** Fetch a list of subtasks to be displayed
-  */
-  const getSubtaskList = (): ReactElement => {
-    if (props.task.subTasks) {
-      return (
-        <div className="taskDetailsSubtasksList">
-          {props.task.subTasks.sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title)).map((subtask) => {
-            return (
-              <Subtask
-                taskListId={props.taskListId}
-                task={props.task}
-                subtask={subtask} />
-            );
-          })}
-        </div>
-      );
-    } else {
-      return (null);
     }
   }
 
@@ -127,27 +125,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   }
 
   /*
-  ** Returns a myDay button (elements it consists of) based on the actual state
-  */
-  const getMyDayButton = (): ReactElement => {
-    if (props.task.myDay === false) {
-      return (
-        <div className="taskDetailsMyDay" onClick={changeMyDay}>
-          <i className="taskDetailsMyDayIcon fas fa-sun" />
-          <p className="taskDetailsMyDayText unselectable">Add to My day</p>
-        </div>
-      );
-    } else {
-      return (
-        <div className="taskDetailsMyDay myDayToggle" onClick={changeMyDay}>
-          <i className="taskDetailsMyDayIcon fas fa-sun" />
-          <p className="taskDetailsMyDayText unselectable">Remove from My day</p>
-        </div>
-      );
-    }
-  }
-
-  /*
   ** Add to my day or remove from it
   */
   const changeMyDay = async () => {
@@ -162,18 +139,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     if(!ret) {
       // TODO err
     }
-  }
-
-  /*
-  ** Returns a string representing date and time in format YYYY-MM-DDT09:00
-  ** Yes, the time is fixed to 9:00
-  */
-  const getActualDateAndTime = () : string => {
-    const date = new Date();
-    return date.getFullYear() + "-" 
-      + ("0" + date.getMonth()).slice(-2) + "-" 
-      + ("0" + date.getDate()).slice(-2) 
-      + "T09:00";
   }
 
   /*
@@ -208,6 +173,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   }
 
 
+  /*
+  ** Returns get due date div TODO
+  */
   const getDueDate = (): ReactElement => {
     if (showDueDate) {
       return(
@@ -242,6 +210,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
+  /*
+  ** Change importance of a task
+  */
   const setTaskImportance = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     if (props.task.importance === "NORMAL") {
@@ -260,6 +231,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   }
 
 
+  /*
+  ** Returns icon of the task importance button based on the task importance
+  */
   const getTaskImportanceIcon = (): ReactElement => {
     let color: string;
     if(props.task.status === "INPROGRESS"){
@@ -275,16 +249,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     )
   }
 
-  const getTaskCreateTime = (): string => {
-    const date = new Date(props.task.createTime);
-    const month = date.getMonth();
-    const day = date.getDate();
-    const year = date.getFullYear();
-    const hour = date.getHours();
-    const min = date.getMinutes();
-    return "Date created: " + month + "/" + day + "/" + year + " " + hour + ":" + min;
-  }
-
+  /*
+  ** Delete the task
+  */
   const taskDeletion = async () => {
     const ret = await deleteTask(props.taskListId, props.task.id);
     if(!ret){
@@ -297,47 +264,98 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   */
 
   return (
-    <div className="taskDetailsMenu" onClick={(e) => e.stopPropagation()}>
+    <div className="taskDetailsMenu" 
+        onClick={(e) => e.stopPropagation()}>
 
+      {/* Task title */}
       <div className="taskDetailsTitle">
-        <TaskCompleteIcon status={props.task.status} onClick={() => {setTaskCompletion(props.taskListId, props.task.id, props.task.status)}}/>
-        <form className="taskDetailsTitleForm unselectable"
-          onSubmit={(e) => submitTaskTitle(e)}>
-          <input type="text"
-            className={`taskDetailsTitleInput ${props.task.status === "INPROGRESS" ? "" : "taskDetailsTitleInputCompleted"}`}
-            required value={taskTitle} spellCheck="false"
-            onChange={(e) => { setTaskTitle(e.target.value) }} />
-        </form>
-        {getTaskImportanceIcon()}
-      </div>
 
+        {/* Task status icon */}
+        <TaskCompleteIcon status={props.task.status} 
+            onClick={() => { setTaskCompletion(props.taskListId, props.task.id, props.task.status) }}/>
+
+        {/* Task title form */}
+        <form className="taskDetailsTitleForm unselectable"
+            onSubmit={(e) => submitTaskTitle(e)}>
+          <input type="text"
+              className={`taskDetailsTitleInput ${props.task.status === "INPROGRESS" ? "" : "taskDetailsTitleInputCompleted"}`}
+              onChange={(e) => { setTaskTitle(e.target.value) }}
+              required 
+              value={taskTitle} 
+              spellCheck="false" />
+        </form>
+
+        {/* Task importance icon */}
+        {getTaskImportanceIcon()}
+
+      </div> {/* Task title */}
+
+      {/* Task subtasks, new subtask form, My day button and Due date form */}
       <div className="taskDetails">
+
+        {/* Subtasks list and a new subtask form */}
         <div className="taskDetailsSubtasks">
 
-          {getSubtaskList()}
+          {/* Subtasks list */}
+          <div className="taskDetailsSubtasksList">
+              {props.task.subTasks.sort(
+                (a, b) => a.sort - b.sort || a.title.localeCompare(b.title)).map((subtask) => {
+                  return (
+                    <Subtask
+                        taskListId={props.taskListId}
+                        task={props.task}
+                        subtask={subtask} />
+                  );
+                }
+              )}
+          </div>
 
+          {/* New subtask form */}
           <div className="taskDetailsNewSubtask">
             <form className="taskDetailsNewSubtaskForm unselectable"
               onSubmit={(e) => { newSubtaskSubmit(e) }}>
-              <input type="text" className="taskDetailsNewSubtaskInput"
-                placeholder="New subtask" required value={newSubtaskValue}
-                onChange={(e) => { setNewSubtaskValue(e.target.value) }} />
+              <input 
+                  type="text" 
+                  className="taskDetailsNewSubtaskInput"
+                  onChange={(e) => { setNewSubtaskValue(e.target.value) }}
+                  value={newSubtaskValue}
+                  placeholder="New subtask" 
+                  required />
             </form>
             <i className="taskDetailsNewSubtaskIcon fas fa-plus" />
           </div>
+
+        </div> {/* Subtasks list and a new subtask form */}
+
+        {/* My day button */}
+        <div className={`taskDetailsMyDay ${props.task.myDay ? "" : "myDayToggle"}`} 
+            onClick={changeMyDay}>
+          <i className="taskDetailsMyDayIcon fas fa-sun" />
+          <p className="taskDetailsMyDayText unselectable">
+            {props.task.myDay ? "Add to My day" : "Remove from My day"}
+          </p>
         </div>
 
-        {getMyDayButton()}
-
+        {/* Due date form */}
         {getDueDate()}
-      </div>
 
+      </div> {/* Task subtasks, new subtask form, My day button and Due date form */}
+
+      {/* Lower bar (date created and task delete button) */}
       <div className="taskDetailsLowerBar">
-        <p className="taskDetailsDateCreated">{getTaskCreateTime()}</p>
-        <div className="taskDetailsDeleteButton" onClick={taskDeletion}>
+
+        {/* Date created text */}
+        <p className="taskDetailsDateCreated">
+          {getTaskCreateTime(props.task.createTime)}
+        </p>
+
+        {/* Task delete button */}
+        <div className="taskDetailsDeleteButton"
+            onClick={taskDeletion}>
           <i className="taskDetailsDeleteIcon fas fa-trash-alt fa-lg" />
         </div>
-      </div>
+
+      </div> {/* Lower bar (date created and task delete button) */}
 
     </div>
   );
