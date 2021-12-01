@@ -112,7 +112,13 @@ class TodoListRestClient implements ToDoListClient {
 
     async setTaskDue(taskListId: number, taskId: number, date: Nullable<Date>): Promise<Task> {
         if(!date) {
-            //TODO: Add new endpoint to remove dueDate
+            const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/duedate`, {
+                method: 'delete',
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            });
+            return (await response.json() as Task);
         }
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}`, {
             method: 'put',
@@ -120,7 +126,7 @@ class TodoListRestClient implements ToDoListClient {
                 'Content-Type': 'application/json'
             }),
             body: JSON.stringify({
-                dueDate: date
+                dueDate: date.getTime()
             })
         });
         return (await response.json() as Task);
