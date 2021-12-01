@@ -37,7 +37,7 @@
 }
 .taskDetailsTitleForm{
 	display: inline;
-	margin-left: 5px;
+	margin: 0px 5px;
 }
 .taskDetailsTitleInput{
 	display: inline;
@@ -46,9 +46,15 @@
 	font-weight: bold;
 	font-size: 12pt;
 	padding: 10px;
-	width: calc(100% - 60px);
+	width: calc(100% - 75px);
 	outline: none;
 	border: none;
+}
+.taskDetailsImportanceIcon{
+	display: inline;
+	float: right;
+	margin-top: 7px;
+	margin-right: -2px;
 }
 
 .taskDetailsSubtasks{
@@ -174,8 +180,12 @@
 }
 
 
-.taskDetailsTitleCheckbox, .taskDetailsMyDay, .taskDetailsDueDateButton, 
-.taskDetailsSubtaskComplete, .taskDetailsSubtaskDelete{
+.taskDetailsTitleCheckbox, 
+.taskDetailsImportanceIcon,
+.taskDetailsSubtaskComplete, 
+.taskDetailsSubtaskDelete,
+.taskDetailsMyDay, 
+.taskDetailsDueDateButton{ 
 	cursor: pointer;
 }
 

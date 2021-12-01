@@ -12,8 +12,9 @@ import Subtask from "./Subtask";
 import { setTitleOfTask, completeTask, uncompleteTask, removeTaskFromMyDay } from "../../src/data/subtask_actions";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import { addTaskToMyDay, createNewSubTask } from "../data/actions";
-import { setTaskDue } from "../data/taskActions";
+import { setTaskDue, setImportance } from "../data/taskActions";
 import TextField from '@mui/material/TextField';
+import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 
 /*
 ** TODO:
@@ -55,16 +56,6 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
     // TODO
   }
 }
-
-/*
-** Returns a string representing date and time in format YYYY-MM-DDT09:00
-** Yes, the time is fixed to 9:00
-*/
-const getActualDateAndTime = () : string => {
-  const date = new Date();
-  return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + "T09:00";
-}
-
 
 const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
@@ -171,6 +162,17 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
+  /*
+  ** Returns a string representing date and time in format YYYY-MM-DDT09:00
+  ** Yes, the time is fixed to 9:00
+  */
+  const getActualDateAndTime = () : string => {
+    const date = new Date();
+    return date.getFullYear() + "-" 
+      + ("0" + date.getMonth()).slice(-2) + "-" 
+      + ("0" + date.getDate()).slice(-2) 
+      + "T09:00";
+  }
 
   /*
   ** Show or hide the due date setting
@@ -203,10 +205,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   }
 
 
-  /*
-  ** Get the due date button (and the form if necessary) - elements it consists
-  ** of based on the state
-  */
   const getDueDate = (): ReactElement => {
     if (showDueDate) {
       return(
@@ -241,6 +239,40 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
+  const setTaskImportance = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (props.task.importance === "NORMAL") {
+      const success = await setImportance(props.taskListId, props.task.id, "HIGH");
+      if (success) {
+          //TODO
+      }
+    }
+    else if (props.task.importance === "HIGH") {
+      const success = await setImportance(props.taskListId, props.task.id, "NORMAL");
+      if (success) {
+          //TODO
+      }
+    }
+    console.log("Changing the importance of task: " + props.task.id);
+  }
+
+
+  const getTaskImportanceIcon = (): ReactElement => {
+    let color: string;
+    if(props.task.status === "INPROGRESS"){
+      color = props.task.importance === "HIGH" ? "goldenrod" : "white";
+
+    }else{
+      color = props.task.importance === "HIGH" ? "grey" : "white";
+    }
+    return (
+      <TaskImporatnceIcon 
+      taskImportance={props.task.importance} color={color} 
+      className="taskDetailsImportanceIcon" 
+      onClick={(e) => setTaskImportance(e)}/>
+    )
+  }
+
 
   /*
   ** Rendering
@@ -258,6 +290,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
             required value={taskTitle} spellCheck="false"
             onChange={(e) => { setTaskTitle(e.target.value) }} />
         </form>
+        {getTaskImportanceIcon()}
       </div>
 
       <div className="taskDetailsSubtasks">
