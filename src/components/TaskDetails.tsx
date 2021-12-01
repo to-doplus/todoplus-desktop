@@ -12,7 +12,7 @@ import Subtask from "./Subtask";
 import { setTitleOfTask, completeTask, uncompleteTask, removeTaskFromMyDay } from "../../src/data/subtask_actions";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import { addTaskToMyDay, createNewSubTask } from "../data/actions";
-import { setTaskDue, setImportance } from "../data/taskActions";
+import { setTaskDue, setImportance, deleteTask } from "../data/taskActions";
 import TextField from '@mui/material/TextField';
 import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 
@@ -52,8 +52,8 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
     console.log("Marking task as in progress. Id: " + taskId);
     ret = await uncompleteTask(taskListId, taskId);
   }
-  if (ret) {
-    // TODO
+  if (!ret) {
+    // TODO err
   }
 }
 
@@ -84,7 +84,8 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     e.preventDefault();
     if (props.task.title !== taskTitle) {
       console.log("Changing the title from '" + props.task.title + "' to '" + taskTitle + "'");
-      if (await setTitleOfTask(props.taskListId, props.task.id, taskTitle)) {
+      const ret = await setTitleOfTask(props.taskListId, props.task.id, taskTitle);
+      if(!ret) {
         // TODO err
       }
     }
@@ -118,8 +119,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   const newSubtaskSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log("Adding a new subtask: " + newSubtaskValue);
     e.preventDefault();
-    if (await createNewSubTask(props.taskListId, props.task.id, newSubtaskValue)) {
-      // TODO
+    const ret = await createNewSubTask(props.taskListId, props.task.id, newSubtaskValue);
+    if(!ret) {
+      // TODO err
     }
     setNewSubtaskValue("");
   }
@@ -157,8 +159,8 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
       console.log("Removing from my day");
       ret = await removeTaskFromMyDay(props.taskListId, props.task.id);
     }
-    if (ret) {
-      // TODO
+    if(!ret) {
+      // TODO err
     }
   }
 
@@ -199,8 +201,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
       date = null;
     }
     console.log("Setting due date to " + date);
-    if (await setTaskDue(props.taskListId, props.task.id, date)) {
-      // TODO
+    const ret = await setTaskDue(props.taskListId, props.task.id, date);
+    if(!ret){
+      // TODO err
     }
   }
 
@@ -242,15 +245,15 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   const setTaskImportance = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     if (props.task.importance === "NORMAL") {
-      const success = await setImportance(props.taskListId, props.task.id, "HIGH");
-      if (success) {
-          //TODO
+      const ret = await setImportance(props.taskListId, props.task.id, "HIGH");
+      if(!ret){
+        // TODO err
       }
     }
     else if (props.task.importance === "HIGH") {
-      const success = await setImportance(props.taskListId, props.task.id, "NORMAL");
-      if (success) {
-          //TODO
+      const ret = await setImportance(props.taskListId, props.task.id, "NORMAL");
+      if(!ret){
+        // TODO err
       }
     }
     console.log("Changing the importance of task: " + props.task.id);
@@ -282,6 +285,12 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     return "Date created: " + month + "/" + day + "/" + year + " " + hour + ":" + min;
   }
 
+  const taskDeletion = async () => {
+    const ret = await deleteTask(props.taskListId, props.task.id);
+    if(!ret){
+      // TODO err
+    }
+  }
 
   /*
   ** Rendering
@@ -325,7 +334,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
       <div className="taskDetailsLowerBar">
         <p className="taskDetailsDateCreated">{getTaskCreateTime()}</p>
-        <div className="taskDetailsDeleteButton">
+        <div className="taskDetailsDeleteButton" onClick={taskDeletion}>
           <i className="taskDetailsDeleteIcon fas fa-trash-alt fa-lg" />
         </div>
       </div>
