@@ -18,8 +18,8 @@ import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 
 /*
 ** TODO:
-** 'Important' button in the task details menu (upper right corner)
 ** Lower bar: date created and a 'Delete' button for a task
+** Refactor this code. It's ugly as hell
 ** Color of toggled myDay and dueDate needs changing. This is hideous
 */
 /*
@@ -261,7 +261,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     let color: string;
     if(props.task.status === "INPROGRESS"){
       color = props.task.importance === "HIGH" ? "goldenrod" : "white";
-
     }else{
       color = props.task.importance === "HIGH" ? "grey" : "white";
     }
@@ -273,13 +272,23 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     )
   }
 
+  const getTaskCreateTime = (): string => {
+    const date = new Date(props.task.createTime);
+    const month = date.getMonth();
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const min = date.getMinutes();
+    return "Date created: " + month + "/" + day + "/" + year + " " + hour + ":" + min;
+  }
+
 
   /*
   ** Rendering
   */
 
   return (
-    <div className="taskDetails" onClick={(e) => e.stopPropagation()}>
+    <div className="taskDetailsMenu" onClick={(e) => e.stopPropagation()}>
 
       <div className="taskDetailsTitle">
         <TaskCompleteIcon status={props.task.status} onClick={() => {setTaskCompletion(props.taskListId, props.task.id, props.task.status)}}/>
@@ -293,24 +302,33 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         {getTaskImportanceIcon()}
       </div>
 
-      <div className="taskDetailsSubtasks">
+      <div className="taskDetails">
+        <div className="taskDetailsSubtasks">
 
-        {getSubtaskList()}
+          {getSubtaskList()}
 
-        <div className="taskDetailsNewSubtask">
-          <form className="taskDetailsNewSubtaskForm unselectable"
-            onSubmit={(e) => { newSubtaskSubmit(e) }}>
-            <input type="text" className="taskDetailsNewSubtaskInput"
-              placeholder="New subtask" required value={newSubtaskValue}
-              onChange={(e) => { setNewSubtaskValue(e.target.value) }} />
-          </form>
-          <i className="taskDetailsNewSubtaskIcon fas fa-plus" />
+          <div className="taskDetailsNewSubtask">
+            <form className="taskDetailsNewSubtaskForm unselectable"
+              onSubmit={(e) => { newSubtaskSubmit(e) }}>
+              <input type="text" className="taskDetailsNewSubtaskInput"
+                placeholder="New subtask" required value={newSubtaskValue}
+                onChange={(e) => { setNewSubtaskValue(e.target.value) }} />
+            </form>
+            <i className="taskDetailsNewSubtaskIcon fas fa-plus" />
+          </div>
         </div>
+
+        {getMyDayButton()}
+
+        {getDueDate()}
       </div>
 
-      {getMyDayButton()}
-
-      {getDueDate()}
+      <div className="taskDetailsLowerBar">
+        <p className="taskDetailsDateCreated">{getTaskCreateTime()}</p>
+        <div className="taskDetailsDeleteButton">
+          <i className="taskDetailsDeleteIcon fas fa-trash-alt fa-lg" />
+        </div>
+      </div>
 
     </div>
   );

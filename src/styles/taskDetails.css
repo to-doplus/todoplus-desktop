@@ -4,16 +4,22 @@
  * @author: Patrik Skaloš (xskalo01)
  */
 
-.taskDetails{
+.taskDetailsMenu{
 	background-color: var(--sidebar-bg-color);
 	position: absolute;
-	overflow-y: scroll;
 	right: 0;
 	top: 0;
 	float: right;
 	display: block;
-	width: 30%;
+	width: 35%;
 	height: 100%;
+	/* opacity: 0.9; */
+	overflow-y: hidden;
+}
+
+.taskDetails{
+	height: calc(100% - 105px);
+	overflow-y: scroll;
 }
 
 .taskDetailsNewSubtaskInput:hover,
@@ -108,7 +114,7 @@
 .taskDetailsNewSubtaskForm{
 	display: inline;
 	float: left;
-	width: calc(100% - 40px);
+	width: calc(100% - 45px);
 }
 .taskDetailsNewSubtaskInput{
 	background-color: inherit;
@@ -132,6 +138,7 @@
 	float: right;
 	height: 20px;
 	padding: 6px 0px;
+	margin-right: 4px;
 }
 
 .taskDetailsMyDay, .taskDetailsDueDate{
@@ -147,7 +154,7 @@
 }
 
 .taskDetailsMyDay{
-	margin-top: 40px;
+	margin-top: 30px;
 }
 .taskDetailsMyDayIcon{
 	display: inline;
@@ -179,13 +186,35 @@
 	margin-top: 10px;
 }
 
+.taskDetailsLowerBar{
+	background-color: var(--sidebar-bg-color-darker);
+	width: calc(100% - 20px);
+	bottom: 0;
+	padding: 10px;
+}
+.taskDetailsDateCreated{
+	color: white;
+	display: inline;
+	margin-left: 5px;
+}
+.taskDetailsDeleteButton{
+	float: right;
+}
+.taskDetailsDeleteIcon{
+}
+.fa-trash-alt{
+	color: red;
+}
+
+
 
 .taskDetailsTitleCheckbox, 
 .taskDetailsImportanceIcon,
 .taskDetailsSubtaskComplete, 
 .taskDetailsSubtaskDelete,
 .taskDetailsMyDay, 
-.taskDetailsDueDateButton{ 
+.taskDetailsDueDateButton,
+.taskDetailsDeleteButton{
 	cursor: pointer;
 }
 
