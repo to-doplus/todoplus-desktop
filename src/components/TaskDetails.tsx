@@ -18,16 +18,15 @@ import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 
 /*
 ** TODO:
-** Refactor this code. It's ugly as hell
 ** Color of toggled myDay and dueDate needs changing. This is hideous
+** Error handling
 */
 /*
 ** todo (not urgent):
-** A notification of the due date?
+** Changing order of subtasks by dragging
+** Multiline subtask title support
 ** Lose focus after hitting enter when renaming a task or a subtask
-** Multiline subtask title support (not that urgent)
-** When due date is set, clicking near the edge of the button doesn't reset it
-** as it should
+** A notification of the due date?
 */
 /*
 ** todo if we're bored
@@ -156,11 +155,11 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   */
   const toggleShowDueDate = async () => {
     let date = null;
-    setShowDueDate(!showDueDate);
-    if(showDueDate){
+    if(!showDueDate){
       date = getInitialDueDate();
     }
     setDueDate(date);
+    setShowDueDate(!showDueDate);
   }
 
   /*
@@ -177,43 +176,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     const ret = await setTaskDue(props.taskListId, props.task.id, date);
     if(!ret){
       // TODO err
-    }
-  }
-
-
-  /*
-  ** Returns get due date div TODO
-  */
-  const getDueDate = (): ReactElement => {
-    if (showDueDate) {
-      return(
-        <div className="taskDetailsDueDate dueDateToggle">
-          <div className="taskDetailsDueDateButton" onClick={toggleShowDueDate}>
-            <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
-            <p className="taskDetailsDueDateText unselectable">Due date set to:</p>
-          </div>
-          <div className="taskDetailsDueDateInput">
-            <TextField
-                type="datetime-local"
-                defaultValue={getInitialDueDate()}
-                onChange={(e) => { setDueDate(e.target.value) }}
-                sx={{ input: { color: 'white' } }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                style ={{ width: '100%' }} />
-          </div>
-        </div>
-      );
-    } else {
-      return(
-        <div className="taskDetailsDueDate" onClick={toggleShowDueDate}>
-          <div className="taskDetailsDueDateButton">
-            <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
-            <p className="taskDetailsDueDateText unselectable">Due date not set</p>
-          </div>
-        </div>
-      );
     }
   }
 
@@ -318,8 +280,34 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
           </p>
         </div>
 
-        {/* Due date form */}
-        {getDueDate()}
+        {/* Due date button and formform */}
+        <div className={`taskDetailsDueDate ${showDueDate ? "dueDateToggle" : ""}`}> 
+
+          {/* Due date button */}
+          <div className="taskDetailsDueDateButton"
+              onClick={toggleShowDueDate}>
+            <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
+            <p className="taskDetailsDueDateText unselectable">Due date not set</p>
+          </div>
+
+          {/* Due date form */}
+          {showDueDate ? 
+            <div className="taskDetailsDueDateInput">
+              <TextField
+                  type="datetime-local"
+                  defaultValue={getInitialDueDate()}
+                  onChange={(e) => { setDueDate(e.target.value) }}
+                  sx={{ input: { color: 'white' } }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  style ={{ width: '100%' }} />
+            </div>
+            : 
+            ""
+          }
+
+        </div> {/* Due date button and formform */}
 
       </div> {/* Task subtasks, new subtask form, My day button and Due date form */}
 
