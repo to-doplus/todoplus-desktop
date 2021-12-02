@@ -145,8 +145,13 @@
 	color: white;
 	background-color: rgba(41, 50, 73, 0.0);
 	border: none;
-	font-size: 38px;
+	font-size: 32px;
 	font-weight: bold;
-	display: flex;
+	margin-bottom: 20px;
+	margin-top: 20px;
 
+}
+
+input, select, textarea{
+    color: white;
 }

@@ -85,21 +85,20 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     const setTaskCompleted = async (e: MouseEvent, taskId: number, taskStatus: string) => {
         e.stopPropagation();
-
         const task = props.tasks.find(tsk => tsk.id == taskId);
         if (!task) return;
 
         if (taskStatus === "INPROGRESS") {
             console.log("Task completed!");
             const success = await completeTask(task.taskListId, taskId);
-            if (success) {
-                //TODO
+            if (!success) {
+                alert("Something went wrong!");
             }
         } else {
             console.log("Task uncompleted!");
             const success = await uncompleteTask(task.taskListId, taskId);
-            if (success) {
-                //TODO
+            if (!success) {
+                alert("Something went wrong!");
             }
         }
 
@@ -113,14 +112,14 @@ const Tasks = (props: TasksProps): ReactElement => {
 
         if (taskImportance === "NORMAL") {
             const success = await setImportance(task.taskListId, taskId, "HIGH");
-            if (success) {
-                //TODO
+            if (!success) {
+                alert("Something went wrong!");
             }
         }
         else if (taskImportance === "HIGH") {
             const success = await setImportance(task.taskListId, taskId, "NORMAL");
-            if (success) {
-                //TODO
+            if (!success) {
+                alert("Something went wrong!");
             }
         }
         console.log("Importance of task id: " + taskId + " is " + taskImportance);
@@ -146,7 +145,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         <MenuList taskListId={props.taskListId}></MenuList>
                     </div>
                 </div>
-                <button onClick={() => showPopupMenu()}>Test button</button>
+                <button onClick={() => showPopupMenu()}>Popup Menu YAY!</button>
                 <h4>{props.description}</h4>
                 {progressTasks.map(task => (
                     <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>

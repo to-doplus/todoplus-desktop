@@ -6,8 +6,8 @@ import { setTaskListTitle } from "../data/taskActions";
 export interface TaskListTitleProps {
     onClick?: MouseEventHandler<HTMLDivElement>;
     className?: string;
-    displayName : string;
-    taskListId : number;
+    displayName: string;
+    taskListId: number;
 }
 
 const loseFocus = () => {
@@ -30,22 +30,29 @@ const TaskListTitle = (props: TaskListTitleProps): ReactElement => {
         if (props.displayName !== taskListName) {
             console.log("Changing subtask title from '" + props.displayName + "' to '" + taskListName + "'");
             const success = await setTaskListTitle(props.taskListId, taskListName);
-            if (success) {
-                // TODO
+            if (!success) {
+                alert("Something went wrong!");
             }
         }
     }
 
-    return (
-        <div className={`button ${props.className ? props.className : ""}`}>
-            <form className="taskFormBox"
-                onSubmit={(e) => { renameTaskList(e); loseFocus() }}>
-                <input type="text"
-                    required value={taskListName}
-                    onChange={(e) => { setTaskTitle(e.target.value) }} ></input>
-            </form>
-        </div>
-    )
+    if (props.taskListId !== -1) {
+        return (
+            <div className={`button ${props.className ? props.className : ""}`}>
+                <form className="taskFormBox"
+                    onSubmit={(e) => { renameTaskList(e); loseFocus() }}>
+                    <input type="text"
+                        required value={taskListName}
+                        onChange={(e) => { setTaskTitle(e.target.value) }} ></input>
+                </form>
+            </div>
+        )
+    }
+    else{
+        return (  
+            <h1>{props.displayName}</h1>   
+        )
+    }
 }
 
 export default TaskListTitle;
