@@ -4,7 +4,7 @@
 
 import { mutate } from "swr";
 import client from "./client";
-import { Importance, Nullable, Task } from "../../lib/models"
+import { Importance, Nullable, Task, TaskList } from "../../lib/models"
 import { mutateTask } from "./actions";
 
 // nepotrebuju, vyuzije Tedro
@@ -32,8 +32,18 @@ export async function setImportance(taskListId: number, taskId: number, importan
 export async function setTaskDue(taskListId: number, taskId: number, date: Nullable<Date>): Promise<boolean> {
     const updatedTask = await client.setTaskDue(taskListId, taskId, date);
     if (!updatedTask) {
-      return false;
+        return false;
     }
     mutateTask(updatedTask);
     return true;
-  }
+}
+
+//nastavi task title
+export async function setTaskListTitle(taskListId: number, title: string): Promise<boolean> {
+    const updatedTaskList = await client.setTaskListTitle(taskListId, title);
+    if (!updatedTaskList) {
+        return false;
+    }
+    mutate(`/tasklists`, (list: TaskList[]) => [...!list ? [] : list.filter(tskList => tskList.id !== taskListId), updatedTaskList], false);
+    return true;
+}

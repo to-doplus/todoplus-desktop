@@ -139,4 +139,27 @@
 	flex-direction: column;
 	font-size: 16px;
 	height: 25px;
+	outline: none;
+}
+
+.taskListPage .taskNameAndList .taskTitleRenameBox .taskFormBox{
+	width: fit-content;
+	align-items: stretch;
+}
+
+.taskListPage .taskNameAndList .taskTitleRenameBox .taskFormBox input{
+	color: white;
+	background-color: rgba(41, 50, 73, 0.0);
+	border: none;
+	font-size: 32px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	outline: none;
+	width: 100%;
+}
+
+
+input, select, textarea{
+    color: white;
 }
