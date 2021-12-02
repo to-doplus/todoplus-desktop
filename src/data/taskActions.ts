@@ -13,9 +13,9 @@ export async function deleteTask(taskListId: number, taskId: number): Promise<bo
     if (!success) {
         return false;
     }
-    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(!list ? list : list.filter(task => task.id !== taskId))], false);
-    mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => [...(!list ? list : list.filter(task => task.id !== taskId))], false);
-    mutate(`/tasklists/c/important/tasks`, (list: Task[]) => [...(!list ? list : list.filter(task => task.id !== taskId))], false);
+    mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => (!list ? list : list.filter(task => task.id !== taskId)), false);
+    mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => (!list ? list : list.filter(task => task.id !== taskId), false));
+    mutate(`/tasklists/c/important/tasks`, (list: Task[]) => (!list ? list : list.filter(task => task.id !== taskId)), false);
     return true;
 }
 

@@ -26,6 +26,7 @@
     border: none;
     border-radius: 10px;
     background-color: white;
+    color:black;
     width: 280px;
     height: 35px;
     margin-left: auto;
@@ -47,6 +48,7 @@
     margin-right: auto;
     margin-bottom: 16px;
     padding: 8px;
+    cursor: pointer;
 }
 
 .login-form .small-text {

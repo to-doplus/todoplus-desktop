@@ -8,16 +8,60 @@ import { ToDoListClient } from "./todo-client";
 class TodoListRestClient implements ToDoListClient {
 
     URL: string;
+    bearerToken: string;
 
     constructor(URL: string) {
         this.URL = URL;
+        this.bearerToken = undefined;
+    }
+
+    getBearerToken() : string {
+        return this.bearerToken;
+    }
+
+    setBearerToken(bearerToken: string) {
+        this.bearerToken = bearerToken;
+    }
+
+    async login(username: string, password: string) : Promise<string> {
+        const response = await fetch(`${this.URL}/users/login`, {
+            method: 'post',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+        const res = await response.json();
+        this.setBearerToken(res.token);
+        return res.token;
+        
+    }
+
+    async registerAndLogin(username: string, email: string, password: string) : Promise<string> {
+        const response = await fetch(`${this.URL}/users/register`, {
+            method: 'post',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+        const res = await response.json();
+        this.setBearerToken(res.token);
+        return res.token;
     }
 
     async query<T>(query: string, ...args: any[]): Promise<T> {
         const response = await fetch(`${this.URL}${query}`, {
             method: 'get',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             })
         });
         return await response.json();
@@ -31,7 +75,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists`, {
             method: 'post',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 displayName: title
@@ -42,7 +87,11 @@ class TodoListRestClient implements ToDoListClient {
 
     async deleteTaskList(taskListId: number): Promise<boolean> {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}`, {
-            method: 'delete'
+            method: 'delete',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (response.ok);
     }
@@ -51,7 +100,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}`, {
             method: 'put',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 displayName: title
@@ -64,7 +114,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}`, {
             method: 'put',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 color: color
@@ -81,7 +132,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks`, {
             method: 'post',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 title: title
@@ -92,7 +144,11 @@ class TodoListRestClient implements ToDoListClient {
 
     async deleteTask(taskListId: number, taskId: number): Promise<boolean> {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}`, {
-            method: 'delete'
+            method: 'delete',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (response.ok);
     }
@@ -101,7 +157,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}`, {
             method: 'put',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 title: title
@@ -111,11 +168,12 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async setTaskDue(taskListId: number, taskId: number, date: Nullable<Date>): Promise<Task> {
-        if(!date) {
+        if (!date) {
             const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/duedate`, {
                 method: 'delete',
                 headers: new Headers({
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Bearer': this.bearerToken,
                 })
             });
             return (await response.json() as Task);
@@ -123,7 +181,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}`, {
             method: 'put',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 dueTime: date.getTime()
@@ -136,7 +195,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}`, {
             method: 'put',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 importance: importance
@@ -149,7 +209,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}`, {
             method: 'put',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 sort: sort
@@ -160,14 +221,22 @@ class TodoListRestClient implements ToDoListClient {
 
     async completeTask(taskListId: number, taskId: number): Promise<Task> {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/close`, {
-            method: 'put'
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (await response.json() as Task);
     }
 
     async uncompleteTask(taskListId: number, taskId: number): Promise<Task> {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/reopen`, {
-            method: 'put'
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (await response.json() as Task);
     }
@@ -176,7 +245,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks`, {
             method: 'post',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 title: title
@@ -187,16 +257,21 @@ class TodoListRestClient implements ToDoListClient {
 
     async deleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks/${subTaskId}`, {
-            method: 'delete'
+            method: 'delete',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (await response.json() as Task);
     }
 
-    async setSubTaskTitle(taskListId: number, taskId: number, subTaskId: number, title: string) : Promise<Task> {
+    async setSubTaskTitle(taskListId: number, taskId: number, subTaskId: number, title: string): Promise<Task> {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks/${subTaskId}`, {
             method: 'put',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 title: title
@@ -209,7 +284,8 @@ class TodoListRestClient implements ToDoListClient {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks/${subTaskId}`, {
             method: 'put',
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
             }),
             body: JSON.stringify({
                 sort: sort
@@ -220,14 +296,22 @@ class TodoListRestClient implements ToDoListClient {
 
     async completeSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks/${subTaskId}/close`, {
-            method: 'put'
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (await response.json() as Task);
     }
 
     async uncompleteSubTask(taskListId: number, taskId: number, subTaskId: number): Promise<Task> {
         const response = await fetch(`${this.URL}/tasklists/${taskListId}/tasks/${taskId}/subtasks/${subTaskId}/reopen`, {
-            method: 'put'
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (await response.json() as Task);
     }
@@ -242,14 +326,22 @@ class TodoListRestClient implements ToDoListClient {
 
     async addTaskToMyDay(taskId: number): Promise<Task> {
         const response = await fetch(`${this.URL}/tasklists/c/myday/tasks/add/${taskId}`, {
-            method: 'put'
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (await response.json() as Task);
     }
 
     async removeTaskFromMyDay(taskId: number): Promise<Task> {
         const response = await fetch(`${this.URL}/tasklists/c/myday/tasks/remove/${taskId}`, {
-            method: 'put'
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            })
         });
         return (await response.json() as Task);
     }

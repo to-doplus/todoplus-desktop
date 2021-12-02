@@ -1,6 +1,6 @@
 import React, { Fragment, MouseEvent, ReactElement, useState, useCallback, useEffect } from "react";
 import { deleteTask, setImportance, setTaskListTitle } from "../data/taskActions";
-import { Importance, Task, TaskStatus } from "../../lib/models";
+import { Importance, Task, TaskList, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 import { useInput } from "../hooks/input";
@@ -13,20 +13,28 @@ import { createNewTask } from "../data/actions";
 import { completeTask, uncompleteTask } from "../data/subtask_actions";
 import CenterWrapper from "./CenterWrapper";
 import Loading from "./Loading";
+import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../ipc/ipcMessages";
+import { sendIpcMessage } from "../renderer";
 
 //TODO: rozclenit na komponenty
 
 export interface TasksProps {
-    taskListId?: number,
+    taskList: TaskList,
     isLoading: boolean,
     isError: boolean,
     tasks: Task[],
-    displayName: string,
-    description: string
 }
 
-const showPopupMenu = () => {
-    window.electron.ipcRenderer.send("open-dropdown", "taskList");
+const showPopupMenu = (e: MouseEvent, taskList: TaskList) => {
+    e.preventDefault();
+    e.stopPropagation();
+    sendIpcMessage(window.electron.ipcRenderer, openTaskListPropsMenuMessage(taskList));
+}
+
+const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
+    e.preventDefault();
+    e.stopPropagation();
+    sendIpcMessage(window.electron.ipcRenderer, openTaskPropsMenuMessage(task));
 }
 
 const Tasks = (props: TasksProps): ReactElement => {
@@ -67,17 +75,17 @@ const Tasks = (props: TasksProps): ReactElement => {
     };
 
     const createTask = async (e: React.FormEvent<HTMLFormElement>) => {
-        console.log("Task name: " + taskName + " , id: " + props.taskListId);
+        console.log("Task name: " + taskName + " , id: " + props.taskList.id);
         e.preventDefault();
-        const success = await createNewTask(props.taskListId, taskName);
+        const success = await createNewTask(props.taskList.id, taskName);
         if (success) {
             setName("");
         }
     }
 
     const createTaskByButton = async () => {
-        console.log("Task name: " + taskName + " , id: " + props.taskListId);
-        const success = await createNewTask(props.taskListId, taskName);
+        console.log("Task name: " + taskName + " , id: " + props.taskList.id);
+        const success = await createNewTask(props.taskList.id, taskName);
         if (success) {
             setName("");
         }
@@ -140,15 +148,17 @@ const Tasks = (props: TasksProps): ReactElement => {
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
                 <div className="taskNameAndList">
-                    <TaskListTitle className="taskTitleRenameBox" displayName={props.displayName} taskListId={props.taskListId}></TaskListTitle>
-                    <div className="taskMenuList">
-                        <MenuList taskListId={props.taskListId}></MenuList>
+                    <TaskListTitle className="taskTitleRenameBox" displayName={props.taskList.displayName} taskListId={props.taskList.id}></TaskListTitle>
+                    <div className="taskMenuList" onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>
+                        {/*
+                        <MenuList taskListId={1}></MenuList>
+                        */}
                     </div>
                 </div>
-                <button onClick={() => showPopupMenu()}>Popup Menu YAY!</button>
-                <h4>{props.description}</h4>
+                <button onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>Popup Menu YAY!</button>
+                <h4>{props.taskList.description}</h4>
                 {progressTasks.map(task => (
-                    <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
+                    <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => { showTaskPopupMenu(e, task) }}>
                         <div className="icon">
                             <TaskCompleteIcon status={task.status} className="taskDetailsTaskComplete" onClick={(e: MouseEvent) => setTaskCompleted(e, task.id, task.status)} />
                         </div>

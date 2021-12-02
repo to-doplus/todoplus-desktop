@@ -35,9 +35,13 @@ const TaskListView = () => {
 
     const taskList: TaskList = taskLists.find(taskList => taskList.id === taskListId);
 
+    if(!taskList) {
+        return <div>Error??</div>; 
+    }
+
     return (
         <Layout backgroundClass="taskListViewBg">
-            <Tasks isError={isErrorTasks} isLoading={isLoadingTasks} tasks={tasks} displayName={taskList.displayName} description={taskList.description} taskListId={taskListId} />
+            <Tasks isError={isErrorTasks} isLoading={isLoadingTasks} tasks={tasks} taskList={taskList} />
         </Layout>
     )
 }

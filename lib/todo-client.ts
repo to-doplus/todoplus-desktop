@@ -5,6 +5,12 @@
 import { Task, TaskList, Importance, Nullable } from "./models";
 
 export interface ToDoListClient {
+    getBearerToken() : string;
+    setBearerToken(bearerToken: string) : void;
+
+    login(username: string, password: string) : Promise<string>;
+    registerAndLogin(username: string, email: string, password: string) : Promise<string>;
+
     query<T>(query: string, ...args: any[]): Promise<T>;
     getAllLists(): Promise<TaskList[]>;
     createNewTaskList(title: string): Promise<TaskList>;

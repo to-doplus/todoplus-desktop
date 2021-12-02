@@ -15,6 +15,8 @@ import { addTaskToMyDay, createNewSubTask } from "../data/actions";
 import { setTaskDue, setImportance, deleteTask } from "../data/taskActions";
 import TextField from '@mui/material/TextField';
 import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
+import { sendIpcMessage } from "../renderer";
+import { deleteTaskConfirmation } from "../ipc/ipcMessages";
 
 /*
 ** TODO:
@@ -125,10 +127,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   ** Delete the task
   */
   const taskDeletion = async () => {
-    const ret = await deleteTask(props.taskListId, props.task.id);
-    if(!ret){
-      // TODO err
-    }
+    sendIpcMessage(window.electron.ipcRenderer,deleteTaskConfirmation(props.task));
   }
 
   /*

@@ -5,6 +5,7 @@ import Layout from "../components/layout/Layout";
 import Loading from "../components/Loading";
 import Overlay from "../components/Overlay";
 import { useMyDayTasks } from "../data/hooks";
+import { TaskList } from "../../lib/models";
 
 const MyDay = (): ReactElement => {
     const { isLoading, isError, data } = useMyDayTasks();
@@ -23,9 +24,15 @@ const MyDay = (): ReactElement => {
 
     const today = new Date().toLocaleDateString();
 
+    const myDayTaskList : TaskList = {
+        id: -1, 
+        displayName: "My day",
+        description: today,
+        color: "#FFFFFF"
+    }
     return (
         <Layout backgroundClass="taskListViewBg">
-            <Tasks isError={isError} isLoading={isLoading} tasks={data} displayName={"My day"} description={today} taskListId={-1} />
+            <Tasks isError={isError} isLoading={isLoading} tasks={data} taskList={myDayTaskList} />
         </Layout>
     );
 }

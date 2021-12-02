@@ -12,11 +12,16 @@ export interface TaskListRowProps {
 }
 
 const TaskListRow = (props: TaskListRowProps) : ReactElement => {
+    let name = props.displayName
+    if(name && name.length > 19) {
+        name = name.substr(0, 16) + "..."
+    }
+
     return (
         <Link to={`${props.url ? props.url : `/tasklists/${props.taskListId}`}`}>
             <div className="tasklist">
                 <div className="icon" style={{color: `${props.color}`}}><i className={`${props.icon ? props.icon : "fas fa-list"}`}></i></div>
-                {props.displayName}
+                {name}
             </div>
         </Link>
     )
