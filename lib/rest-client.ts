@@ -126,7 +126,7 @@ class TodoListRestClient implements ToDoListClient {
                 'Content-Type': 'application/json'
             }),
             body: JSON.stringify({
-                dueDate: date.getTime()
+                dueTime: date.getTime()
             })
         });
         return (await response.json() as Task);
