@@ -1,20 +1,19 @@
 import React, { Fragment, MouseEvent, ReactElement, useState, useCallback, useEffect } from "react";
+
 import { deleteTask, setImportance, setTaskListTitle } from "../data/taskActions";
 import { Importance, Task, TaskList, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 import { useInput } from "../hooks/input";
 import Button from "./Button";
-import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
-import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 import MenuList from "./MenuList";
 import TaskListTitle from "./TaskListTitle";
 import { createNewTask } from "../data/actions";
-import { completeTask, uncompleteTask } from "../data/subtask_actions";
 import CenterWrapper from "./CenterWrapper";
 import Loading from "./Loading";
 import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../ipc/ipcMessages";
 import { sendIpcMessage } from "../renderer";
+import TasksBoxes from "./TasksBoxes"
 
 //TODO: rozclenit na komponenty
 
@@ -91,97 +90,29 @@ const Tasks = (props: TasksProps): ReactElement => {
         }
     }
 
-    const setTaskCompleted = async (e: MouseEvent, taskId: number, taskStatus: string) => {
-        e.stopPropagation();
-        const task = props.tasks.find(tsk => tsk.id == taskId);
-        if (!task) return;
-
-        if (taskStatus === "INPROGRESS") {
-            console.log("Task completed!");
-            const success = await completeTask(task.taskListId, taskId);
-            if (!success) {
-                alert("Something went wrong!");
-            }
-        } else {
-            console.log("Task uncompleted!");
-            const success = await uncompleteTask(task.taskListId, taskId);
-            if (!success) {
-                alert("Something went wrong!");
-            }
-        }
-
-    }
-
-    // co delat s low importance?
-    const setTaskImportance = async (e: MouseEvent, taskId: number, taskImportance: Importance) => {
-        e.stopPropagation();
-        const task = props.tasks.find(tsk => tsk.id == taskId);
-        if (!task) return;
-
-        if (taskImportance === "NORMAL") {
-            const success = await setImportance(task.taskListId, taskId, "HIGH");
-            if (!success) {
-                alert("Something went wrong!");
-            }
-        }
-        else if (taskImportance === "HIGH") {
-            const success = await setImportance(task.taskListId, taskId, "NORMAL");
-            if (!success) {
-                alert("Something went wrong!");
-            }
-        }
-        console.log("Importance of task id: " + taskId + " is " + taskImportance);
-
-    }
-
-    const getTaskImportanceIcon = (taskId: number, taskImportance: Importance): ReactElement => {
-        const color: string = taskImportance === "HIGH" ? "goldenrod" : "white";
-        return (
-            <TaskImporatnceIcon taskImportance={taskImportance} color={color} className="taskImportanceIcon" onClick={(e: MouseEvent) => setTaskImportance(e, taskId, taskImportance)} />
-        )
-    }
-
     const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
     console.log(selectedTask);
 
+        //TODO: komponenta pro ongoing tasks a pro completed tasks 
     return (
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
                 <div className="taskNameAndList">
                     <TaskListTitle className="taskTitleRenameBox" displayName={props.taskList.displayName} taskListId={props.taskList.id}></TaskListTitle>
-                    <div className="taskMenuList" onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>
-                        {/*
-                        <MenuList taskListId={1}></MenuList>
-                        */}
+                    <div className="taskMenuList">
+                        <button onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>···</button>
                     </div>
                 </div>
-                <button onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>Popup Menu YAY!</button>
                 <h4>{props.taskList.description}</h4>
                 {progressTasks.map(task => (
-                    <div className="taskBox" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => { showTaskPopupMenu(e, task) }}>
-                        <div className="icon">
-                            <TaskCompleteIcon status={task.status} className="taskDetailsTaskComplete" onClick={(e: MouseEvent) => setTaskCompleted(e, task.id, task.status)} />
-                        </div>
-                        <div className="content">
-                            {task.title}
-                        </div>
-                        <div className="buttonSetImportance">
-                            {getTaskImportanceIcon(task.id, task.importance)}
-                        </div>
-                    </div>
+                <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
+                <TasksBoxes className="taskBox" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title} ></TasksBoxes>
+                </div>
                 ))}
                 {completedTasks.map(task => (
-                    <div className="taskBoxCompleted" key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }}>
-                        <div className="icon">
-                            <TaskCompleteIcon status={task.status} className="taskDetailsTaskComplete" onClick={(e: MouseEvent) => setTaskCompleted(e, task.id, task.status)} />
-                        </div>
-                        <div className="content">
-                            {task.title}
-                        </div>
-                        <div className="buttonSetImportance">
-                            <TaskImporatnceIcon taskImportance={task.importance} color={"grey"} className="taskImportanceIcon" />
-                        </div>
-                    </div>
+                    <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} >
+                <TasksBoxes className="taskBoxCompleted" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title}></TasksBoxes>
+                </div>
                 ))}
                 {<div className="inputContainer">
                     <div className="icon">
