@@ -1,5 +1,5 @@
-import React, { Fragment, MouseEvent, ReactElement, useCallback, useState } from "react";
-import { deleteTask, setImportance } from "../data/taskActions";
+import React, { Fragment, MouseEvent, ReactElement, useState, useCallback, useEffect } from "react";
+import { deleteTask, setImportance, setTaskListTitle } from "../data/taskActions";
 import { Importance, Task, TaskStatus } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
@@ -8,10 +8,13 @@ import Button from "./Button";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 import MenuList from "./MenuList";
+import TaskListTitle from "./TaskListTitle";
 import { createNewTask } from "../data/actions";
 import { completeTask, uncompleteTask } from "../data/subtask_actions";
 import CenterWrapper from "./CenterWrapper";
 import Loading from "./Loading";
+
+//TODO: rozclenit na komponenty
 
 export interface TasksProps {
     taskListId?: number,
@@ -29,6 +32,7 @@ const showPopupMenu = () => {
 const Tasks = (props: TasksProps): ReactElement => {
     const [selected, setSelected] = useState<number>(-1);
     const [taskName, setName, bindName] = useInput("");
+
 
     //TODO Nějakej state, podle čeho budeme řadit
 
@@ -137,9 +141,9 @@ const Tasks = (props: TasksProps): ReactElement => {
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
                 <div className="taskNameAndList">
-                    <h1>{props.displayName}</h1>
+                    <TaskListTitle className="taskTitleRenameBox" displayName={props.displayName} taskListId={props.taskListId}></TaskListTitle>
                     <div className="taskMenuList">
-                        <MenuList></MenuList>
+                        <MenuList taskListId={props.taskListId}></MenuList>
                     </div>
                 </div>
                 <button onClick={() => showPopupMenu()}>Test button</button>

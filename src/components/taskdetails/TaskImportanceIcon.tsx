@@ -1,5 +1,7 @@
+//autor: Misa
+
 import { Importance } from "../../../lib/models";
-import React, { MouseEventHandler, ReactElement, ReactNode } from "react"
+import React, { MouseEventHandler, ReactElement } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 

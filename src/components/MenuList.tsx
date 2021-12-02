@@ -1,9 +1,16 @@
+//autor: Misa
+
 import React, { ReactElement } from "react";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { setTaskListTitle } from "../data/taskActions";
 
-const MenuList= (): ReactElement => {
+export interface TasksProps {
+    taskListId: number
+}
+
+const MenuList= (props: TasksProps): ReactElement => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -12,6 +19,13 @@ const MenuList= (): ReactElement => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const renameTaskList = async () => {
+        const success = await setTaskListTitle(props.taskListId, "rename funguje hodne pofiderne");
+        if (success) {
+            //todo
+        }
+    }
 
     return (
         <div>
@@ -34,7 +48,7 @@ const MenuList= (): ReactElement => {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleClose}>Rename task list</MenuItem>
+                <MenuItem onClick={renameTaskList}>Rename task list</MenuItem>
                 <MenuItem onClick={handleClose}>Change description</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
