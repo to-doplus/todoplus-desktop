@@ -1,19 +1,14 @@
 import React, { Fragment, MouseEvent, ReactElement, useState, useCallback, useEffect } from "react";
-
-import { deleteTask, setImportance, setTaskListTitle } from "../data/taskActions";
-import { Importance, Task, TaskList, TaskStatus } from "../../lib/models";
+import { Task, TaskList } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
-import { useInput } from "../hooks/input";
-import Button from "./Button";
-import MenuList from "./MenuList";
 import TaskListTitle from "./TaskListTitle";
-import { createNewTask } from "../data/actions";
 import CenterWrapper from "./CenterWrapper";
 import Loading from "./Loading";
 import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../ipc/ipcMessages";
 import { sendIpcMessage } from "../renderer";
 import TasksBoxes from "./TasksBoxes"
+import InputContainer from "./InputContainer";
 
 //TODO: rozclenit na komponenty
 
@@ -38,7 +33,6 @@ const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
 
 const Tasks = (props: TasksProps): ReactElement => {
     const [selected, setSelected] = useState<number>(-1);
-    const [taskName, setName, bindName] = useInput("");
 
 
     //TODO Nějakej state, podle čeho budeme řadit
@@ -73,27 +67,9 @@ const Tasks = (props: TasksProps): ReactElement => {
         setSelected(taskId);
     };
 
-    const createTask = async (e: React.FormEvent<HTMLFormElement>) => {
-        console.log("Task name: " + taskName + " , id: " + props.taskList.id);
-        e.preventDefault();
-        const success = await createNewTask(props.taskList.id, taskName);
-        if (success) {
-            setName("");
-        }
-    }
-
-    const createTaskByButton = async () => {
-        console.log("Task name: " + taskName + " , id: " + props.taskList.id);
-        const success = await createNewTask(props.taskList.id, taskName);
-        if (success) {
-            setName("");
-        }
-    }
-
     const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
     console.log(selectedTask);
 
-        //TODO: komponenta pro ongoing tasks a pro completed tasks 
     return (
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
@@ -114,22 +90,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                 <TasksBoxes className="taskBoxCompleted" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title}></TasksBoxes>
                 </div>
                 ))}
-                {<div className="inputContainer">
-                    <div className="icon">
-                        <Button className="hiddenButton" onClick={createTaskByButton}><i className="fas fa-plus"></i></Button>
-                    </div>
-                    <form onSubmit={(e) => { createTask(e) }}>
-                        <input
-                            type="text"
-                            name="taskName"
-                            className="taskAddTask"
-                            placeholder="Add task..."
-                            {...bindName}
-                            onChange={(e) => { setName(e.target.value) }}
-                        >
-                        </input>
-                    </form>
-                </div>}
+                {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}
             </div>
             {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={selectedTask.taskListId} task={selectedTask} /> : <Fragment />}
         </div>
