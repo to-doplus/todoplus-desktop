@@ -8,6 +8,8 @@ import React, { ReactElement, useState } from "react";
 import { Task } from "../../../lib/models"
 import { setTaskDue } from "../../data/taskActions";
 import TextField from '@mui/material/TextField';
+import ErrorMessage from "../ErrorMessage";
+
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -36,6 +38,7 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
 
   const [showDueDate, setShowDueDate] = useState(props.task.dueTime === null ? false : true);
   const [newDueDateValue, setNewDueDateValue] = useState(props.task.dueTime === null ? "" : props.task.dueTime);
+  const [err, setErr] = useState(0);
 
   /*
   ** Show (and initialize) or hide the due date setting
@@ -90,13 +93,18 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
     }
     const ret = await setTaskDue(props.taskListId, props.task.id, date);
     if(!ret){
-      // TODO err
+      console.error("ERROR: Changing due date of a task failed.");
+      setErr(1);
     }
   }
 
   /*
   ** Rendering
   */
+
+  if(err){
+    return <ErrorMessage />;
+  }
 
   return (
     <div className={`taskDetailsDueDate ${showDueDate ? "dueDateToggle" : ""}`}>
