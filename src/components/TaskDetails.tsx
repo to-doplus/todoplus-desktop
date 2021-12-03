@@ -4,17 +4,17 @@
 ** @author: Patrik Skaloš (xskalo01)
 */
 
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement } from "react";
 import { TaskList, Task, Nullable } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
+import TaskTitleForm from"./taskdetails/TaskTitleForm";
+import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 import Subtask from "./taskdetails/Subtask";
 import NewSubtaskForm from "./taskdetails/NewSubtaskForm";
 import MyDayButton from "./taskdetails/MyDayButton";
 import DueDateButton from "./taskdetails/DueDateButton";
-import { setTitleOfTask, completeTask, uncompleteTask, removeTaskFromMyDay } from "../../src/data/subtask_actions";
-import { addTaskToMyDay } from "../data/actions";
+import { completeTask, uncompleteTask } from "../../src/data/subtask_actions";
 import { setImportance, deleteTask } from "../data/taskActions";
-import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 import { sendIpcMessage } from "../renderer";
 import { deleteTaskConfirmation } from "../ipc/ipcMessages";
 
@@ -58,15 +58,6 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
 }
 
 /*
-** Lose focus after a form is submitted
-*/
-const loseFocus = () => {
-  if(document.activeElement instanceof HTMLElement){
-    document.activeElement.blur()
-  }
-}
-
-/*
 ** Fetch the task create time and parse it
 */
 const getTaskCreateTime = (createTime: Nullable<Date>): string => {
@@ -75,31 +66,6 @@ const getTaskCreateTime = (createTime: Nullable<Date>): string => {
 }
 
 const TaskDetails = (props: TaskDetailsProps): ReactElement => {
-
-  /*
-  ** States
-  */
-
-  const [taskTitle, setTaskTitle] = useState(props.task.title);
-
-  // Update state on props change
-  useEffect(() => {
-    setTaskTitle(props.task.title);
-  }, [props.task.title])
-
-  /*
-  ** Submit the new task title
-  */
-  const submitTaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (props.task.title !== taskTitle) {
-      console.log("Changing the title from '" + props.task.title + "' to '" + taskTitle + "'");
-      const ret = await setTitleOfTask(props.taskListId, props.task.id, taskTitle);
-      if(!ret) {
-        // TODO err
-      }
-    }
-  }
 
   /*
   ** Change importance of a task
@@ -137,15 +103,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
             onClick={() => { setTaskCompletion(props.taskListId, props.task.id, props.task.status) }}/>
 
         {/* Task title form */}
-        <form className="taskDetailsTitleForm unselectable"
-            onSubmit={(e) => {submitTaskTitle(e); loseFocus()}}>
-          <input type="text"
-              className={`taskDetailsTitleInput ${props.task.status === "INPROGRESS" ? "" : "taskDetailsTitleInputCompleted"}`}
-              onChange={(e) => { setTaskTitle(e.target.value) }}
-              required 
-              value={taskTitle} 
-              spellCheck="false" />
-        </form>
+        <TaskTitleForm taskListId={props.taskListId} task={props.task} />
 
         {/* Task importance icon */}
         <TaskImporatnceIcon 
