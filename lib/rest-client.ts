@@ -48,6 +48,7 @@ class TodoListRestClient implements ToDoListClient {
             }),
             body: JSON.stringify({
                 username: username,
+                email: email, 
                 password: password
             })
         });
