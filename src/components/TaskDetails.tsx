@@ -4,16 +4,16 @@
 ** @author: Patrik Skaloš (xskalo01)
 */
 
-import React, { ReactElement, useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { TaskList, Task, SubTask, Nullable } from "../../lib/models"
-import { useTaskLists, useTasksByTaskList } from "../data/hooks";
-import Subtask from "./Subtask";
-import { setTitleOfTask, completeTask, uncompleteTask, removeTaskFromMyDay } from "../../src/data/subtask_actions";
+import React, { ReactElement, useEffect, useState } from "react";
+import { TaskList, Task, Nullable } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
-import { addTaskToMyDay, createNewSubTask } from "../data/actions";
-import { setTaskDue, setImportance, deleteTask } from "../data/taskActions";
-import TextField from '@mui/material/TextField';
+import Subtask from "./taskdetails/Subtask";
+import NewSubtaskForm from "./taskdetails/NewSubtaskForm";
+import MyDayButton from "./taskdetails/MyDayButton";
+import DueDateButton from "./taskdetails/DueDateButton";
+import { setTitleOfTask, completeTask, uncompleteTask, removeTaskFromMyDay } from "../../src/data/subtask_actions";
+import { addTaskToMyDay } from "../data/actions";
+import { setImportance, deleteTask } from "../data/taskActions";
 import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
 import { sendIpcMessage } from "../renderer";
 import { deleteTaskConfirmation } from "../ipc/ipcMessages";
@@ -22,6 +22,7 @@ import { deleteTaskConfirmation } from "../ipc/ipcMessages";
 ** TODO:
 ** Color of toggled myDay and dueDate needs changing. This is hideous
 ** Error handling
+** Divide this file into components (complete button and important button)
 */
 /*
 ** todo (not urgent):
@@ -66,20 +67,6 @@ const loseFocus = () => {
 }
 
 /*
-** Returns a string representing date and time in format YYYY-MM-DDT09:00
-** Yes, the time is fixed to 9:00
-*/
-const getInitialDueDate = () : string => {
-  const date = new Date();
-  let year = date.getFullYear();
-  // month + 1 as months are indexed from 0. No idea why
-  let month = ("0" + (date.getMonth() + 1)).slice(-2);
-  // day + 1 since we want to set the initial due date one day forward
-  let day = ("0" + (date.getDate() + 1)).slice(-2);
-  return year + "-" + month + "-" + day + "T09:00";
-}
-
-/*
 ** Fetch the task create time and parse it
 */
 const getTaskCreateTime = (createTime: Nullable<Date>): string => {
@@ -93,9 +80,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
   ** States
   */
 
-  const [newSubtaskValue, setNewSubtaskValue] = useState("");
-  const [showDueDate, setShowDueDate] = useState(props.task.dueTime === null ? false : true);
-  const [newDueDateValue, setNewDueDateValue] = useState(props.task.dueTime === null ? "" : props.task.dueTime);
   const [taskTitle, setTaskTitle] = useState(props.task.title);
 
   // Update state on props change
@@ -114,95 +98,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
       if(!ret) {
         // TODO err
       }
-    }
-  }
-
-  /*
-  ** Delete the task
-  */
-  const taskDeletion = async () => {
-    sendIpcMessage(window.electron.ipcRenderer,deleteTaskConfirmation(props.task));
-  }
-
-  /*
-  ** Create a new subtask
-  */
-  const newSubtaskSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("Adding a new subtask: " + newSubtaskValue);
-    e.preventDefault();
-    const ret = await createNewSubTask(props.taskListId, props.task.id, newSubtaskValue);
-    if(!ret) {
-      // TODO err
-    }
-    setNewSubtaskValue("");
-  }
-
-  /*
-  ** Add to my day or remove from it
-  */
-  const changeMyDay = async () => {
-    let ret;
-    if (props.task.myDay === false) {
-      console.log("Adding to my day");
-      ret = await addTaskToMyDay(props.taskListId, props.task.id);
-    } else {
-      console.log("Removing from my day");
-      ret = await removeTaskFromMyDay(props.taskListId, props.task.id);
-    }
-    if(!ret) {
-      // TODO err
-    }
-  }
-
-  /*
-  ** Show (and initialize) or hide the due date setting
-  */
-  const toggleShowDueDate = async () => {
-    let date = null;
-    if(!showDueDate){
-      date = getInitialDueDate();
-    }
-    setDueDate(date);
-    setShowDueDate(!showDueDate);
-  }
-
-  const getDueDateSetting = () : string => {
-    // no due date value set yet - generate string for next day 09:00
-    if(newDueDateValue === ""){
-      return getInitialDueDate();
-    }else{
-
-      // str is a unix timestamp
-      if(newDueDateValue.toString().slice(-3) === "000"){
-        let date = new Date(parseInt(newDueDateValue.toString()));
-        const year = date.getFullYear();
-        // month + 1 as months are indexed from 0. No idea why
-        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-        const day = ("0" + date.getDate()).slice(-2);
-        const hour = ("0" + date.getHours()).slice(-2);
-        const min = ("0" + date.getMinutes()).slice(-2);
-        return year + "-" + month + "-" + day + "T" + hour + ":" + min;
-
-      // str is in the right format (YYYY/MM/DDTHH:MM)
-      }else{
-        return newDueDateValue.toString();
-      }
-    }
-  }
-
-  /*
-  ** Set the due date (receives a string, if it is not a null, parses it and
-  ** sends it to setTaskDue as a parameter, otherwise sends null)
-  */
-  const setDueDate = async (inputDate: string) => {
-    let date = null;
-    if(inputDate !== null && !isNaN(Date.parse(inputDate))){
-      setNewDueDateValue(inputDate);
-      date = new Date(inputDate);
-    }
-    const ret = await setTaskDue(props.taskListId, props.task.id, date);
-    if(!ret){
-      // TODO err
     }
   }
 
@@ -282,61 +177,15 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
           </div>
 
           {/* New subtask form */}
-          <div className="taskDetailsNewSubtask">
-            <form className="taskDetailsNewSubtaskForm unselectable"
-              onSubmit={(e) => { newSubtaskSubmit(e) }}>
-              <input 
-                  type="text" 
-                  className="taskDetailsNewSubtaskInput"
-                  onChange={(e) => { setNewSubtaskValue(e.target.value) }}
-                  value={newSubtaskValue}
-                  placeholder="New subtask" 
-                  required />
-            </form>
-            <i className="taskDetailsNewSubtaskIcon fas fa-plus" />
-          </div>
+          <NewSubtaskForm taskListId={props.taskListId} task={props.task} />
 
         </div> {/* Subtasks list and a new subtask form */}
 
         {/* My day button */}
-        <div className={`taskDetailsMyDay ${props.task.myDay ? "myDayToggle" : ""}`} 
-            onClick={changeMyDay}>
-          <i className="taskDetailsMyDayIcon fas fa-sun" />
-          <p className="taskDetailsMyDayText unselectable">
-            {props.task.myDay ? "Remove from My day" : "Add to My day"}
-          </p>
-        </div>
+        <MyDayButton taskListId={props.taskListId} task={props.task} />
 
-        {/* Due date button and formform */}
-        <div className={`taskDetailsDueDate ${showDueDate ? "dueDateToggle" : ""}`}> 
-
-          {/* Due date button */}
-          <div className="taskDetailsDueDateButton"
-              onClick={toggleShowDueDate}>
-            <i className="taskDetailsDueDateIcon far fa-calendar-plus" />
-            <p className="taskDetailsDueDateText unselectable">Due date not set</p>
-          </div>
-
-          {/* Due date form */}
-          {showDueDate ? 
-            <div className="taskDetailsDueDateInput">
-              <TextField
-                  type="datetime-local"
-                  defaultValue={getDueDateSetting()}
-                  onChange={(e) => { setDueDate(e.target.value) }}
-                  sx={{ 
-                    input: { color: 'white' } 
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  style ={{ width: '100%' }} />
-            </div>
-            : 
-            ""
-          }
-
-        </div> {/* Due date button and formform */}
+        {/* Due date button and form */}
+        <DueDateButton taskListId={props.taskListId} task={props.task} />
 
       </div> {/* Task subtasks, new subtask form, My day button and Due date form */}
 
@@ -350,7 +199,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
         {/* Task delete button */}
         <div className="taskDetailsDeleteButton"
-            onClick={taskDeletion}>
+            onClick={() => sendIpcMessage(window.electron.ipcRenderer,deleteTaskConfirmation(props.task))}>
           <i className="taskDetailsDeleteIcon fas fa-trash-alt fa-lg" />
         </div>
 

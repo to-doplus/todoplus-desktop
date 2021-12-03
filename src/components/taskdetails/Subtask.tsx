@@ -5,9 +5,9 @@
 */
 
 import React, { ReactElement, useEffect, useState } from "react";
-import { TaskList, Task, SubTask, Nullable } from "../../lib/models"
-import { deleteSubTask, setSubTaskTitle, completeSubTask, uncompleteSubTask } from "../../src/data/subtask_actions";
-import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
+import { TaskList, Task, SubTask, Nullable } from "../../../lib/models"
+import { deleteSubTask, setSubTaskTitle, completeSubTask, uncompleteSubTask } from "../../../src/data/subtask_actions";
+import TaskCompleteIcon from "./TaskCompleteIcon";
 
 export interface SubtaskProps {
   taskListId: number
