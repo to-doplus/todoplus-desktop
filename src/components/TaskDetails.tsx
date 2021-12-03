@@ -26,13 +26,12 @@ import { deleteTaskConfirmation } from "../ipc/ipcMessages";
 /*
 ** todo (not urgent):
 ** Changing order of subtasks by dragging
-** Multiline subtask title support
-** Lose focus after hitting enter when renaming a task or a subtask
 ** A notification of the due date?
 */
 /*
 ** todo if we're bored
 ** Print countdown next to due date (if set)
+** Multiline subtask title support
 */
 
 export interface TaskDetailsProps {
@@ -72,10 +71,12 @@ const loseFocus = () => {
 */
 const getInitialDueDate = () : string => {
   const date = new Date();
-  return date.getFullYear() + "-" 
-    + ("0" + date.getMonth()).slice(-2) + "-" 
-    + ("0" + date.getDate()).slice(-2) 
-    + "T09:00";
+  let year = date.getFullYear();
+  // month + 1 as months are indexed from 0. No idea why
+  let month = ("0" + (date.getMonth() + 1)).slice(-2);
+  // day + 1 since we want to set the initial due date one day forward
+  let day = ("0" + (date.getDate() + 1)).slice(-2);
+  return year + "-" + month + "-" + day + "T09:00";
 }
 
 /*
@@ -84,13 +85,6 @@ const getInitialDueDate = () : string => {
 const getTaskCreateTime = (createTime: Nullable<Date>): string => {
   const date = new Date(createTime);
   return date.toLocaleString();
-
-  const month = date.getMonth();
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const hour = date.getHours();
-  const min = date.getMinutes();
-  return "Date created: " + month + "/" + day + "/" + year + " " + hour + ":" + min;
 }
 
 const TaskDetails = (props: TaskDetailsProps): ReactElement => {
@@ -172,6 +166,30 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
     setShowDueDate(!showDueDate);
   }
 
+  const getDueDateSetting = () : string => {
+    // no due date value set yet - generate string for next day 09:00
+    if(newDueDateValue === ""){
+      return getInitialDueDate();
+    }else{
+
+      // str is a unix timestamp
+      if(newDueDateValue.toString().slice(-3) === "000"){
+        let date = new Date(parseInt(newDueDateValue.toString()));
+        const year = date.getFullYear();
+        // month + 1 as months are indexed from 0. No idea why
+        const month = ("0" + (date.getMonth() + 1)).slice(-2);
+        const day = ("0" + date.getDate()).slice(-2);
+        const hour = ("0" + date.getHours()).slice(-2);
+        const min = ("0" + date.getMinutes()).slice(-2);
+        return year + "-" + month + "-" + day + "T" + hour + ":" + min;
+
+      // str is in the right format (YYYY/MM/DDTHH:MM)
+      }else{
+        return newDueDateValue.toString();
+      }
+    }
+  }
+
   /*
   ** Set the due date (receives a string, if it is not a null, parses it and
   ** sends it to setTaskDue as a parameter, otherwise sends null)
@@ -182,7 +200,6 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
       setNewDueDateValue(inputDate);
       date = new Date(inputDate);
     }
-    console.log("Setting due date to " + date);
     const ret = await setTaskDue(props.taskListId, props.task.id, date);
     if(!ret){
       // TODO err
@@ -282,11 +299,11 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         </div> {/* Subtasks list and a new subtask form */}
 
         {/* My day button */}
-        <div className={`taskDetailsMyDay ${props.task.myDay ? "" : "myDayToggle"}`} 
+        <div className={`taskDetailsMyDay ${props.task.myDay ? "myDayToggle" : ""}`} 
             onClick={changeMyDay}>
           <i className="taskDetailsMyDayIcon fas fa-sun" />
           <p className="taskDetailsMyDayText unselectable">
-            {props.task.myDay ? "Add to My day" : "Remove from My day"}
+            {props.task.myDay ? "Remove from My day" : "Add to My day"}
           </p>
         </div>
 
@@ -305,9 +322,11 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
             <div className="taskDetailsDueDateInput">
               <TextField
                   type="datetime-local"
-                  defaultValue={getInitialDueDate()}
+                  defaultValue={getDueDateSetting()}
                   onChange={(e) => { setDueDate(e.target.value) }}
-                  sx={{ input: { color: 'white' } }}
+                  sx={{ 
+                    input: { color: 'white' } 
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
