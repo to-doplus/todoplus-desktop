@@ -26,6 +26,21 @@
 	flex-grow: 2;
 }
 
+.taskListSubtitle .buttonShowCompletedTasks{
+	border: none;
+	cursor: pointer;
+	font-size: 14px;
+	margin-right: 20px;
+	display: inline;
+	width: 200px;
+	align-items: bottom;
+	color:rgba(255, 255, 255, 0.6)
+}
+
+.taskListSubtitle .buttonShowCompletedTasks:hover{
+	text-decoration: underline; 
+}
+
 /* Added by tedro: */
 .taskListSubtitle{
 	display: flex;

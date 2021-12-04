@@ -15,6 +15,8 @@ import { moveTask } from "../data/actions";
 import TaskListView from "../views/TaskListView";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ShowCompletedTasks from "./ShowCompletedTasks";
+import Button from "./Button";
 
 
 //TODO: rozclenit na komponenty
@@ -50,6 +52,8 @@ const Tasks = (props: TasksProps): ReactElement => {
     const [searchPhrase, setSearchPhrase] = useState("");
 
     const [selected, setSelected] = useState<number>(-1);
+    
+    const [showCompletedTasks, setShowCompletedTasks] = useState(false);
 
     const [showSearchBar, setShowSearchBar] = useState(false);
 
@@ -62,7 +66,6 @@ const Tasks = (props: TasksProps): ReactElement => {
             }
         }
     }, []);
-
 
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result;
@@ -111,7 +114,6 @@ const Tasks = (props: TasksProps): ReactElement => {
     return (
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
-
                 {showSearchBar ? <SearchBar ref={searchInputRef} setSearchPhrase={setSearchPhrase} /> : null}
                 <div className="taskNameAndList">
                     <TaskListTitle className="taskTitleRenameBox" displayName={props.taskList.displayName} taskListId={props.taskList.id}></TaskListTitle>
@@ -121,6 +123,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                 </div>
                 <div className="taskListSubtitle">
                     <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id} editable={!props.taskList.buildIn} />
+                    <Button className="buttonShowCompletedTasks" onClick={() => setShowCompletedTasks(!showCompletedTasks)}>{!showCompletedTasks ? "Show completed tasks" : "Hide completed tasks"}</Button>
                     <FontAwesomeIcon className="showSearchBarIcon" onClick={(e: MouseEvent) => search(e)} icon={["fas", "search"]} size={"lg"} />
                 </div>
                 <DragDropContext onDragEnd={onDragEnd}>
@@ -143,11 +146,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         )}
                     </Droppable>
                 </DragDropContext>
-                {completedTasks.filter((task) => { return task.title.includes(searchPhrase) ? task : null }).map(task => (
-                    <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} >
-                        <TasksBoxes className="taskBoxCompleted" task={task} />
-                    </div>
-                ))}
+                {showCompletedTasks? <ShowCompletedTasks completedTasks={completedTasks} /> : null}
                 {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}
             </div>
             {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={selectedTask.taskListId} task={selectedTask} /> : <Fragment />}
