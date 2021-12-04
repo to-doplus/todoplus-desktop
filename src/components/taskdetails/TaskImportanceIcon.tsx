@@ -1,4 +1,10 @@
-//autor: Misa a tedro
+/*
+** To-Do Plus
+** DueDateButton.tsx
+** @author: Patrik Skaloš (xskalo01)
+** @author: Michaela Pařilová (xparil04)
+*/
+
 
 import React, { MouseEvent, MouseEventHandler, ReactElement } from "react"
 import { Task, Importance } from "../../../lib/models";
@@ -15,7 +21,10 @@ export interface TaskImportanceIconProps {
 }
 
 /*
-** Change importance of a task
+** @brief Change importance of a task (based on the previous state)
+**
+** @param e: Mouse event
+** @param task: task of which the importance is to be changed
 */
 export const setTaskImportance = async (e: MouseEvent, task: Task) => {
   e.stopPropagation();
@@ -35,7 +44,12 @@ export const setTaskImportance = async (e: MouseEvent, task: Task) => {
 }
 
 /*
-** Returns a color for the task importance icon
+** @param Get a color for the task importance icon based on the importance
+** setting
+**
+** @param task
+**
+** @return string represeting a color
 */
 export const getTaskImportanceIconColor = (task: Task) : string => {
   if(task.importance === "LOW"){
@@ -56,6 +70,13 @@ export const getTaskImportanceIconColor = (task: Task) : string => {
   }
 }
 
+/**
+** An icon representing tasks importance (clicking changes the state between
+** LOW, NORMAL and HIGH importance). Also acts as a button to change that state
+**
+** @author Patrik Skaloš (xskalo01)
+** @author Michaela Pařilová (xparil04)
+*/
 const TaskImportanceIcon = (props: TaskImportanceIconProps): ReactElement => {
   return (
     <div className={props.className || "taskImportanceIcon"} onClick={props.onClick}>

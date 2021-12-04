@@ -50,6 +50,17 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
   }
 }
 
+/**
+** Task details menu consisting of a task title with the button to change its
+** state between COMPLETED and INPROGRESS, button to change its importance
+** between three states, list of subtasks of this task, input form using which
+** a new subtask is submitted, button to add the task to My day (built in task 
+** list), a button (and a form) using which allows to set the Due date of the 
+** task and finally, the lower bar displaying the tasks create date (and time)
+** and a button using which the task can be deleted
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
   /*

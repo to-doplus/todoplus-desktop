@@ -1,4 +1,9 @@
-//autor: Misa
+/*
+** To-Do Plus
+** DueDateButton.tsx
+** @author: Michaela Pařilová (xparil04)
+*/
+
 
 import { TaskStatus } from "../../../lib/models";
 import React, { MouseEventHandler, ReactElement } from "react"
@@ -13,6 +18,12 @@ export interface TaskCompleteIconProps {
   onClick: MouseEventHandler<HTMLDivElement>
 }
 
+/**
+** An icon representing if the task is completed or in progress. Also acts as a
+** button to change that state
+**
+** @author Michaela Pařilová (xparil04)
+*/
 const TaskCompleteIcon = (props: TaskCompleteIconProps): ReactElement => {
   return (
     <div className={props.className || "taskDetailsTitleCheckbox"} onClick={props.onClick}>

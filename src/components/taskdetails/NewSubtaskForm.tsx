@@ -13,6 +13,11 @@ export interface TaskDetailsProps {
   task: Task
 }
 
+/**
+** A form for a new subtask (a simple input submitted by hitting ENTER)
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
 
   /*
@@ -22,10 +27,11 @@ const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
 
   /*
-  ** Create a new subtask
+  ** @brief Creates a new subtask with a title that the user put in
+  **
+  ** @param e: Form Event
   */
   const newSubtaskSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("Adding a new subtask: " + newSubtaskValue);
     e.preventDefault();
     const ret = await createNewSubTask(props.taskListId, props.task.id, newSubtaskValue);
     if(!ret) {

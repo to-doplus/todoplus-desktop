@@ -16,7 +16,7 @@ export interface SubtaskProps {
 }
 
 /*
-** Lose focus after a form is submitted
+** @brief Lose focus of a form after it is submitted
 */
 const loseFocus = () => {
   if(document.activeElement instanceof HTMLElement){  
@@ -24,6 +24,13 @@ const loseFocus = () => {
   }
 }
 
+/**
+** A subtask displayed in task details menu consisting of a title, a 'complete'
+** button which marks the subtask as completed or in progress and a 'delete'
+** button
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const Subtask = (props: SubtaskProps) : ReactElement => {
 
   /*
@@ -37,7 +44,8 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
   }, [props.subtask.title])
 
   /*
-  ** Set subtask as completed or in progress (based on the previous state)
+  ** @brief Set subtask as completed or in progress (based on the previous 
+  ** state)
   */
   const setSubtaskCompletion = async () => {
     let ret;
@@ -55,7 +63,9 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
   }
 
   /*
-  ** Set the subtask title
+  ** @brief Set a new subtask title
+  **
+  ** @param e: Form event
   */
   const setSubtaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,7 +80,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
   }
 
   /*
-  ** Delete the subtask
+  ** @brief Delete the subtask
   */
   const deleteSubtask = async () => {
     console.log("Deleting a subtask. Id: " + props.subtask.id);

@@ -14,7 +14,7 @@ export interface TaskDetailsProps {
 }
 
 /*
-** Lose focus after a form is submitted
+** @brief Lose focus of a form after it is submitted
 */
 const loseFocus = () => {
   if(document.activeElement instanceof HTMLElement){
@@ -22,6 +22,11 @@ const loseFocus = () => {
   }
 }
 
+/**
+** A form using which a task is renamed in the task details menu
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
 
   /*
@@ -36,7 +41,9 @@ const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
   }, [props.task.title])
 
   /*
-  ** Submit the new task title
+  ** @brief Submit the new task title
+  **
+  ** @param e: Form event
   */
   const submitTaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -14,10 +14,16 @@ export interface TaskDetailsProps {
   task: Task
 }
 
+/**
+** A button for adding or removing a task from my day displayed in task details
+** menu
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const MyDayButton = (props: TaskDetailsProps): ReactElement => {
 
   /*
-  ** Add to my day or remove from it
+  ** @brief Adds to my day or removes from it
   */
   const changeMyDay = async () => {
     let ret;
