@@ -6,13 +6,36 @@
 
 import React, { ReactElement, useState } from "react";
 import SettingsOption from "./SettingsOption";
+import { UserSettings } from "../../lib/models";
+import { useSettings } from "../data/hooks";
+import { setSettingsImportantEnabled, setSettingsMyDayEnabled } from "../data/user_actions";
+import Divider from "./Divider";
+
 
 const Settings = (): ReactElement => {
 
   const [showSettings, setShowSettings] = useState(false);
+  const [myDayEnabled, setMyDayEnabled] = useState(false);
+  const [importantEnabled, setImportantEnabled] = useState(false);
 
-  const a = () => {
-    console.log("A");
+  const getUserSettings = async () => {
+    const settings = await useSettings();
+    setMyDayEnabled(settings.data.myDayEnabled);
+    setImportantEnabled(settings.data.importantEnabled);
+  }
+
+  getUserSettings();
+
+  const changeMyDayDisplay = async () => {
+    console.log("Changing display of My day built in list to " + !myDayEnabled);
+    await setSettingsMyDayEnabled(!myDayEnabled);
+    setMyDayEnabled(!myDayEnabled);
+  }
+
+  const changeImportantDisplay = async () => {
+    console.log("Changing display of Important built in list to " + !importantEnabled);
+    await setSettingsImportantEnabled(!importantEnabled);
+    setImportantEnabled(!importantEnabled);
   }
 
   /*
@@ -22,9 +45,13 @@ const Settings = (): ReactElement => {
   return(
     <div className="settingsButton unselectable"
         onClick={() => {setShowSettings(!showSettings)}}>
-
       <i className="settingsIcon fas fa-cogs fa-sm" />
       Settings
+      {myDayEnabled || importantEnabled ?
+        <Divider/>
+        :
+        null
+      }
 
       {showSettings ? 
         <div className="settingsMenuWrapper">
@@ -38,8 +65,10 @@ const Settings = (): ReactElement => {
             </div>
 
             <div className="settingsMenuItems">
-              <SettingsOption title="Display the 'My day' built in list" callback={a} init={true} />
-              <SettingsOption title="Display the 'Important' built in list" callback={a} init={true} />
+              <SettingsOption title="Display the 'My day' built in list" 
+                  callback={changeMyDayDisplay} init={myDayEnabled} />
+              <SettingsOption title="Display the 'Important' built in list" 
+                  callback={changeImportantDisplay} init={importantEnabled} />
             </div>
           </div>
         </div>
