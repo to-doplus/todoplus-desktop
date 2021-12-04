@@ -1,4 +1,4 @@
-import React, { Fragment, MouseEvent, ReactElement, useState, useCallback, useEffect } from "react";
+import React, { Fragment, MouseEvent, ReactElement, useState, useCallback, useEffect, useRef } from "react";
 import { Task, TaskList } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
@@ -53,14 +53,41 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     const [showSearchBar, setShowSearchBar] = useState(false);
 
+    const focusSearch = useRef(true);
+    const searchInputRef = useCallback(node => {
+        if (node) {
+            if (focusSearch.current) {
+                focusSearch.current = false;
+                node.focus();
+            }
+        }
+    }, []);
+
+
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result;
         if (!destination) {
             return;
         }
-        if(!props.tasks) return;
+        if (!props.tasks) return;
         const task = props.tasks.find(tsk => tsk.id === Number(result.draggableId));
         moveTask(task, destination.index);
+    }
+
+    const select = (e: MouseEvent, taskId: number) => {
+        e.stopPropagation();
+        if (selected === taskId) {
+            setSelected(-1);
+            return;
+        }
+        setSelected(taskId);
+    };
+
+    const search = (e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        focusSearch.current = true;
+        setShowSearchBar(!showSearchBar);
     }
 
     //TODO Nějakej state, podle čeho budeme řadit
@@ -79,30 +106,13 @@ const Tasks = (props: TasksProps): ReactElement => {
 
     const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime());
     const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort);
-
-    {/*
-      * let taskDetails = <Fragment />
-      * if(selected != null) {
-      *     let taskDetails = <TaskDetails task={tasks[0]} />
-      * }
-      */}
-    const select = (e: MouseEvent, taskId: number) => {
-        e.stopPropagation();
-        if (selected === taskId) {
-            setSelected(-1);
-            return;
-        }
-        setSelected(taskId);
-    };
-
     const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
-    console.log(selectedTask);
 
     return (
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
 
-                {showSearchBar ? <SearchBar setSearchPhrase={setSearchPhrase} /> : null}
+                {showSearchBar ? <SearchBar ref={searchInputRef} setSearchPhrase={setSearchPhrase} /> : null}
                 <div className="taskNameAndList">
                     <TaskListTitle className="taskTitleRenameBox" displayName={props.taskList.displayName} taskListId={props.taskList.id}></TaskListTitle>
                     <div className="taskMenuList">
@@ -110,32 +120,32 @@ const Tasks = (props: TasksProps): ReactElement => {
                     </div>
                 </div>
                 <div className="taskListSubtitle">
-                    <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id}/>
-                    <FontAwesomeIcon className="showSearchBarIcon" onClick={() => setShowSearchBar(!showSearchBar)} icon={["fas", "search"]} size={"lg"} />
+                    <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id} editable={!props.taskList.buildIn} />
+                    <FontAwesomeIcon className="showSearchBarIcon" onClick={(e: MouseEvent) => search(e)} icon={["fas", "search"]} size={"lg"} />
                 </div>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (
                             <div className="sortedTasks" {...provided.droppableProps} ref={provided.innerRef}>
-                                {progressTasks.filter((task) => {return task.title.includes(searchPhrase) ? task : null}).sort((a,b) => a.sort - b.sort).map((task, index) => (
+                                {progressTasks.filter((task) => { return task.title.includes(searchPhrase) ? task : null }).sort((a, b) => a.sort - b.sort).map((task, index) => (
                                     <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                                         {(provided, snapshot) => (
                                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                 <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
-                                                    <TasksBoxes className="taskBox" taskListId={task.taskListId} tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title} ></TasksBoxes>
+                                                    <TasksBoxes className="taskBox" taskListId={task.taskListId} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title} ></TasksBoxes>
                                                 </div>
                                             </div>
                                         )}
                                     </Draggable>
                                 ))}
-                                {provided.placeholder ? <div style={{marginBottom: "15px"}}>{provided.placeholder}</div> : <Fragment />}
+                                {provided.placeholder ? <div style={{ marginBottom: "15px" }}>{provided.placeholder}</div> : <Fragment />}
                             </div>
                         )}
                     </Droppable>
                 </DragDropContext>
-                {completedTasks.filter((task) => {return task.title.includes(searchPhrase) ? task : null}).map(task => (
+                {completedTasks.filter((task) => { return task.title.includes(searchPhrase) ? task : null }).map(task => (
                     <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} >
-                        <TasksBoxes className="taskBoxCompleted" taskListId={task.taskListId} tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title}></TasksBoxes>
+                        <TasksBoxes className="taskBoxCompleted" taskListId={task.taskListId} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title}></TasksBoxes>
                     </div>
                 ))}
                 {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}
@@ -143,7 +153,6 @@ const Tasks = (props: TasksProps): ReactElement => {
             {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={selectedTask.taskListId} task={selectedTask} /> : <Fragment />}
         </div>
     )
-
 }
 
 export default Tasks;

@@ -26,14 +26,14 @@ const loseFocus = () => {
 **
 ** @author Patrik Skaloš (xskalo01)
 */
-const SearchBar = (props: SearchBarProps): ReactElement => {
+const SearchBar = (props: SearchBarProps, ref: React.LegacyRef<HTMLInputElement>): ReactElement => {
   return(
     <div className="searchBar">
       <FontAwesomeIcon className="searchBarIcon"
           icon={["fas", "search"]} size={"lg"} />
       <form className="searchBarForm unselectable"
             onSubmit={(e) => {e.preventDefault(); loseFocus()}}>
-        <input type="text" className="searchBarInput"
+        <input ref={ref} type="text" className="searchBarInput"
             placeholder="Search for a task by name" spellCheck="false"
             onChange={(e) => {
               props.setSearchPhrase(e.target.value);
@@ -43,4 +43,4 @@ const SearchBar = (props: SearchBarProps): ReactElement => {
   );
 }
 
-export default SearchBar
+export default React.forwardRef(SearchBar)

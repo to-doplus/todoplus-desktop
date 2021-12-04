@@ -54,9 +54,9 @@ export async function register(username: string, email: string, password: string
 export async function logout() {
     await window.electron.ipcRenderer.invoke("delete-auth-token");
     client.setBearerToken(undefined);
-    await mutate("/taskslists")
-    await mutate("/tasklists/c/myday/tasks")
-    await mutate("/tasklists/c/important/tasks")
+    await mutate("/taskslists", [], true)
+    await mutate("/tasklists/c/myday/tasks", [], true)
+    await mutate("/tasklists/c/important/tasks", [], true)
 }
 
 export async function setSettingsImportantEnabled(value: boolean) {
