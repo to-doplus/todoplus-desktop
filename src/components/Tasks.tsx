@@ -33,6 +33,8 @@ const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
 }
 
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
+    background: isDragging ? "#293249" : "none",
+    borderRadius: "10px",
     ...draggableStyle
 })
 
