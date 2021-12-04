@@ -24,7 +24,7 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async login(username: string, password: string) : Promise<string> {
-        const response = await fetch(`${this.URL}/users/login`, {
+        const response = await fetch(`${this.URL}/public/users/login`, {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ class TodoListRestClient implements ToDoListClient {
     }
 
     async registerAndLogin(username: string, email: string, password: string) : Promise<string> {
-        const response = await fetch(`${this.URL}/users/register`, {
+        const response = await fetch(`${this.URL}/public/users/register`, {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'
@@ -62,10 +62,10 @@ class TodoListRestClient implements ToDoListClient {
             method: 'get',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
-        return await response.json();
+        return await response.json()
     }
 
     async getAllLists(): Promise<TaskList[]> {
@@ -77,7 +77,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 displayName: title
@@ -91,7 +91,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'delete',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (response.ok);
@@ -102,7 +102,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 displayName: title
@@ -116,7 +116,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 color: color
@@ -130,7 +130,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 description: description
@@ -148,7 +148,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 title: title
@@ -162,7 +162,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'delete',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (response.ok);
@@ -173,7 +173,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 title: title
@@ -188,7 +188,7 @@ class TodoListRestClient implements ToDoListClient {
                 method: 'delete',
                 headers: new Headers({
                     'Content-Type': 'application/json',
-                    'Bearer': this.bearerToken,
+                    'Authorization': "Bearer" + this.bearerToken,
                 })
             });
             return (await response.json() as Task);
@@ -197,7 +197,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 dueTime: date.getTime()
@@ -211,7 +211,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 importance: importance
@@ -225,7 +225,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 sort: sort
@@ -239,7 +239,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (await response.json() as Task);
@@ -250,7 +250,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (await response.json() as Task);
@@ -261,7 +261,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 title: title
@@ -275,7 +275,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'delete',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (await response.json() as Task);
@@ -286,7 +286,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 title: title
@@ -300,7 +300,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             }),
             body: JSON.stringify({
                 sort: sort
@@ -314,7 +314,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (await response.json() as Task);
@@ -325,7 +325,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (await response.json() as Task);
@@ -344,7 +344,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (await response.json() as Task);
@@ -355,7 +355,7 @@ class TodoListRestClient implements ToDoListClient {
             method: 'put',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Bearer': this.bearerToken,
+                'Authorization': "Bearer" + this.bearerToken,
             })
         });
         return (await response.json() as Task);

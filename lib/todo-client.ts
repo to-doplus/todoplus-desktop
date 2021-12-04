@@ -4,6 +4,10 @@
 
 import { Task, TaskList, Importance, Nullable } from "./models";
 
+export interface Response {
+    status: number
+}
+
 export interface ToDoListClient {
     getBearerToken() : string;
     setBearerToken(bearerToken: string) : void;

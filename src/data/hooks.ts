@@ -4,6 +4,8 @@
 
 import useSWR from "swr";
 import { TaskList, Task } from "../../lib/models";
+import { Response } from "../../lib/todo-client";
+import { logout } from "./actions";
 import client from "./client";
 
 export interface AsyncDataProps<T> {
@@ -13,7 +15,16 @@ export interface AsyncDataProps<T> {
 }
 
 function useAsyncData<T>(query: string): AsyncDataProps<T> {
-    const { data, error } = useSWR<T>(query, (query) => client.query<T>(query));
+    const { data, error } = useSWR<T & Response>(query, (query) => client.query<T & Response>(query));
+    if(data && data.status === 401) {
+        console.log("Invalid authorization token");
+        logout();
+        return {
+            data: data,
+            isLoading: false,
+            isError: true
+        }
+    }
 
     return {
         data: data,

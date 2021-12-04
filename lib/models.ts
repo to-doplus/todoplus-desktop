@@ -14,6 +14,7 @@ export interface TaskList extends Entity {
     displayName: string,
     color: string,
     description: Nullable<string>
+    buildIn?: boolean
 }
 
 export interface Task extends Entity {

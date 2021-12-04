@@ -11,6 +11,7 @@ import TasksBoxes from "./TasksBoxes"
 import InputContainer from "./InputContainer";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { moveTask } from "../data/actions";
+import TaskListView from "../views/TaskListView";
 
 //TODO: rozclenit na komponenty
 
@@ -67,8 +68,8 @@ const Tasks = (props: TasksProps): ReactElement => {
         return <div>Error??</div>
     }
 
-    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
-    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title));
+    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime());
+    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort);
 
     {/*
       * let taskDetails = <Fragment />
@@ -113,6 +114,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                                         )}
                                     </Draggable>
                                 ))}
+                                {provided.placeholder ? <div style={{marginBottom: "15px"}}>{provided.placeholder}</div> : <Fragment />}
                             </div>
                         )}
                     </Droppable>

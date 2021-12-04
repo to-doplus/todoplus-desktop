@@ -13,7 +13,33 @@ export async function completeTask(taskListId: number, taskId: number): Promise<
   if (!updatedTask) {
     return false;
   }
-  mutateTask(updatedTask);
+  mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => {
+    if (!list) return list;
+    return [...list.filter(tsk => tsk.id !== taskId), updatedTask].map(tsk => {
+      if (tsk.completeTime) return tsk; // Do not move tasks that are already completed
+      if (tsk.sort > updatedTask.sort) {
+        tsk.sort = tsk.sort - 1;
+      }
+      return tsk;
+    });
+  }, false);
+
+  mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => {
+    if (!list) return list;
+    if (list.find(tsk => tsk.id === updatedTask.id)) {
+      return [...list.filter(tsk => tsk.id !== updatedTask.id), updatedTask];
+    }
+    return list;
+  }, false);
+
+  mutate(`/tasklists/c/important/tasks`, (list: Task[]) => {
+    if (!list) return list;
+    if (list.find(tsk => tsk.id === updatedTask.id)) {
+      return [...list.filter(tsk => tsk.id !== updatedTask.id), updatedTask];
+    }
+    return list;
+  }, false);
+
   return true;
 }
 
@@ -46,8 +72,8 @@ export async function removeTaskFromMyDay(taskListId: number, taskId: number): P
   mutate(`/tasklists/${taskListId}/tasks`, (list: Task[]) => [...(!list ? [] : list.filter(tsk => tsk.id !== taskId)), updatedTask], false);
   mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => [...(!list ? [] : list.filter(tsk => tsk.id !== taskId))], false);
   mutate(`/tasklists/c/important/tasks`, (list: Task[]) => {
-    if(!list) return list;
-    if(list.find(tsk => tsk.id === taskId)){
+    if (!list) return list;
+    if (list.find(tsk => tsk.id === taskId)) {
       return [...list.filter(tsk => tsk.id !== taskId), updatedTask];
     }
     return list;

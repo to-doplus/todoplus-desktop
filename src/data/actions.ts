@@ -165,6 +165,9 @@ export async function loadAuthTokenFromKeyTar(): Promise<boolean> {
 export async function logout() {
     await window.electron.ipcRenderer.invoke("delete-auth-token");
     client.setBearerToken(undefined);
+    mutate("/taskslists")
+    mutate("/tasklists/c/myday/tasks")
+    mutate("/tasklists/c/important/tasks")
 }
 
 export async function moveTask(task: Task, sort: number) {
