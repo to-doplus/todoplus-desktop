@@ -13,7 +13,7 @@ export interface TaskDetailsProps {
   task: Task
 }
 
-/*
+/**
 ** @brief Lose focus of a form after it is submitted
 */
 const loseFocus = () => {
@@ -40,7 +40,7 @@ const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
     setTaskTitle(props.task.title);
   }, [props.task.title])
 
-  /*
+  /**
   ** @brief Submit the new task title
   **
   ** @param e: Form event

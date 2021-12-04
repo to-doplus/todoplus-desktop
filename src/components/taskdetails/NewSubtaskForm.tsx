@@ -26,7 +26,7 @@ const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
 
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
 
-  /*
+  /**
   ** @brief Creates a new subtask with a title that the user put in
   **
   ** @param e: Form Event

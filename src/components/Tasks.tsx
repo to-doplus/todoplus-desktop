@@ -12,6 +12,7 @@ import InputContainer from "./InputContainer";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { moveTask } from "../data/actions";
 import TaskListView from "../views/TaskListView";
+import SearchBar from "./SearchBar";
 
 //TODO: rozclenit na komponenty
 
@@ -42,6 +43,9 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
 })
 
 const Tasks = (props: TasksProps): ReactElement => {
+
+    const [searchPhrase, setSearchPhrase] = useState("");
+
     const [selected, setSelected] = useState<number>(-1);
 
     const onDragEnd = (result: DropResult) => {
@@ -92,6 +96,7 @@ const Tasks = (props: TasksProps): ReactElement => {
     return (
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
+                <SearchBar setSearchPhrase={setSearchPhrase} />
                 <div className="taskNameAndList">
                     <TaskListTitle className="taskTitleRenameBox" displayName={props.taskList.displayName} taskListId={props.taskList.id}></TaskListTitle>
                     <div className="taskMenuList">
@@ -103,7 +108,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (
                             <div className="sortedTasks" {...provided.droppableProps} ref={provided.innerRef}>
-                                {progressTasks.sort((a,b) => a.sort - b.sort).map((task, index) => (
+                                {progressTasks.filter((task) => {return task.title.includes(searchPhrase) ? task : null}).sort((a,b) => a.sort - b.sort).map((task, index) => (
                                     <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                                         {(provided, snapshot) => (
                                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
@@ -119,7 +124,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         )}
                     </Droppable>
                 </DragDropContext>
-                {completedTasks.map(task => (
+                {completedTasks.filter((task) => {return task.title.includes(searchPhrase) ? task : null}).map(task => (
                     <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} >
                         <TasksBoxes className="taskBoxCompleted" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title}></TasksBoxes>
                     </div>

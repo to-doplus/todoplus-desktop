@@ -5,16 +5,17 @@
 */
 
 import React, { ReactElement, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export interface SettingsOptionProps{
   title: string;
   callback: any;
-  // settings: ;
+  init: boolean;
 }
 
 const SettingsOption = (props: SettingsOptionProps): ReactElement => {
 
-  const [toggled, setToggled] = useState(true); // TODO init from the server
+  const [toggled, setToggled] = useState(props.init);
 
   /*
   ** Rendering
@@ -26,11 +27,13 @@ const SettingsOption = (props: SettingsOptionProps): ReactElement => {
         {props.title}
       </div>
       <div className="settingsOptionButton"
-          onClick={(e) => {setToggled(!toggled); props.callback(); console.log(toggled)}}>
+          onClick={(e) => {setToggled(!toggled); props.callback()}}>
         {toggled ?
-          <i className="far fa-check-circle fa-lg" />
+          <FontAwesomeIcon className="settingsOptionIcon" 
+              icon={["far", "check-circle"]} size={"lg"} />
           :
-          <i className="far fa-circle fa-lg" />
+          <FontAwesomeIcon className="settingsOptionIcon" 
+              icon={["far", "circle"]} size={"lg"} />
         }
       </div>
     </div>

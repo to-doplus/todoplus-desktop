@@ -15,7 +15,7 @@ export interface SubtaskProps {
   subtask: SubTask
 }
 
-/*
+/**
 ** @brief Lose focus of a form after it is submitted
 */
 const loseFocus = () => {
@@ -43,7 +43,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     setTitle(props.subtask.title);
   }, [props.subtask.title])
 
-  /*
+  /**
   ** @brief Set subtask as completed or in progress (based on the previous 
   ** state)
   */
@@ -62,7 +62,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     }
   }
 
-  /*
+  /**
   ** @brief Set a new subtask title
   **
   ** @param e: Form event
@@ -79,7 +79,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     }
   }
 
-  /*
+  /**
   ** @brief Delete the subtask
   */
   const deleteSubtask = async () => {

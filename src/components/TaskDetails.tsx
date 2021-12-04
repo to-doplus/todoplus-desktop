@@ -28,7 +28,7 @@ export interface TaskDetailsProps {
   task: Task
 }
 
-/*
+/**
 ** @brief Mark the task as completed or in progress based on the previous state
 **
 ** @param taskListId: ID of a task list

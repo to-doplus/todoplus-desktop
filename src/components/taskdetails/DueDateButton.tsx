@@ -14,7 +14,7 @@ export interface TaskDetailsProps {
   task: Task
 }
 
-/*
+/**
 ** @brief Returns a string representing date and time in format YYYY-MM-DDT09:00
 ** (the time is fixed to 9:00)
 **
@@ -45,7 +45,7 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
   const [showDueDate, setShowDueDate] = useState(props.task.dueTime === null ? false : true);
   const [newDueDateValue, setNewDueDateValue] = useState(props.task.dueTime === null ? "" : props.task.dueTime);
 
-  /*
+  /**
   ** @brief Show (and initialize) or hide the due date setting
   */
   const toggleShowDueDate = async () => {
@@ -57,7 +57,7 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
     setShowDueDate(!showDueDate);
   }
 
-  /*
+  /**
   ** @brief Get the actual due date setting
   **
   ** @return date of tomorrow 09:00 if not set yet, actual due date setting
@@ -87,7 +87,7 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
     }
   }
 
-  /*
+  /**
   ** @brief Set the due date (receives a string, if it is not a null, parses it 
   ** and sends it to setTaskDue as a parameter, otherwise sends null)
   **

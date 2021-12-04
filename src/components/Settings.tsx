@@ -38,8 +38,8 @@ const Settings = (): ReactElement => {
             </div>
 
             <div className="settingsMenuItems">
-              <SettingsOption title="Display the 'My day' built in list" callback={a} />
-              <SettingsOption title="Display the 'Important' built in list" callback={a} />
+              <SettingsOption title="Display the 'My day' built in list" callback={a} init={true} />
+              <SettingsOption title="Display the 'Important' built in list" callback={a} init={true} />
             </div>
           </div>
         </div>

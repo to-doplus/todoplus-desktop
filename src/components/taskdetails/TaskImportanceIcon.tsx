@@ -20,7 +20,7 @@ export interface TaskImportanceIconProps {
   onClick?: MouseEventHandler<HTMLDivElement>
 }
 
-/*
+/**
 ** @brief Change importance of a task (based on the previous state)
 **
 ** @param e: Mouse event
@@ -43,7 +43,7 @@ export const setTaskImportance = async (e: MouseEvent, task: Task) => {
   }
 }
 
-/*
+/**
 ** @param Get a color for the task importance icon based on the importance
 ** setting
 **

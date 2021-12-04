@@ -22,7 +22,7 @@ export interface TaskDetailsProps {
 */
 const MyDayButton = (props: TaskDetailsProps): ReactElement => {
 
-  /*
+  /**
   ** @brief Adds to my day or removes from it
   */
   const changeMyDay = async () => {

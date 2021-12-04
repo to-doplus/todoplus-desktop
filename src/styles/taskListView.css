@@ -26,6 +26,38 @@
 	flex-grow: 2;
 }
 
+/* Edited by tedro: */
+.searchBar{
+	background-color: rgba(0, 0, 0, 0.3);
+	height: 30px;
+	padding: 8px 0px;
+	border-radius: 10px;
+}
+.searchBarIcon{
+	margin: 0px 15px;
+}
+.searchBarForm{
+	display: inline;
+	color: white;
+}
+.searchBarInput{
+	background-color: rgba(0, 0, 0, 0.45);
+	color: white;
+	width: calc(100% - 70px);
+	font-size: 12pt;
+	height: 28px;
+	border: none;
+	padding-left: 7px;
+	border-radius: 5px;
+	outline: none;
+}
+.searchBarInput:hover{
+	background-color: rgba(0, 0, 0, 0.62);
+}
+.searchBarInput:focus{
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
 .taskNameAndList{
 	display: flex;
 }
@@ -33,6 +65,7 @@
 .taskNameAndList .taskMenuList{
 	margin-left: auto;
 	align-items: center;	
+	margin-top: 25px;
 }
 
 .taskNameAndList .taskMenuList button{
