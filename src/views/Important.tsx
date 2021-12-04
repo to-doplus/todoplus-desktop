@@ -12,7 +12,7 @@ const Important = (): ReactElement => {
     if (isLoading) {
         return (
             <Fragment>
-                <Layout>
+                <Layout backgroundClass="taskListViewBg">
                     <CenterWrapper>
                         <Loading />
                     </CenterWrapper>

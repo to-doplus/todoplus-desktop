@@ -149,9 +149,14 @@
 	outline: none;
 }
 
+.taskTitleRenameBox {
+	width: 100%;
+}
+
 .taskListPage .taskNameAndList .taskTitleRenameBox .taskFormBox{
 	width: fit-content;
 	align-items: stretch;
+	width: 100%;
 }
 
 .taskListPage .taskNameAndList .taskTitleRenameBox .taskFormBox input{

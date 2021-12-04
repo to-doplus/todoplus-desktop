@@ -24,3 +24,10 @@ export function deleteTaskConfirmation(task: Task) : IpcMessage {
         args: [task]
     }
 }
+
+export function deleteTaskListConfirmation(task: Task) : IpcMessage {
+    return {
+        channel: "delete-tasklist-confirm",
+        args: [task]
+    }
+}

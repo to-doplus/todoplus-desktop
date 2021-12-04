@@ -8,8 +8,8 @@ const createNewTask = async (e: MouseEvent) => {
 
     const taskListId : number = await createNewTaskList("New tasklist");
     if(!taskListId) return; //TODO: Nastala někde chyba, oznam ji uživateli
-    console.log("/tasklists/" + taskListId);
-    history.push("/tasklists/" + taskListId);
+    console.log("/tasklists/" + taskListId + "?focus=rename");
+    history.push("/tasklists/" + taskListId + "?focus=rename");
 }
 
 const NewTaskListButton = (): ReactElement => {

@@ -60,11 +60,10 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
 }
 
 /*
-** Fetch the task create time and parse it
+** Format datetime to locale string
 */
-const getTaskCreateTime = (createTime: Nullable<Date>): string => {
-  const date = new Date(createTime);
-  return date.toLocaleString();
+const formatTime = (createTime: Nullable<Date>): string => {
+  return new Date(createTime).toLocaleString();
 }
 
 const TaskDetails = (props: TaskDetailsProps): ReactElement => {
@@ -159,7 +158,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
         {/* Date created text */}
         <p className="taskDetailsDateCreated">
-          {getTaskCreateTime(props.task.createTime)}
+          {formatTime(props.task.createTime)}
         </p>
 
         {/* Task delete button */}

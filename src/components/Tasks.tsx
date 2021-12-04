@@ -10,6 +10,7 @@ import { sendIpcMessage } from "../renderer";
 import TasksBoxes from "./TasksBoxes"
 import InputContainer from "./InputContainer";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { moveTask } from "../data/actions";
 
 //TODO: rozclenit na komponenty
 
@@ -18,6 +19,7 @@ export interface TasksProps {
     isLoading: boolean,
     isError: boolean,
     tasks: Task[],
+    focus?: string
 }
 
 const showPopupMenu = (e: MouseEvent, taskList: TaskList) => {
@@ -39,19 +41,14 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
 const Tasks = (props: TasksProps): ReactElement => {
     const [selected, setSelected] = useState<number>(-1);
 
-    const [sortedTasks, setSortedTasks] = useState(props.tasks);
-
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result;
         if (!destination) {
             return;
         }
-
-        const items = Array.from(sortedTasks);
-        const [newOrder] = items.splice(source.index, 1);
-        items.splice(destination.index, 0, newOrder);
-
-        setSortedTasks(items);
+        if(!props.tasks) return;
+        const task = props.tasks.find(tsk => tsk.id === Number(result.draggableId));
+        moveTask(task, destination.index);
     }
 
     //TODO Nějakej state, podle čeho budeme řadit
@@ -103,7 +100,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (
                             <div className="sortedTasks" {...provided.droppableProps} ref={provided.innerRef}>
-                                {progressTasks.map((task, index) => (
+                                {progressTasks.sort((a,b) => a.sort - b.sort).map((task, index) => (
                                     <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                                         {(provided, snapshot) => (
                                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>

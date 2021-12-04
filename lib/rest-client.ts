@@ -125,6 +125,20 @@ class TodoListRestClient implements ToDoListClient {
         return (await response.json() as TaskList);
     }
 
+    async setTaskListDescription(taskListId: number, description: string): Promise<TaskList> {
+        const response = await fetch(`${this.URL}/tasklists/${taskListId}`, {
+            method: 'put',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Bearer': this.bearerToken,
+            }),
+            body: JSON.stringify({
+                description: description
+            })
+        });
+        return (await response.json() as TaskList);
+    }
+
     async getAllTasks(taskListId: number): Promise<Task[]> {
         return await this.query<Task[]>(`/tasklists/${taskListId}`);
     }

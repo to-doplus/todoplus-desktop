@@ -6,7 +6,7 @@ import TaskDetails from "../components/TaskDetails";
 
 const Home = () : ReactElement => {
     return (
-        <Layout>
+        <Layout backgroundClass="taskListViewBg" >
             <h1>Home</h1>
             <Link to="/settings">
                 Settings Page

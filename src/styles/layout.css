@@ -6,7 +6,7 @@
 
 .layout .sidebar {
     background-color: var(--sidebar-bg-color);
-    min-height: calc(100vh - 24px);
+    height: calc(100vh - 24px);
     width: 180px;
     display: block;
     top: 0;

@@ -18,6 +18,7 @@ export interface ToDoListClient {
 
     setTaskListTitle(taskListId: number, title: string): Promise<TaskList>;
     setTaskListColor(taskListId: number, color: string): Promise<TaskList>;
+    setTaskListDescription(taskListId: number, description: string): Promise<TaskList>;
 
     getAllTasks(taskListId: number): Promise<Task[]>;
     createNewTask(taskListId: number, title: string): Promise<Task>;

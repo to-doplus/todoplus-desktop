@@ -1,12 +1,17 @@
 import { IpcRendererEvent } from "electron/renderer";
-import { addTaskToMyDay } from "../data/actions";
+import { addTaskToMyDay, deleteTaskList } from "../data/actions";
 import { removeTaskFromMyDay } from "../data/subtask_actions";
 import { deleteTask, setImportance } from "../data/taskActions";
 
 export function handleIpcMessages() {
-    window.electron.receive("tasklist-command", (event: IpcRendererEvent, ...args: any[]) => {
-        if (args[0] == "") {
-
+    window.electron.receive("tasklist-command", async (event: IpcRendererEvent, ...args: any[]) => {
+        if (args[0] == "tasklist-delete") {
+            console.log("tasklist-delete")
+            const success: boolean = await deleteTaskList(args[1]);
+            if (!success) {
+                console.log("ERROR: Cannot delete task")
+                //TODO: Print somewhere error
+            }
         }
     })
 

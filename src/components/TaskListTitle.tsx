@@ -1,6 +1,6 @@
 // autor: Misa
 
-import React, { useState, useEffect, MouseEventHandler, ReactElement } from "react";
+import React, { useState, useEffect, MouseEventHandler, ReactElement, useRef, useImperativeHandle, forwardRef } from "react";
 import { setTaskListTitle } from "../data/taskActions";
 
 export interface TaskListTitleProps {
@@ -48,9 +48,9 @@ const TaskListTitle = (props: TaskListTitleProps): ReactElement => {
             </div>
         )
     }
-    else{
-        return (  
-            <h1>{props.displayName}</h1>   
+    else {
+        return (
+            <h1>{props.displayName}</h1>
         )
     }
 }

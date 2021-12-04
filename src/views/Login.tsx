@@ -46,7 +46,7 @@ const Login = (): ReactElement => {
 
     return (
         <div className="login-layout">
-            <div className="login-form">
+            <form className="login-form" onSubmit={(e) => {e.preventDefault();handleLoginButton()}}>
                 <div className="logo-img" />
                 <h1 style={{ textAlign: "center" }}>Přihlášení</h1>
                 <input className="login-input" placeholder="Uživatelské jméno" {...bindUsername}></input>
@@ -54,7 +54,7 @@ const Login = (): ReactElement => {
                 {error ? <div>Nesprávné uživatelské jméno nebo heslo.</div> : <Fragment />}
                 <button className="login-button" onClick={handleLoginButton}>Přihlásit se</button>
                 <Link to="/register" className="small-text">Nemáš ještě účet? Zaregistruj se!</Link>
-            </div>
+            </form>
         </div>
     )
 }

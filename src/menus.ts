@@ -10,7 +10,7 @@ export function openTaskListSettings(event: IpcMainEvent, taskList: TaskList) {
         { type: 'separator' },
         {
             label: 'Delete tasklist',
-            click: () => { event.sender.send('tasklist-command', 'delete', taskList.id) }
+            click: () => { openTaskListDeleteConfirmation(event, taskList) }
         }
     ]
     // @ts-ignore
@@ -54,6 +54,23 @@ export function openDeleteConfirmation(event: IpcMainEvent, task: Task) {
     dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), options).then(result => {
         if(result.response === 1) {
             event.sender.send("task-command", "task-delete", task.taskListId, task.id)
+        }
+    })
+}
+
+export function openTaskListDeleteConfirmation(event: IpcMainEvent, taskList: TaskList) {
+    const options = {
+        type: 'question',
+        buttons: ['Cancel', 'Delete'],
+        defaultId: 1,
+        title: 'Are you sure?',
+        message: `Are you sure you want to delete ${taskList.displayName}.`,
+        detail: 'This action cannot be reverted.',
+      };
+    
+    dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), options).then(result => {
+        if(result.response === 1) {
+            event.sender.send("tasklist-command", "tasklist-delete", taskList.id)
         }
     })
 }

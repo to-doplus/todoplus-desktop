@@ -5,7 +5,12 @@
 import { mutate } from "swr";
 import client from "./client";
 import { Importance, Task, TaskList } from "../../lib/models"
+import { useTasksByTaskList } from "./hooks";
 
+/**
+ * Mutates SWR cached data with updated task 
+ * @param task Task that was updated
+ */
 export function mutateTask(task: Task) {
     mutate(`/tasklists/${task.taskListId}/tasks`, (list: Task[]) => [...(!list ? [] : list.filter(tsk => tsk.id !== task.id)), task], false);
     mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => {
@@ -25,6 +30,11 @@ export function mutateTask(task: Task) {
     }, false);
 }
 
+/**
+ * Creates a new tasklist and updates SWR cache
+ * @param title Title of the new tasklist
+ * @returns Id of the created tasklist
+ */
 export async function createNewTaskList(title: string): Promise<number> {
     const newTaskList = await client.createNewTaskList(title);
     if (!newTaskList) {
@@ -34,6 +44,13 @@ export async function createNewTaskList(title: string): Promise<number> {
     return newTaskList.id;
 }
 
+/**
+ * Creates a new subtask of task and updates SWR cache
+ * @param taskListId Id of tasklist with contains task in which subtask should be created
+ * @param taskId Id of task in which subtask should be created
+ * @param title Title of the subtask
+ * @returns True if the subtask was successfully created
+ */
 export async function createNewSubTask(taskListId: number, taskId: number, title: string): Promise<boolean> {
     const updatedTask = await client.createNewSubTask(taskListId, taskId, title);
     if (!updatedTask) {
@@ -43,6 +60,12 @@ export async function createNewSubTask(taskListId: number, taskId: number, title
     return true;
 }
 
+/**
+ * Creates a new task in the tasklist and updates SWR cache
+ * @param taskListId Id of tasklist which should contains created task
+ * @param title Title of the task
+ * @returns True if the task was successfully created
+ */
 export async function createNewTask(taskListId: number, title: string): Promise<boolean> {
     const newTask = await client.createNewTask(taskListId, title);
     if (!newTask) {
@@ -52,6 +75,29 @@ export async function createNewTask(taskListId: number, title: string): Promise<
     return true;
 }
 
+/**
+ * Deletes a tasklist with specified id
+ * @param taskListId Id of tasklist which should be deleted
+ * @returns True if the action was successfull
+ */
+export async function deleteTaskList(taskListId: number): Promise<boolean> {
+    const success = await client.deleteTaskList(taskListId);
+    if (!success) {
+        return false;
+    }
+    mutate("/tasklists", (list: TaskList[]) => !list ? list : list.filter(taskList => taskList.id !== taskListId), false);
+    mutate(`/tasklists/${taskListId}/tasks`, [], false);
+    mutate(`/tasklists/c/myday/tasks`, (list: Task[]) => (!list ? list : list.filter(task => task.taskListId !== taskListId), false));
+    mutate(`/tasklists/c/important/tasks`, (list: Task[]) => (!list ? list : list.filter(task => task.taskListId !== taskListId)), false);
+    return true;
+}
+
+/**
+ * Adds specific task into My day tasklist
+ * @param taskListId Id of tasklist in which task is
+ * @param taskId Id of the specific task
+ * @returns True if the action eas successfull
+ */
 export async function addTaskToMyDay(taskListId: number, taskId: number): Promise<boolean> {
     const updatedTask = await client.addTaskToMyDay(taskId);
     if (!updatedTask) {
@@ -70,6 +116,12 @@ export async function addTaskToMyDay(taskListId: number, taskId: number): Promis
     return true;
 }
 
+/**
+ * Login user with credentials and saves the token into system password management
+ * @param username Username
+ * @param password Password
+ * @returns True if it was successfull
+ */
 export async function login(username: string, password: string): Promise<boolean> {
     const token = await client.login(username, password);
     if (!token) {
@@ -90,6 +142,10 @@ export async function register(username: string, email: string, password: string
     return true;
 }
 
+/**
+ * Checks if user is logged in
+ * @returns True if user if logged in
+ */
 export function isAuthenticated(): boolean {
     return !!client.getBearerToken();
 }
@@ -109,6 +165,32 @@ export async function loadAuthTokenFromKeyTar(): Promise<boolean> {
 export async function logout() {
     await window.electron.ipcRenderer.invoke("delete-auth-token");
     client.setBearerToken(undefined);
+}
+
+export async function moveTask(task: Task, sort: number) {
+    if (task.sort == sort) return;
+    const sourceSort = task.sort;
+    const direction = sort > sourceSort ? "UP" : "DOWN";
+    mutate(`/tasklists/${task.taskListId}/tasks`, (list: Task[]) => {
+        if (!list) return list;
+        return list.map(tsk => {
+            if (tsk.id == task.id) {
+                tsk.sort = sort;
+                return tsk;
+            }
+            if (direction === "UP") {
+                if (tsk.sort >= sourceSort && tsk.sort <= sort) {
+                    tsk.sort = tsk.sort - 1;
+                }
+            } else {
+                if (tsk.sort >= sort && tsk.sort < sourceSort) {
+                    tsk.sort = tsk.sort + 1;
+                }
+            }
+            return tsk;
+        });
+    }, false);
+    await client.setTaskSort(task.taskListId, task.id, sort);
 }
 
 
