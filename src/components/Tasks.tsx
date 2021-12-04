@@ -14,6 +14,8 @@ import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautif
 import { moveTask } from "../data/actions";
 import TaskListView from "../views/TaskListView";
 import SearchBar from "./SearchBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 //TODO: rozclenit na komponenty
 
@@ -48,6 +50,8 @@ const Tasks = (props: TasksProps): ReactElement => {
     const [searchPhrase, setSearchPhrase] = useState("");
 
     const [selected, setSelected] = useState<number>(-1);
+
+    const [showSearchBar, setShowSearchBar] = useState(false);
 
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result;
@@ -97,14 +101,18 @@ const Tasks = (props: TasksProps): ReactElement => {
     return (
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
-                <SearchBar setSearchPhrase={setSearchPhrase} />
+
+                {showSearchBar ? <SearchBar setSearchPhrase={setSearchPhrase} /> : null}
                 <div className="taskNameAndList">
                     <TaskListTitle className="taskTitleRenameBox" displayName={props.taskList.displayName} taskListId={props.taskList.id}></TaskListTitle>
                     <div className="taskMenuList">
                         <button onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>···</button>
                     </div>
                 </div>
-                <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id} editable={!props.taskList.buildIn}/>
+                <div className="taskListSubtitle">
+                    <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id} editable={!props.taskList.buildIn}/>
+                    <FontAwesomeIcon className="showSearchBarIcon" onClick={() => setShowSearchBar(!showSearchBar)} icon={["fas", "search"]} size={"lg"} />
+                </div>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (
@@ -114,7 +122,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                                         {(provided, snapshot) => (
                                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                 <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
-                                                    <TasksBoxes className="taskBox" taskListId={task.taskListId} tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title} ></TasksBoxes>
+                                                    <TasksBoxes className="taskBox" taskListId={task.taskListId} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title} ></TasksBoxes>
                                                 </div>
                                             </div>
                                         )}
@@ -127,7 +135,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                 </DragDropContext>
                 {completedTasks.filter((task) => {return task.title.includes(searchPhrase) ? task : null}).map(task => (
                     <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} >
-                        <TasksBoxes className="taskBoxCompleted" taskListId={task.taskListId} tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title}></TasksBoxes>
+                        <TasksBoxes className="taskBoxCompleted" taskListId={task.taskListId} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title}></TasksBoxes>
                     </div>
                 ))}
                 {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}
