@@ -19,6 +19,7 @@ import { addTaskToMyDay } from "./data/actions"
 import { removeTaskFromMyDay } from "./data/subtask_actions"
 import { handleIpcMessages } from "./ipc/ipcMessagesHandler"
 import Auth from "./components/Auth"
+import Logout from "./views/Logout"
 
 const App = (): ReactElement => {
 
@@ -33,6 +34,7 @@ const App = (): ReactElement => {
                     <Route path="/" element={<Auth><Home /></Auth>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/logout" element={<Logout />} />
                     <Route path="/myday" element={<Auth><MyDay /></Auth>} />
                     <Route path="/important" element={<Auth><Important /></Auth>} />
                     <Route path="/tasklists/:taskListId" element={<Auth><TaskListView /></Auth>} />

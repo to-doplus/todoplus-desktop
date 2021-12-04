@@ -1,23 +1,18 @@
 import React, { ReactElement, useState } from "react";
-import { logout } from "../../data/actions";
 import Divider from "../Divider";
 import BuildInTaskLists from "./BuildInTaskLists";
 import NewTaskListButton from "./NewTaskListButton";
 import TaskListList from "./TaskListList";
-import {history} from "../../store";
-import Settings from "../Settings";
 
-const handleLogout = async () => {
-    await logout()
-    history.push("/login");
-}
+import Settings from "../Settings";
+import LogoutButton from "./LogoutButton";
 
 const Sidebar = () : ReactElement => {
     return (
         <div className="sidebar">
             <div className="sidebar-container">
-                <div>
-                    <div onClick={() => handleLogout()}>Logout</div>
+                <div> {/* Div for separation of body of sidebar and the footer button */}
+                    <LogoutButton />
                     <Settings />
                     <Divider/>
                     <BuildInTaskLists />
