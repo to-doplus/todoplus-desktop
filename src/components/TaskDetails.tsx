@@ -4,35 +4,34 @@
 ** @author: Patrik Skaloš (xskalo01)
 */
 
-import React, { ReactElement, useState } from "react";
+import React, { MouseEvent, ReactElement } from "react";
 import { TaskList, Task, Nullable } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import TaskTitleForm from"./taskdetails/TaskTitleForm";
-import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
+import TaskImporatnceIcon, { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
 import Subtask from "./taskdetails/Subtask";
 import NewSubtaskForm from "./taskdetails/NewSubtaskForm";
 import MyDayButton from "./taskdetails/MyDayButton";
 import DueDateButton from "./taskdetails/DueDateButton";
 import ErrorMessage from "./ErrorMessage";
 import { completeTask, uncompleteTask } from "../../src/data/subtask_actions";
-import { setImportance, deleteTask } from "../data/taskActions";
+import { deleteTask } from "../data/taskActions";
 import { sendIpcMessage } from "../renderer";
 import { deleteTaskConfirmation } from "../ipc/ipcMessages";
 
 /*
 ** TODO:
-** Color of toggled myDay and dueDate needs changing. This is hideous
 ** Error handling
 */
 /*
 ** todo (not urgent):
 ** Changing order of subtasks by dragging
-** A notification of the due date?
 */
 /*
 ** todo if we're bored
-** Print countdown next to due date (if set)
 ** Multiline subtask title support
+** Print countdown next to due date (if set)
+** A notification of the due date? Would need support from backend
 */
 
 export interface TaskDetailsProps {
@@ -54,48 +53,15 @@ const setTaskCompletion = async (taskListId: number, taskId: number, currentStat
   }
   if(!ret){
     console.error("ERROR: Changing status of a task failed.");
-    // setErr(1);
-    // TODO
+    alert("Something went wrong!");
   }
-}
-
-/*
-** Format datetime to locale string
-*/
-const formatTime = (createTime: Nullable<Date>): string => {
-  return new Date(createTime).toLocaleString();
 }
 
 const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
-  const [err, setErr] = useState(0);
-
-  /*
-  ** Change importance of a task
-  */
-  const setTaskImportance = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    let ret;
-    if (props.task.importance === "NORMAL") {
-      ret = await setImportance(props.taskListId, props.task.id, "HIGH");
-    }
-    else if (props.task.importance === "HIGH") {
-      ret = await setImportance(props.taskListId, props.task.id, "NORMAL");
-    }
-    if(!ret){
-      setErr(1);
-      console.error("ERROR: Changing importance of a task failed.");
-    }
-    console.log("Changing the importance of task: " + props.task.id);
-  }
-
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return (
     <div className="taskDetailsMenu" 
@@ -114,9 +80,9 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         {/* Task importance icon */}
         <TaskImporatnceIcon 
             taskImportance={props.task.importance} 
-            color={props.task.importance === "HIGH" ? (props.task.status === "INPROGRESS" ? "goldenrod" : "grey") : "white"}
+            color={getTaskImportanceIconColor(props.task)} 
             className="taskDetailsImportanceIcon" 
-            onClick={(e) => setTaskImportance(e)}/>
+            onClick={(e: MouseEvent) => setTaskImportance(e, props.task)}/>
 
       </div> {/* Task title */}
 
@@ -132,7 +98,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
                 (a, b) => a.sort - b.sort || a.title.localeCompare(b.title)).map((subtask) => {
                   return (
                     <Subtask
-                        taskListId={props.taskListId}
+                        taskListId={props.task.taskListId}
                         task={props.task}
                         subtask={subtask} />
                   );
@@ -141,15 +107,15 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
           </div>
 
           {/* New subtask form */}
-          <NewSubtaskForm taskListId={props.taskListId} task={props.task} />
+          <NewSubtaskForm taskListId={props.task.taskListId} task={props.task} />
 
         </div> {/* Subtasks list and a new subtask form */}
 
         {/* My day button */}
-        <MyDayButton taskListId={props.taskListId} task={props.task} />
+        <MyDayButton taskListId={props.task.taskListId} task={props.task} />
 
         {/* Due date button and form */}
-        <DueDateButton taskListId={props.taskListId} task={props.task} />
+        <DueDateButton taskListId={props.task.taskListId} task={props.task} />
 
       </div> {/* Task subtasks, new subtask form, My day button and Due date form */}
 
@@ -158,7 +124,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
 
         {/* Date created text */}
         <p className="taskDetailsDateCreated">
-          {formatTime(props.task.createTime)}
+          {new Date(props.task.createTime).toLocaleString()}
         </p>
 
         {/* Task delete button */}
