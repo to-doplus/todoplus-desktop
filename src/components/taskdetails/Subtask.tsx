@@ -8,7 +8,6 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { TaskList, Task, SubTask, Nullable } from "../../../lib/models"
 import { deleteSubTask, setSubTaskTitle, completeSubTask, uncompleteSubTask } from "../../../src/data/subtask_actions";
 import TaskCompleteIcon from "./TaskCompleteIcon";
-import ErrorMessage from "../ErrorMessage";
 
 export interface SubtaskProps {
   taskListId: number
@@ -31,7 +30,6 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
   ** States
   */
 
-  const [err, setErr] = useState(0);
   const [title, setTitle] = useState(props.subtask.title);
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     }
     if(!ret){
       console.error("ERROR: Changing status of a subtask failed.");
-      setErr(1);
+      alert("Something went wrong!");
     }
   }
 
@@ -66,7 +64,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
       const ret = await setSubTaskTitle(props.taskListId, props.task.id, props.subtask.id, title);
       if(!ret){
         console.error("ERROR: Changing title of a subtask failed.");
-        setErr(1);
+        alert("Something went wrong!");
       }
     }
   }
@@ -79,17 +77,13 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     const ret = await deleteSubTask(props.taskListId, props.task.id, props.subtask.id);
     if(!ret){
       console.error("ERROR: Deleting a subtask failed.");
-      setErr(1);
+      alert("Something went wrong!");
     }
   }
 
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return (
     <div className="taskDetailsSubtask">
@@ -100,7 +94,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
       {/* Subtask title input form */}
       <form className="taskDetailsSubtaskTitleForm unselectable"
           onSubmit={(e) => {setSubtaskTitle(e); loseFocus()}}>
-        <input type="text" 
+        <input type="text"
             className={`taskDetailsSubtaskTitleInput 
                 ${props.subtask.status === "INPROGRESS" ? 
                   "" : "taskDetailsSubtaskTitleInputCompleted"}`}

@@ -16,13 +16,13 @@
 	position: fixed;
 	width: 60%;
 	left: 20%;
-	height: 80%;
 	top: 10%;
 	background-color: var(--sidebar-bg-color-darkest);
 	border-radius: 25px;
 }
 .settingsMenuTitle{
 	margin: 25px;
+	margin-bottom: 40px;
 	width: calc(100% - 50px);
 }
 .settingsMenuTitleText{
@@ -32,9 +32,26 @@
 .settingsMenuClose{
 	float: right;
 }
+.settingsMenuItems{
+	margin: 25px;
+	margin-bottom: 40px;
+}
+
+.settingsOption{
+	margin-bottom: 25px;
+	margin-left: 15px;
+}
+.settingsOptionName{
+	font-size: 14pt;
+	display: inline;
+}
+.settingsOptionButton{
+	float: right;
+}
 
 .settingsButton,
-.settingsMenuClose{
+.settingsMenuClose,
+.settingsOptionButton{
 	cursor: pointer;
 }
 .settingsMenu{

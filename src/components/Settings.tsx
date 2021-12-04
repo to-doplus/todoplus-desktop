@@ -5,10 +5,15 @@
 */
 
 import React, { ReactElement, useState } from "react";
+import SettingsOption from "./SettingsOption";
 
 const Settings = (): ReactElement => {
 
   const [showSettings, setShowSettings] = useState(false);
+
+  const a = () => {
+    console.log("A");
+  }
 
   /*
   ** Rendering
@@ -30,6 +35,11 @@ const Settings = (): ReactElement => {
                 onClick={() => {setShowSettings(!showSettings)}} >
                 <i className="fas fa-times fa-2x" />
               </div>
+            </div>
+
+            <div className="settingsMenuItems">
+              <SettingsOption title="Display the 'My day' built in list" callback={a} />
+              <SettingsOption title="Display the 'Important' built in list" callback={a} />
             </div>
           </div>
         </div>

@@ -7,7 +7,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { TaskList, Task, Nullable } from "../../../lib/models";
 import { setTitleOfTask } from "../../../src/data/subtask_actions";
-import ErrorMessage from "../ErrorMessage";
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -29,7 +28,6 @@ const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
   ** States
   */
 
-  const [err, setErr] = useState(0);
   const [taskTitle, setTaskTitle] = useState(props.task.title);
 
   // Update state on props change
@@ -47,7 +45,7 @@ const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
       const ret = await setTitleOfTask(props.taskListId, props.task.id, taskTitle);
       if(!ret) {
         console.error("ERROR: Changing title of a task failed.");
-        setErr(1);
+        alert("Something went wrong!");
       }
     }
   }
@@ -55,10 +53,6 @@ const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return(
     <form className="taskDetailsTitleForm unselectable"

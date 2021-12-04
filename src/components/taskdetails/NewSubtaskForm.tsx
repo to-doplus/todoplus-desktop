@@ -7,7 +7,6 @@
 import React, { ReactElement, useState } from "react";
 import { TaskList, Task } from "../../../lib/models";
 import { createNewSubTask } from "../../data/actions";
-import ErrorMessage from "../ErrorMessage";
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -21,7 +20,6 @@ const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
   */
 
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
-  const [err, setErr] = useState(0);
 
   /*
   ** Create a new subtask
@@ -32,7 +30,7 @@ const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
     const ret = await createNewSubTask(props.taskListId, props.task.id, newSubtaskValue);
     if(!ret) {
       console.error("ERROR: Creating a new subtask failed.");
-      setErr(1);
+      alert("Something went wrong!");
     }
     setNewSubtaskValue("");
   }
@@ -40,10 +38,6 @@ const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return (
     <div className="taskDetailsNewSubtask">

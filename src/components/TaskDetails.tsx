@@ -13,7 +13,6 @@ import Subtask from "./taskdetails/Subtask";
 import NewSubtaskForm from "./taskdetails/NewSubtaskForm";
 import MyDayButton from "./taskdetails/MyDayButton";
 import DueDateButton from "./taskdetails/DueDateButton";
-import ErrorMessage from "./ErrorMessage";
 import { completeTask, uncompleteTask } from "../../src/data/subtask_actions";
 import { deleteTask } from "../data/taskActions";
 import { sendIpcMessage } from "../renderer";
@@ -23,16 +22,6 @@ import { deleteTaskConfirmation } from "../ipc/ipcMessages";
 ** TODO:
 ** Error handling
 */
-/*
-** todo (not urgent):
-** Changing order of subtasks by dragging
-*/
-/*
-** todo if we're bored
-** Multiline subtask title support
-** Print countdown next to due date (if set)
-** A notification of the due date? Would need support from backend
-*/
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -40,7 +29,11 @@ export interface TaskDetailsProps {
 }
 
 /*
-** Set the task as completed or in progress based on the previous state
+** @brief Mark the task as completed or in progress based on the previous state
+**
+** @param taskListId: ID of a task list
+** @param taskId: ID of the task
+** @param currentStatus: COMPLETED or INPROGRESS
 */
 const setTaskCompletion = async (taskListId: number, taskId: number, currentStatus: string) => {
   let ret;
