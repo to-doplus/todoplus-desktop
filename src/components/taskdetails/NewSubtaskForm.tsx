@@ -7,13 +7,17 @@
 import React, { ReactElement, useState } from "react";
 import { TaskList, Task } from "../../../lib/models";
 import { createNewSubTask } from "../../data/actions";
-import ErrorMessage from "../ErrorMessage";
 
 export interface TaskDetailsProps {
   taskListId: number
   task: Task
 }
 
+/**
+** A form for a new subtask (a simple input submitted by hitting ENTER)
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
 
   /*
@@ -21,18 +25,18 @@ const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
   */
 
   const [newSubtaskValue, setNewSubtaskValue] = useState("");
-  const [err, setErr] = useState(0);
 
   /*
-  ** Create a new subtask
+  ** @brief Creates a new subtask with a title that the user put in
+  **
+  ** @param e: Form Event
   */
   const newSubtaskSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("Adding a new subtask: " + newSubtaskValue);
     e.preventDefault();
     const ret = await createNewSubTask(props.taskListId, props.task.id, newSubtaskValue);
     if(!ret) {
       console.error("ERROR: Creating a new subtask failed.");
-      setErr(1);
+      alert("Something went wrong!");
     }
     setNewSubtaskValue("");
   }
@@ -40,10 +44,6 @@ const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return (
     <div className="taskDetailsNewSubtask">

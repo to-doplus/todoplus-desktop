@@ -27,14 +27,20 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
         const task = props.tasks.find(tsk => tsk.id == taskId);
         if (!task) return;
 
-        if (taskImportance === "NORMAL") {
+        if (taskImportance === "LOW") {
+            const success = await setImportance(task.taskListId, taskId, "NORMAL");
+            if (!success) {
+                alert("Something went wrong!");
+            }
+        }
+        else if (taskImportance === "NORMAL") {
             const success = await setImportance(task.taskListId, taskId, "HIGH");
             if (!success) {
                 alert("Something went wrong!");
             }
         }
         else if (taskImportance === "HIGH") {
-            const success = await setImportance(task.taskListId, taskId, "NORMAL");
+            const success = await setImportance(task.taskListId, taskId, "LOW");
             if (!success) {
                 alert("Something went wrong!");
             }
@@ -44,17 +50,25 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
     }
 
     const getTaskImportanceIcon = (taskId: number, taskImportance: Importance, taskStatus: TaskStatus): ReactElement => {
-        if (taskStatus == "INPROGRESS") {
-            const color: string = taskImportance === "HIGH" ? "goldenrod" : "white";
-            return (
-                <TaskImporatnceIcon taskImportance={taskImportance} color={color} className="taskImportanceIcon" onClick={(e: MouseEvent) => setTaskImportance(e, taskId, taskImportance)} />
-            )
+      let color;
+      if(taskImportance === "LOW"){
+        color = "white";
+      }
+      if(taskStatus === "INPROGRESS"){
+        if (taskImportance === "NORMAL"){
+          color = "goldenrod";
+        } else if (taskImportance === "HIGH"){
+          color = "darkred";
         }
-        else {
-            return (
-                <TaskImporatnceIcon taskImportance={taskImportance} color="grey" className="taskImportanceIcon" />
-            )
+      }else{
+        if (taskImportance === "NORMAL"){
+          color = "grey";
+        } else if (taskImportance === "HIGH"){
+          color = "black";
         }
+      }
+
+      return <TaskImporatnceIcon taskImportance={taskImportance} color={color} className="taskImportanceIcon" onClick={(e: MouseEvent) => setTaskImportance(e, taskId, taskImportance)} />
     }
 
     const setTaskCompleted = async (e: MouseEvent, taskId: number, taskStatus: string) => {

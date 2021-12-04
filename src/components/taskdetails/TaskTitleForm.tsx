@@ -7,7 +7,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { TaskList, Task, Nullable } from "../../../lib/models";
 import { setTitleOfTask } from "../../../src/data/subtask_actions";
-import ErrorMessage from "../ErrorMessage";
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -15,7 +14,7 @@ export interface TaskDetailsProps {
 }
 
 /*
-** Lose focus after a form is submitted
+** @brief Lose focus of a form after it is submitted
 */
 const loseFocus = () => {
   if(document.activeElement instanceof HTMLElement){
@@ -23,13 +22,17 @@ const loseFocus = () => {
   }
 }
 
+/**
+** A form using which a task is renamed in the task details menu
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
 
   /*
   ** States
   */
 
-  const [err, setErr] = useState(0);
   const [taskTitle, setTaskTitle] = useState(props.task.title);
 
   // Update state on props change
@@ -38,7 +41,9 @@ const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
   }, [props.task.title])
 
   /*
-  ** Submit the new task title
+  ** @brief Submit the new task title
+  **
+  ** @param e: Form event
   */
   const submitTaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,7 +52,7 @@ const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
       const ret = await setTitleOfTask(props.taskListId, props.task.id, taskTitle);
       if(!ret) {
         console.error("ERROR: Changing title of a task failed.");
-        setErr(1);
+        alert("Something went wrong!");
       }
     }
   }
@@ -55,10 +60,6 @@ const TaskTitleForm = (props: TaskDetailsProps): ReactElement => {
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return(
     <form className="taskDetailsTitleForm unselectable"

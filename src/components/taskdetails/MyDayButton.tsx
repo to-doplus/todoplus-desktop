@@ -8,23 +8,22 @@ import React, { ReactElement, useState } from "react";
 import { TaskList, Task } from "../../../lib/models";
 import { removeTaskFromMyDay } from "../../../src/data/subtask_actions";
 import { addTaskToMyDay } from "../../data/actions";
-import ErrorMessage from "../ErrorMessage";
 
 export interface TaskDetailsProps {
   taskListId: number
   task: Task
 }
 
+/**
+** A button for adding or removing a task from my day displayed in task details
+** menu
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const MyDayButton = (props: TaskDetailsProps): ReactElement => {
 
   /*
-  ** States
-  */
-
-  const [err, setErr] = useState(0);
-
-  /*
-  ** Add to my day or remove from it
+  ** @brief Adds to my day or removes from it
   */
   const changeMyDay = async () => {
     let ret;
@@ -37,17 +36,13 @@ const MyDayButton = (props: TaskDetailsProps): ReactElement => {
     }
     if(!ret) {
       console.error("ERROR: Adding or removing a task from My day failed.");
-      setErr(1);
+      alert("Something went wrong!");
     }
   }
 
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return (
     <div className={`taskDetailsMyDay ${props.task.myDay ? "myDayToggle" : ""}`}

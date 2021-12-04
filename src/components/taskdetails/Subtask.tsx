@@ -8,7 +8,6 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { TaskList, Task, SubTask, Nullable } from "../../../lib/models"
 import { deleteSubTask, setSubTaskTitle, completeSubTask, uncompleteSubTask } from "../../../src/data/subtask_actions";
 import TaskCompleteIcon from "./TaskCompleteIcon";
-import ErrorMessage from "../ErrorMessage";
 
 export interface SubtaskProps {
   taskListId: number
@@ -17,7 +16,7 @@ export interface SubtaskProps {
 }
 
 /*
-** Lose focus after a form is submitted
+** @brief Lose focus of a form after it is submitted
 */
 const loseFocus = () => {
   if(document.activeElement instanceof HTMLElement){  
@@ -25,13 +24,19 @@ const loseFocus = () => {
   }
 }
 
+/**
+** A subtask displayed in task details menu consisting of a title, a 'complete'
+** button which marks the subtask as completed or in progress and a 'delete'
+** button
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const Subtask = (props: SubtaskProps) : ReactElement => {
 
   /*
   ** States
   */
 
-  const [err, setErr] = useState(0);
   const [title, setTitle] = useState(props.subtask.title);
 
   useEffect(() => {
@@ -39,7 +44,8 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
   }, [props.subtask.title])
 
   /*
-  ** Set subtask as completed or in progress (based on the previous state)
+  ** @brief Set subtask as completed or in progress (based on the previous 
+  ** state)
   */
   const setSubtaskCompletion = async () => {
     let ret;
@@ -52,12 +58,14 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
     }
     if(!ret){
       console.error("ERROR: Changing status of a subtask failed.");
-      setErr(1);
+      alert("Something went wrong!");
     }
   }
 
   /*
-  ** Set the subtask title
+  ** @brief Set a new subtask title
+  **
+  ** @param e: Form event
   */
   const setSubtaskTitle = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,30 +74,26 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
       const ret = await setSubTaskTitle(props.taskListId, props.task.id, props.subtask.id, title);
       if(!ret){
         console.error("ERROR: Changing title of a subtask failed.");
-        setErr(1);
+        alert("Something went wrong!");
       }
     }
   }
 
   /*
-  ** Delete the subtask
+  ** @brief Delete the subtask
   */
   const deleteSubtask = async () => {
     console.log("Deleting a subtask. Id: " + props.subtask.id);
     const ret = await deleteSubTask(props.taskListId, props.task.id, props.subtask.id);
     if(!ret){
       console.error("ERROR: Deleting a subtask failed.");
-      setErr(1);
+      alert("Something went wrong!");
     }
   }
 
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return (
     <div className="taskDetailsSubtask">
@@ -100,7 +104,7 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
       {/* Subtask title input form */}
       <form className="taskDetailsSubtaskTitleForm unselectable"
           onSubmit={(e) => {setSubtaskTitle(e); loseFocus()}}>
-        <input type="text" 
+        <input type="text"
             className={`taskDetailsSubtaskTitleInput 
                 ${props.subtask.status === "INPROGRESS" ? 
                   "" : "taskDetailsSubtaskTitleInputCompleted"}`}

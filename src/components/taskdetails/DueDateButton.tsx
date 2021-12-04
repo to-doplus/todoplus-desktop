@@ -8,8 +8,6 @@ import React, { ReactElement, useState } from "react";
 import { Task } from "../../../lib/models"
 import { setTaskDue } from "../../data/taskActions";
 import TextField from '@mui/material/TextField';
-import ErrorMessage from "../ErrorMessage";
-
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -17,8 +15,10 @@ export interface TaskDetailsProps {
 }
 
 /*
-** Returns a string representing date and time in format YYYY-MM-DDT09:00
-** Yes, the time is fixed to 9:00
+** @brief Returns a string representing date and time in format YYYY-MM-DDT09:00
+** (the time is fixed to 9:00)
+**
+** @return initial due date
 */
 const getInitialDueDate = () : string => {
   const date = new Date();
@@ -30,6 +30,12 @@ const getInitialDueDate = () : string => {
   return year + "-" + month + "-" + day + "T09:00";
 }
 
+/**
+** A button (and a form which appears after clicking on it) for the due date
+** setting displayed in the task details menu
+**
+** @author Patrik Skaloš (xskalo01)
+*/
 const DueDateButton = (props: TaskDetailsProps): ReactElement => {
 
   /*
@@ -38,10 +44,9 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
 
   const [showDueDate, setShowDueDate] = useState(props.task.dueTime === null ? false : true);
   const [newDueDateValue, setNewDueDateValue] = useState(props.task.dueTime === null ? "" : props.task.dueTime);
-  const [err, setErr] = useState(0);
 
   /*
-  ** Show (and initialize) or hide the due date setting
+  ** @brief Show (and initialize) or hide the due date setting
   */
   const toggleShowDueDate = async () => {
     let date = null;
@@ -53,9 +58,10 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
   }
 
   /*
-  ** Get the actual due date setting
+  ** @brief Get the actual due date setting
   **
-  ** Returns date of tomorrow 09:00 if not set yet
+  ** @return date of tomorrow 09:00 if not set yet, actual due date setting
+  ** otherwise
   */
   const getDueDateSetting = () : string => {
     // no due date value set yet - generate string for next day 09:00
@@ -82,8 +88,10 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
   }
 
   /*
-  ** Set the due date (receives a string, if it is not a null, parses it and
-  ** sends it to setTaskDue as a parameter, otherwise sends null)
+  ** @brief Set the due date (receives a string, if it is not a null, parses it 
+  ** and sends it to setTaskDue as a parameter, otherwise sends null)
+  **
+  ** @param inputDate: string representing the date the user has put in
   */
   const setDueDate = async (inputDate: string) => {
     let date = null;
@@ -94,17 +102,13 @@ const DueDateButton = (props: TaskDetailsProps): ReactElement => {
     const ret = await setTaskDue(props.taskListId, props.task.id, date);
     if(!ret){
       console.error("ERROR: Changing due date of a task failed.");
-      setErr(1);
+      alert("Something went wrong!");
     }
   }
 
   /*
   ** Rendering
   */
-
-  if(err){
-    return <ErrorMessage />;
-  }
 
   return (
     <div className={`taskDetailsDueDate ${showDueDate ? "dueDateToggle" : ""}`}>
