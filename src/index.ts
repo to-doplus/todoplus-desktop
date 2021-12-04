@@ -15,6 +15,7 @@ app.setName("To-Do Plus");
 
 const isMac = process.platform === 'darwin'
 
+// Application menu for macOS
 const menu: Menu = new Menu();
 let menuIndex = 0;
 if (isMac) {
@@ -34,18 +35,16 @@ if (isMac) {
       ]
     }
   ));
-}
 
-menu.insert(menuIndex++, new MenuItem(
-  {
-    label: 'File',
-    submenu: [
-      isMac ? { role: 'close' } : { role: 'quit' }
-    ]
-  }
-));
+  menu.insert(menuIndex++, new MenuItem(
+    {
+      label: 'File',
+      submenu: [
+        isMac ? { role: 'close' } : { role: 'quit' }
+      ]
+    }
+  ));
 
-if (isMac) {
   menu.insert(menuIndex++, new MenuItem(
     {
       label: 'Edit',
@@ -67,23 +66,6 @@ if (isMac) {
             { role: 'stopSpeaking' }
           ]
         }
-      ]
-    }
-  ));
-} else {
-  menu.insert(menuIndex++, new MenuItem(
-    {
-      label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'delete' },
-        { type: 'separator' },
-        { role: 'selectAll' }
       ]
     }
   ));
