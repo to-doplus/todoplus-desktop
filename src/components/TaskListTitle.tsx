@@ -43,6 +43,7 @@ const TaskListTitle = (props: TaskListTitleProps): ReactElement => {
                     onSubmit={(e) => { renameTaskList(e); loseFocus() }}>
                     <input type="text"
                         required value={taskListName}
+                        spellCheck="false"
                         onChange={(e) => { setTaskTitle(e.target.value) }} ></input>
                 </form>
             </div>

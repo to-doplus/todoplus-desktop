@@ -47,6 +47,7 @@ const InputContainer = (props: InputContainerProps): ReactElement => {
                     name="taskName"
                     className="taskAddTask"
                     placeholder="Add task..."
+                    spellCheck="false"
                     {...bindName}
                     onChange={(e) => { setName(e.target.value) }}
                 >

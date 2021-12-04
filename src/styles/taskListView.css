@@ -28,19 +28,17 @@
 
 /* Added by tedro: */
 .taskListSubtitle{
-	margin-bottom: 25px;
-}
-.taskListDescription{
-	display: inline;
+	display: flex;
+	justify-content: space-between;
 }
 .showSearchBarIcon{
 	cursor: pointer;
-	margin: 0px 21px;
-	float: right;
+	margin: 15px 15px 0px 0px;
 }
 .showSearchBarIcon:hover{
 	color: var(--sidebar-bg-color);
 }
+
 .searchBar{
 	background-color: rgba(41, 50, 73, 0.6);
 	height: 30px;
@@ -223,7 +221,8 @@
 	width: 100%;
 }
 
-.taskListPage .taskNameAndList .taskTitleRenameBox .taskFormBox{
+.taskListPage .taskNameAndList .taskTitleRenameBox .taskFormBox,
+.taskListPage .taskTitleRenameBox .taskFormBox {
 	width: fit-content;
 	align-items: stretch;
 	width: 100%;
@@ -239,6 +238,22 @@
 	margin-top: 20px;
 	outline: none;
 	width: 100%;
+}
+
+.taskListPage .taskTitleRenameBox .taskFormBox input{
+	color: white;
+	background-color: rgba(41, 50, 73, 0.0);
+	border: none;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 1.33em;
+	margin-top: 1em;
+	outline: none;
+	width: 100%;
+}
+
+.taskListPage .taskTitleRenameBox .taskFormBox input::placeholder{
+	color: white;
 }
 
 

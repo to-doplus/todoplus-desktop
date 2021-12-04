@@ -3,6 +3,7 @@ import { Task, TaskList } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 import TaskListTitle from "./TaskListTitle";
+import TaskListDescription from "./TaskListDescription";
 import CenterWrapper from "./CenterWrapper";
 import Loading from "./Loading";
 import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../ipc/ipcMessages";
@@ -109,7 +110,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                     </div>
                 </div>
                 <div className="taskListSubtitle">
-                    <h4 className="taskListDescription">{props.taskList.description}</h4>
+                    <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id}/>
                     <FontAwesomeIcon className="showSearchBarIcon" onClick={() => setShowSearchBar(!showSearchBar)} icon={["fas", "search"]} size={"lg"} />
                 </div>
                 <DragDropContext onDragEnd={onDragEnd}>

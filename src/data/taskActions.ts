@@ -49,9 +49,19 @@ export async function setTaskDue(taskListId: number, taskId: number, date: Nulla
     return true;
 }
 
-//nastavi task title
+//nastavi task list title
 export async function setTaskListTitle(taskListId: number, title: string): Promise<boolean> {
     const updatedTaskList = await client.setTaskListTitle(taskListId, title);
+    if (!updatedTaskList) {
+        return false;
+    }
+    mutate(`/tasklists`, (list: TaskList[]) => [...!list ? [] : list.filter(tskList => tskList.id !== taskListId), updatedTaskList], false);
+    return true;
+}
+
+//nastavi task list description
+export async function setTaskListDescription(taskListId: number, description: string): Promise<boolean> {
+    const updatedTaskList = await client.setTaskListDescription(taskListId, description);
     if (!updatedTaskList) {
         return false;
     }
