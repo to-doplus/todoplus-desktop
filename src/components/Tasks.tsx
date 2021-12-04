@@ -52,7 +52,7 @@ const Tasks = (props: TasksProps): ReactElement => {
     const [searchPhrase, setSearchPhrase] = useState("");
 
     const [selected, setSelected] = useState<number>(-1);
-    
+
     const [showCompletedTasks, setShowCompletedTasks] = useState(false);
 
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -107,8 +107,8 @@ const Tasks = (props: TasksProps): ReactElement => {
         return <div>Error??</div>
     }
 
-    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime());
-    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort);
+    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime()).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) ? task : null });
+    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) ? task : null });
     const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
 
     return (
@@ -130,7 +130,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (
                             <div className="sortedTasks" {...provided.droppableProps} ref={provided.innerRef}>
-                                {progressTasks.filter((task) => { return task.title.includes(searchPhrase) ? task : null }).sort((a, b) => a.sort - b.sort).map((task, index) => (
+                                {progressTasks.map((task, index) => (
                                     <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                                         {(provided, snapshot) => (
                                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
@@ -146,7 +146,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         )}
                     </Droppable>
                 </DragDropContext>
-                {showCompletedTasks? <ShowCompletedTasks completedTasks={completedTasks} /> : null}
+                {showCompletedTasks? <ShowCompletedTasks completedTasks={completedTasks} select={select}/> : null}
                 {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}
             </div>
             {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={selectedTask.taskListId} task={selectedTask} /> : <Fragment />}
