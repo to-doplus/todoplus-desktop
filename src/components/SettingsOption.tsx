@@ -13,7 +13,17 @@ export interface SettingsOptionProps{
   init: boolean;
 }
 
+/**
+** A setting - one line from the settings menu consisting of some text and a
+** checkbox to enable/disable the setting
+**
+** @author: Patrik Skaloš (xskalo01)
+*/
 const SettingsOption = (props: SettingsOptionProps): ReactElement => {
+
+  /*
+  ** States
+  */
 
   const [toggled, setToggled] = useState(props.init);
 

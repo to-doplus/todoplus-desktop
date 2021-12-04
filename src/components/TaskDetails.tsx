@@ -18,11 +18,6 @@ import { deleteTask } from "../data/taskActions";
 import { sendIpcMessage } from "../renderer";
 import { deleteTaskConfirmation } from "../ipc/ipcMessages";
 
-/*
-** TODO:
-** Error handling
-*/
-
 export interface TaskDetailsProps {
   taskListId: number
   task: Task
