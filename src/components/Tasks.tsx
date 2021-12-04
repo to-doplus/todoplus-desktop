@@ -113,7 +113,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                                         {(provided, snapshot) => (
                                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                 <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
-                                                    <TasksBoxes className="taskBox" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title} ></TasksBoxes>
+                                                    <TasksBoxes className="taskBox" taskListId={task.taskListId} tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title} ></TasksBoxes>
                                                 </div>
                                             </div>
                                         )}
@@ -126,7 +126,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                 </DragDropContext>
                 {completedTasks.filter((task) => {return task.title.includes(searchPhrase) ? task : null}).map(task => (
                     <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} >
-                        <TasksBoxes className="taskBoxCompleted" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title}></TasksBoxes>
+                        <TasksBoxes className="taskBoxCompleted" taskListId={task.taskListId} tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title}></TasksBoxes>
                     </div>
                 ))}
                 {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}

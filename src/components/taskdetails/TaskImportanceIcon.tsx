@@ -52,17 +52,18 @@ export const setTaskImportance = async (e: MouseEvent, task: Task) => {
 ** @return string represeting a color
 */
 export const getTaskImportanceIconColor = (task: Task) : string => {
-  if(task.importance === "LOW"){
-    return "white";
-  }
   if(task.status === "INPROGRESS"){
-    if (task.importance === "NORMAL"){
+    if(task.importance === "LOW"){
+      return "white";
+    } else if (task.importance === "NORMAL"){
       return "goldenrod";
     } else if (task.importance === "HIGH"){
       return "darkred";
     }
   }else{
-    if (task.importance === "NORMAL"){
+    if(task.importance === "LOW"){
+      return "grey";
+    } else if (task.importance === "NORMAL"){
       return "grey";
     } else if (task.importance === "HIGH"){
       return "black";

@@ -93,7 +93,7 @@
 	padding: 10px 10px;
 	border-radius: 10px;
 	justify-content: left;
-  	align-items: center;
+	align-items: center;
 }
 
 .taskBoxCompleted{
@@ -105,7 +105,7 @@
 	padding: 10px 10px;
 	border-radius: 10px;
 	justify-content: left;
-  	align-items: center;
+	align-items: center;
 	color: var(--sidebar-text-color-darkest);
 }
 
@@ -127,9 +127,35 @@
 	font-size: 16px;
 }
 
-.taskBoxCompleted .buttonSetImportance,
-.taskBox .buttonSetImportance{
+.taskBoxCompleted,
+.taskBox,
+.taskButtons{
 	margin-left: auto;
+}
+
+.taskButtons{
+	display: flex;
+}
+
+.buttonSetImportance{
+	padding: 5px;
+}
+
+/* Added by tedro */
+.buttonMyDay{
+	height: 100%;
+	margin-top: 1px;
+	cursor: pointer;
+	float: left;
+	left: 0;
+	margin-right: 10px;
+	padding: 5px;
+}
+.buttonMyDayToggle{
+	background-color: var(--sidebar-bg-toggle-color-lighter); 
+	border-radius: 5px;
+}
+.buttonMyDayIcon{
 }
 
 .taskBoxCompleted  .buttonSetImportance .taskImportanceIcon,
@@ -143,7 +169,7 @@
 
 .taskListViewBg .inputContainer{
 	display: flex;              
-    bottom:0; 
+	bottom:0; 
 	margin-bottom: 10px;
 	width: auto;
 	height: 25px;
