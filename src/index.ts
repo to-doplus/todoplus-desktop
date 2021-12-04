@@ -16,9 +16,9 @@ app.setName("To-Do Plus");
 const isMac = process.platform === 'darwin'
 
 const menu: Menu = new Menu();
-
+let menuIndex = 0;
 if (isMac) {
-  menu.insert(0, new MenuItem(
+  menu.insert(menuIndex++, new MenuItem(
     {
       label: app.name,
       submenu: [
@@ -36,7 +36,7 @@ if (isMac) {
   ));
 }
 
-menu.insert(1, new MenuItem(
+menu.insert(menuIndex++, new MenuItem(
   {
     label: 'File',
     submenu: [
@@ -46,7 +46,7 @@ menu.insert(1, new MenuItem(
 ));
 
 if (isMac) {
-  menu.insert(2, new MenuItem(
+  menu.insert(menuIndex++, new MenuItem(
     {
       label: 'Edit',
       submenu: [
@@ -57,21 +57,21 @@ if (isMac) {
         { role: 'copy' },
         { role: 'paste' },
         { role: 'pasteAndMatchStyle' },
-          { role: 'delete' },
-          { role: 'selectAll' },
-          { type: 'separator' },
-          {
-            label: 'Speech',
-            submenu: [
-              { role: 'startSpeaking' },
-              { role: 'stopSpeaking' }
-            ]
-          }
+        { role: 'delete' },
+        { role: 'selectAll' },
+        { type: 'separator' },
+        {
+          label: 'Speech',
+          submenu: [
+            { role: 'startSpeaking' },
+            { role: 'stopSpeaking' }
+          ]
+        }
       ]
     }
   ));
 } else {
-  menu.insert(2, new MenuItem(
+  menu.insert(menuIndex++, new MenuItem(
     {
       label: 'Edit',
       submenu: [
