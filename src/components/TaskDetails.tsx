@@ -8,7 +8,7 @@ import React, { MouseEvent, ReactElement } from "react";
 import { TaskList, Task, Nullable } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import TaskTitleForm from"./taskdetails/TaskTitleForm";
-import TaskImporatnceIcon, { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
+import TaskImportanceIcon, { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
 import Subtask from "./taskdetails/Subtask";
 import NewSubtaskForm from "./taskdetails/NewSubtaskForm";
 import MyDayButton from "./taskdetails/MyDayButton";
@@ -77,7 +77,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         <TaskTitleForm taskListId={props.taskListId} task={props.task} />
 
         {/* Task importance icon */}
-        <TaskImporatnceIcon 
+        <TaskImportanceIcon 
             taskImportance={props.task.importance} 
             color={getTaskImportanceIconColor(props.task)} 
             className="taskDetailsImportanceIcon" 

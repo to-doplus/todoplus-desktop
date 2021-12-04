@@ -11,7 +11,7 @@ import TasksBoxes from "./TasksBoxes"
 export interface ShowCompletedTasks {
     className?: string,
     completedTasks: Task[],
-    onClick?: MouseEventHandler<HTMLDivElement>;
+    onClick?: MouseEventHandler<HTMLDivElement>,
     select: (e: MouseEvent, taskId: number) => void
 }
 
@@ -22,7 +22,7 @@ const ShowCompletedTasks = (props: ShowCompletedTasks): ReactElement => {
             {
                 props.completedTasks.map(task => (
                     <div key={task.id} onClick={(e) => { props.select(e, task.id) }} >
-                        <TasksBoxes className="taskBoxCompleted" taskListId={task.taskListId} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title}></TasksBoxes>
+                        <TasksBoxes className="taskBoxCompleted" task={task}></TasksBoxes>
                     </div>
                 ))
             }

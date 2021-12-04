@@ -135,7 +135,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                                         {(provided, snapshot) => (
                                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                 <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
-                                                    <TasksBoxes className="taskBox" taskListId={task.taskListId} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskMyDay={task.myDay} taskTitle={task.title} ></TasksBoxes>
+                                                    <TasksBoxes className="taskBox" task={task} />
                                                 </div>
                                             </div>
                                         )}
