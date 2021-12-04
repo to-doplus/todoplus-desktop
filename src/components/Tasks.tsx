@@ -9,6 +9,7 @@ import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../ipc/i
 import { sendIpcMessage } from "../renderer";
 import TasksBoxes from "./TasksBoxes"
 import InputContainer from "./InputContainer";
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 
 //TODO: rozclenit na komponenty
 
@@ -31,9 +32,27 @@ const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
     sendIpcMessage(window.electron.ipcRenderer, openTaskPropsMenuMessage(task));
 }
 
+const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
+    ...draggableStyle
+})
+
 const Tasks = (props: TasksProps): ReactElement => {
     const [selected, setSelected] = useState<number>(-1);
 
+    const [sortedTasks, setSortedTasks] = useState(props.tasks);
+
+    const onDragEnd = (result: DropResult) => {
+        const { source, destination } = result;
+        if (!destination) {
+            return;
+        }
+
+        const items = Array.from(sortedTasks);
+        const [newOrder] = items.splice(source.index, 1);
+        items.splice(destination.index, 0, newOrder);
+
+        setSortedTasks(items);
+    }
 
     //TODO Nějakej state, podle čeho budeme řadit
 
@@ -80,15 +99,29 @@ const Tasks = (props: TasksProps): ReactElement => {
                     </div>
                 </div>
                 <h4>{props.taskList.description}</h4>
-                {progressTasks.map(task => (
-                <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
-                <TasksBoxes className="taskBox" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title} ></TasksBoxes>
-                </div>
-                ))}
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="sortedTasks">
+                        {(provided) => (
+                            <div className="sortedTasks" {...provided.droppableProps} ref={provided.innerRef}>
+                                {progressTasks.map((task, index) => (
+                                    <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
+                                        {(provided, snapshot) => (
+                                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                                                <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
+                                                    <TasksBoxes className="taskBox" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title} ></TasksBoxes>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
                 {completedTasks.map(task => (
                     <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} >
-                <TasksBoxes className="taskBoxCompleted" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title}></TasksBoxes>
-                </div>
+                        <TasksBoxes className="taskBoxCompleted" tasks={props.tasks} taskId={task.id} taskStatus={task.status} taskImportance={task.importance} taskTitle={task.title}></TasksBoxes>
+                    </div>
                 ))}
                 {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}
             </div>
