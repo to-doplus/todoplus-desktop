@@ -36,7 +36,7 @@ export interface Task extends Entity {
     title: string, /** Title of the task */
     status: TaskStatus, /** Status of the task */
     taskListId: number, /** Id of the tasklist that contains this task */
-    createTime: Nullable<Date>, /** Time when the task was created */
+    createTime: Nullable<Date>, /** Time when the task was created */
     dueTime: Nullable<Date>, /** Due of the task */
     completeTime: Nullable<Date>, /** Time when the task was completed. It is null if it still in progress */
     importance: Importance, /** Importance of the task */
