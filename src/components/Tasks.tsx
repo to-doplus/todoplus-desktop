@@ -104,7 +104,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         <button onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>···</button>
                     </div>
                 </div>
-                <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id}/>
+                <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id} editable={!props.taskList.buildIn}/>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (

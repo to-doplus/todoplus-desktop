@@ -55,7 +55,7 @@ export async function setTaskListTitle(taskListId: number, title: string): Promi
     if (!updatedTaskList) {
         return false;
     }
-    mutate(`/tasklists`, (list: TaskList[]) => [...!list ? [] : list.filter(tskList => tskList.id !== taskListId), updatedTaskList], false);
+    mutate(`/tasklists`, (list: TaskList[]) => [...(!list ? list : list.filter(tskList => tskList.id !== taskListId)), updatedTaskList], false);
     return true;
 }
 
@@ -65,6 +65,15 @@ export async function setTaskListDescription(taskListId: number, description: st
     if (!updatedTaskList) {
         return false;
     }
-    mutate(`/tasklists`, (list: TaskList[]) => [...!list ? [] : list.filter(tskList => tskList.id !== taskListId), updatedTaskList], false);
+    mutate(`/tasklists`, (list: TaskList[]) => [...(!list ? list : list.filter(tskList => tskList.id !== taskListId)), updatedTaskList], false);
+    return true;
+}
+
+export async function setTaskListColor(taskListId: number, color: string) {
+    const updatedTaskList = await client.setTaskListColor(taskListId, color);
+    if (!updatedTaskList) {
+        return false;
+    }
+    mutate(`/tasklists`, (list: TaskList[]) => [...(!list ? list : list.filter(tskList => tskList.id !== taskListId)), updatedTaskList], false);
     return true;
 }
