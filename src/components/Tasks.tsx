@@ -13,6 +13,8 @@ import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautif
 import { moveTask } from "../data/actions";
 import TaskListView from "../views/TaskListView";
 import SearchBar from "./SearchBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 //TODO: rozclenit na komponenty
 
@@ -47,6 +49,8 @@ const Tasks = (props: TasksProps): ReactElement => {
     const [searchPhrase, setSearchPhrase] = useState("");
 
     const [selected, setSelected] = useState<number>(-1);
+
+    const [showSearchBar, setShowSearchBar] = useState(false);
 
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result;
@@ -96,14 +100,18 @@ const Tasks = (props: TasksProps): ReactElement => {
     return (
         <div className="taskListLayout">
             <div className="taskListPage" onClick={(e: MouseEvent) => { select(e, -1) }}>
-                <SearchBar setSearchPhrase={setSearchPhrase} />
+
+                {showSearchBar ? <SearchBar setSearchPhrase={setSearchPhrase} /> : null}
                 <div className="taskNameAndList">
                     <TaskListTitle className="taskTitleRenameBox" displayName={props.taskList.displayName} taskListId={props.taskList.id}></TaskListTitle>
                     <div className="taskMenuList">
                         <button onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>···</button>
                     </div>
                 </div>
-                <h4>{props.taskList.description}</h4>
+                <div className="taskListSubtitle">
+                    <h4 className="taskListDescription">{props.taskList.description}</h4>
+                    <FontAwesomeIcon className="showSearchBarIcon" onClick={() => setShowSearchBar(!showSearchBar)} icon={["fas", "search"]} size={"lg"} />
+                </div>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (
