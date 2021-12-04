@@ -25,7 +25,8 @@ const Important = (): ReactElement => {
         id: -1, 
         displayName: "Important",
         description: "The most important tasks from your lists.",
-        color: "#FFFFFF"
+        color: "#FFFFFF",
+        buildIn: true
     }
 
     return (

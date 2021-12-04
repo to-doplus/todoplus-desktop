@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import CenterWrapper from "../components/CenterWrapper";
 import Loading from "../components/Loading";
-import { isAuthenticated, loadAuthTokenFromKeyTar, register } from "../data/actions";
+import { isAuthenticated, loadAuthTokenFromKeyTar, register } from "../data/user_actions";
 import { useInput } from "../hooks/input";
 import { history } from "../store"
 

@@ -6,13 +6,10 @@ import Button from "./Button";
 import { useInput } from "../hooks/input";
 
 
-
 export interface InputContainerProps {
     className: string,
     taskListId: number,
 }
-
-
 
 const InputContainer = (props: InputContainerProps): ReactElement => {
 

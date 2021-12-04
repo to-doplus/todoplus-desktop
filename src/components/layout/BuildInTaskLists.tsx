@@ -1,11 +1,17 @@
-import React, {Fragment, ReactElement} from "react"
+import React, { Fragment, ReactElement } from "react"
+import { useSettings } from "../../data/hooks";
 import TaskListRow from "./TaskListRow";
 
-const BuildInTaskLists = () : ReactElement => {
+const BuildInTaskLists = (): ReactElement => {
+    const { isLoading, isError, data: settings } = useSettings();
+    if (isLoading || isError) {
+        return <div></div>
+    }
+
     return (
         <div>
-            <TaskListRow displayName="My day" color="#AAAAA" taskListId={-1} url="/myday" icon="far fa-sun" />
-            <TaskListRow displayName="Important" color="#c83741" taskListId={-1} url="/important" icon="far fa-star"/>
+            {settings.myDayEnabled ? <TaskListRow displayName="My day" color="#AAAAA" taskListId={-1} url="/myday" icon="far fa-sun" /> : <Fragment />}
+            {settings.importantEnabled ? <TaskListRow displayName="Important" color="#c83741" taskListId={-1} url="/important" icon="far fa-star" /> : <Fragment />}
         </div>
     )
 }

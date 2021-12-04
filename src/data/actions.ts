@@ -116,60 +116,6 @@ export async function addTaskToMyDay(taskListId: number, taskId: number): Promis
     return true;
 }
 
-/**
- * Login user with credentials and saves the token into system password management
- * @param username Username
- * @param password Password
- * @returns True if it was successfull
- */
-export async function login(username: string, password: string): Promise<boolean> {
-    const token = await client.login(username, password);
-    if (!token) {
-        //Error
-        return false;
-    }
-    window.electron.ipcRenderer.send("set-auth-token", token);
-    return true;
-}
-
-export async function register(username: string, email: string, password: string): Promise<boolean> {
-    const token = await client.registerAndLogin(username, email, password);
-    if (!token) {
-        //Error
-        return false;
-    }
-    window.electron.ipcRenderer.send("set-auth-token", token);
-    return true;
-}
-
-/**
- * Checks if user is logged in
- * @returns True if user if logged in
- */
-export function isAuthenticated(): boolean {
-    return !!client.getBearerToken();
-}
-
-export async function loadAuthTokenFromKeyTar(): Promise<boolean> {
-    const token = await window.electron.ipcRenderer.invoke("get-auth-token");
-    console.log("Token z keytaru:")
-    console.log(token);
-    if (!token) {
-        console.log("Returning false");
-        return false
-    }
-    client.setBearerToken(token);
-    return true;
-}
-
-export async function logout() {
-    await window.electron.ipcRenderer.invoke("delete-auth-token");
-    client.setBearerToken(undefined);
-    mutate("/taskslists")
-    mutate("/tasklists/c/myday/tasks")
-    mutate("/tasklists/c/important/tasks")
-}
-
 export async function moveTask(task: Task, sort: number) {
     if (task.sort == sort) return;
     const sourceSort = task.sort;
@@ -195,5 +141,3 @@ export async function moveTask(task: Task, sort: number) {
     }, false);
     await client.setTaskSort(task.taskListId, task.id, sort);
 }
-
-

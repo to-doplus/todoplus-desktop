@@ -28,7 +28,9 @@ const MyDay = (): ReactElement => {
         id: -1, 
         displayName: "My day",
         description: today,
-        color: "#FFFFFF"
+        color: "#FFFFFF",
+        buildIn: true
+        
     }
     return (
         <Layout backgroundClass="taskListViewBg">

@@ -3,10 +3,11 @@
 // @author Miroslav Safar (xsafar23)
 
 import useSWR from "swr";
-import { TaskList, Task } from "../../lib/models";
+import { TaskList, Task, UserSettings } from "../../lib/models";
 import { Response } from "../../lib/todo-client";
-import { logout } from "./actions";
+import { logout } from "./user_actions";
 import client from "./client";
+import {history} from "../store"
 
 export interface AsyncDataProps<T> {
     isLoading: boolean,
@@ -18,7 +19,7 @@ function useAsyncData<T>(query: string): AsyncDataProps<T> {
     const { data, error } = useSWR<T & Response>(query, (query) => client.query<T & Response>(query));
     if(data && data.status === 401) {
         console.log("Invalid authorization token");
-        logout();
+        history.push("/logout");
         return {
             data: data,
             isLoading: false,
@@ -47,4 +48,8 @@ export function useMyDayTasks(): AsyncDataProps<Task[]> {
 
 export function useImportantTasks(): AsyncDataProps<Task[]> {
     return useAsyncData<Task[]>(`/tasklists/c/important/tasks`);
+}
+
+export function useSettings(): AsyncDataProps<UserSettings> {
+    return useAsyncData<UserSettings>('/users/settings')
 }

@@ -2,7 +2,7 @@
 // todo-client.ts
 // @author Miroslav Safar (xsafar23)
 
-import { Task, TaskList, Importance, Nullable } from "./models";
+import { Task, TaskList, Importance, Nullable, UserSettings } from "./models";
 
 export interface Response {
     status: number
@@ -47,4 +47,8 @@ export interface ToDoListClient {
     getMyDayTasks(): Promise<Task[]>;
     addTaskToMyDay(taskId: number): Promise<Task>;
     removeTaskFromMyDay(taskId: number) : Promise<Task>;
+
+    getSettings(): Promise<UserSettings>;
+    setMyDayEnabled(value: boolean): Promise<UserSettings>;
+    setImportantEnabled(value: boolean): Promise<UserSettings>;
 }

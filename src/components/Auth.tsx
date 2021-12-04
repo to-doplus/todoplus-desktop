@@ -1,6 +1,6 @@
 import React, { Fragment, ReactElement, ReactNode, useEffect } from "react"
 import { Navigate } from "react-router-dom";
-import { isAuthenticated } from "../data/actions";
+import { isAuthenticated } from "../data/user_actions";
 
 export interface AuthProps {
     children?: ReactNode

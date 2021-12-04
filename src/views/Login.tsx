@@ -4,7 +4,7 @@ import { useInput } from "../../src/hooks/input";
 import CenterWrapper from "../components/CenterWrapper";
 import Loading from "../components/Loading";
 import Overlay from "../components/Overlay";
-import { isAuthenticated, loadAuthTokenFromKeyTar, login } from "../data/actions";
+import { isAuthenticated, loadAuthTokenFromKeyTar, login } from "../data/user_actions";
 import { history } from "../store"
 
 const Login = (): ReactElement => {
