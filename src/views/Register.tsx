@@ -1,3 +1,7 @@
+// To-Do Plus
+// Register.tsx
+// @author Miroslav Safar (xsafar23)
+
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import CenterWrapper from "../components/CenterWrapper";

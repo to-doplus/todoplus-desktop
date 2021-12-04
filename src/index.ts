@@ -1,3 +1,8 @@
+// To-Do Plus
+// index.ts
+// @editor Miroslav Safar (xsafar23)
+// File was generated with electron-forge and edited by Miroslav Safar 
+
 import { app, BrowserWindow, ipcMain, IpcMainEvent, Menu, MenuItem, shell } from 'electron';
 import path from "path";
 import { openDeleteConfirmation, openTaskListDeleteConfirmation, openTaskListSettings, openTaskSettings } from './menus';
@@ -70,10 +75,7 @@ if (isMac) {
     }
   ));
 }
-
 Menu.setApplicationMenu(menu);
-
-console.log(app.getAppPath())
 
 const createWindow = (): void => {
   // Create the browser window.
@@ -84,7 +86,6 @@ const createWindow = (): void => {
     webPreferences: {
       preload: path.join(app.getAppPath(), "src/preload.ts")
     }
-    //  titleBarStyle: 'hidden', // Hide the title bar
   });
 
   // and load the index.html of the app.
@@ -116,9 +117,11 @@ app.on('activate', () => {
   }
 });
 
+// ---  IPC Messages handling ----
+// @author Miroslav Safar (xsafar23)
+
+// Handle open-dropdown messages and open proper dropdowns
 ipcMain.on("open-dropdown", (event, ...args) => {
-  console.log("open-dropdown!");
-  console.log(args);
   if (args[0] === "tasklist-props") {
     openTaskListSettings(event, args[1])
   } else if (args[0] === "task-props") {
@@ -126,29 +129,34 @@ ipcMain.on("open-dropdown", (event, ...args) => {
   }
 });
 
+// Open delete confirmation dialog for task deletion
 ipcMain.on("delete-task-confirm", (event, ...args) => {
   openDeleteConfirmation(event, args[0]);
 })
 
+// Open delete confirmation dialog for tasklist deletion
 ipcMain.on("delete-tasklist-confirm", (event, ...args) => {
   openTaskListDeleteConfirmation(event, args[0]);
 })
 
+// Handle get-auth-token message
+// Returns authentication token saved in the system native password store
 ipcMain.handle("get-auth-token", async (event, ...args) => {
   const keytar = require("keytar");
   return await keytar.getPassword("To-Do Plus", "token");
 })
 
+// Handle set-auth-token message
+// Set authentication token in the system native password store
 ipcMain.on("set-auth-token", (event, ...args) => {
   const keytar = require("keytar");
   keytar.setPassword("To-Do Plus", "token", args[0]);
 })
 
+// Handle delete-auth-token message
+// Deleted authentication token from the system native password store
 ipcMain.handle("delete-auth-token", async (event, ...args) => {
   const keytar = require("keytar");
   await keytar.deletePassword("To-Do Plus", "token");
   return;
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.

@@ -8,6 +8,9 @@ export interface Response {
     status: number
 }
 
+/**
+ * Interface for To-Do Plus client
+ */
 export interface ToDoListClient {
     getBearerToken() : string;
     setBearerToken(bearerToken: string) : void;

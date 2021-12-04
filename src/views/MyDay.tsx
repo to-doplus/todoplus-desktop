@@ -1,3 +1,7 @@
+// To-Do Plus
+// MyDay.tsx
+// @author Miroslav Safar (xsafar23)
+
 import React, { Fragment, ReactElement } from "react";
 import Tasks from "../components/Tasks";
 import CenterWrapper from "../components/CenterWrapper";
