@@ -14,7 +14,6 @@ const Sidebar = () : ReactElement => {
                 <div> {/* Div for separation of body of sidebar and the footer button */}
                     <LogoutButton />
                     <Settings />
-                    <Divider/>
                     <BuildInTaskLists />
                     <Divider/>
                     <TaskListList />

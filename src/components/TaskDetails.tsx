@@ -8,7 +8,7 @@ import React, { MouseEvent, ReactElement } from "react";
 import { TaskList, Task, Nullable } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import TaskTitleForm from"./taskdetails/TaskTitleForm";
-import TaskImporatnceIcon, { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
+import TaskImportanceIcon, { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
 import Subtask from "./taskdetails/Subtask";
 import NewSubtaskForm from "./taskdetails/NewSubtaskForm";
 import MyDayButton from "./taskdetails/MyDayButton";
@@ -17,11 +17,6 @@ import { completeTask, uncompleteTask } from "../../src/data/subtask_actions";
 import { deleteTask } from "../data/taskActions";
 import { sendIpcMessage } from "../renderer";
 import { deleteTaskConfirmation } from "../ipc/ipcMessages";
-
-/*
-** TODO:
-** Error handling
-*/
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -82,7 +77,7 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         <TaskTitleForm taskListId={props.taskListId} task={props.task} />
 
         {/* Task importance icon */}
-        <TaskImporatnceIcon 
+        <TaskImportanceIcon 
             taskImportance={props.task.importance} 
             color={getTaskImportanceIconColor(props.task)} 
             className="taskDetailsImportanceIcon" 
