@@ -3,6 +3,7 @@ import { Task, TaskList } from "../../lib/models";
 import { useTasksByTaskList } from "../data/hooks";
 import TaskDetails from "./TaskDetails";
 import TaskListTitle from "./TaskListTitle";
+import TaskListDescription from "./TaskListDescription";
 import CenterWrapper from "./CenterWrapper";
 import Loading from "./Loading";
 import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../ipc/ipcMessages";
@@ -103,7 +104,7 @@ const Tasks = (props: TasksProps): ReactElement => {
                         <button onClick={(e: MouseEvent) => showPopupMenu(e, props.taskList)}>···</button>
                     </div>
                 </div>
-                <h4>{props.taskList.description}</h4>
+                <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id}/>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (

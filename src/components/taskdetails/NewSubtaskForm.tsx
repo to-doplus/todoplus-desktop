@@ -55,6 +55,7 @@ const NewSubtaskForm = (props: TaskDetailsProps): ReactElement => {
             onChange={(e) => { setNewSubtaskValue(e.target.value) }}
             value={newSubtaskValue}
             placeholder="New subtask"
+            spellCheck="false"
             required />
       </form>
       <i className="taskDetailsNewSubtaskIcon fas fa-plus" />
