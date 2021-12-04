@@ -15,6 +15,24 @@ export interface TaskDetailsProps {
 }
 
 /**
+** @brief Adds to my day or removes from it
+*/
+export const changeMyDay = async (listId: number, taskId: number, myDay: boolean) => {
+  let ret;
+  if (myDay === false) {
+    console.log("Adding to my day");
+    ret = await addTaskToMyDay(listId, taskId);
+  } else {
+    console.log("Removing from my day");
+    ret = await removeTaskFromMyDay(listId, taskId);
+  }
+  if(!ret) {
+    console.error("ERROR: Adding or removing a task from My day failed.");
+    alert("Something went wrong!");
+  }
+}
+
+/**
 ** A button for adding or removing a task from my day displayed in task details
 ** menu
 **
@@ -22,31 +40,13 @@ export interface TaskDetailsProps {
 */
 const MyDayButton = (props: TaskDetailsProps): ReactElement => {
 
-  /**
-  ** @brief Adds to my day or removes from it
-  */
-  const changeMyDay = async () => {
-    let ret;
-    if (props.task.myDay === false) {
-      console.log("Adding to my day");
-      ret = await addTaskToMyDay(props.taskListId, props.task.id);
-    } else {
-      console.log("Removing from my day");
-      ret = await removeTaskFromMyDay(props.taskListId, props.task.id);
-    }
-    if(!ret) {
-      console.error("ERROR: Adding or removing a task from My day failed.");
-      alert("Something went wrong!");
-    }
-  }
-
   /*
   ** Rendering
   */
 
   return (
     <div className={`taskDetailsMyDay ${props.task.myDay ? "myDayToggle" : ""}`}
-        onClick={changeMyDay}>
+        onClick={() => (changeMyDay(props.task.taskListId, props.task.id, props.task.myDay))}>
       <i className="taskDetailsMyDayIcon fas fa-sun" />
       <p className="taskDetailsMyDayText unselectable">
         {props.task.myDay ? "Remove from My day" : "Add to My day"}

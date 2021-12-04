@@ -6,14 +6,17 @@ import { completeTask, uncompleteTask } from "../data/subtask_actions";
 import { Importance, Task, TaskStatus } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import TaskImporatnceIcon from "./taskdetails/TaskImportanceIcon";
+import { changeMyDay } from "./taskdetails/MyDayButton";
 
 
 
 export interface TasksBoxesProps {
     className: string,
+    taskListId: number,
     taskId: number,
     taskStatus: TaskStatus,
     taskImportance: Importance,
+    taskMyDay: boolean,
     taskTitle: string,
     tasks: Task[],
 }
@@ -51,17 +54,18 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
 
     const getTaskImportanceIcon = (taskId: number, taskImportance: Importance, taskStatus: TaskStatus): ReactElement => {
       let color;
-      if(taskImportance === "LOW"){
-        color = "white";
-      }
       if(taskStatus === "INPROGRESS"){
-        if (taskImportance === "NORMAL"){
+        if(taskImportance === "LOW"){
+          color = "white";
+        } else if (taskImportance === "NORMAL"){
           color = "goldenrod";
         } else if (taskImportance === "HIGH"){
           color = "darkred";
         }
       }else{
-        if (taskImportance === "NORMAL"){
+        if(taskImportance === "LOW"){
+          color = "grey";
+        }else if (taskImportance === "NORMAL"){
           color = "grey";
         } else if (taskImportance === "HIGH"){
           color = "black";
@@ -101,8 +105,14 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
             <div className="content">
                 {props.taskTitle}
             </div>
-            <div className="buttonSetImportance">
-                {getTaskImportanceIcon(props.taskId, props.taskImportance, props.taskStatus)}
+            <div className="taskButtons">
+              <div className={`buttonMyDay ${props.taskMyDay ? "buttonMyDayToggle" : ""}`}
+                  onClick={(e) => {e.stopPropagation(); changeMyDay(props.taskListId, props.taskId, props.taskMyDay)}}>
+                <i className="buttonMyDayIcon fas fa-sun fa-lg" />
+              </div>
+              <div className="buttonSetImportance">
+                  {getTaskImportanceIcon(props.taskId, props.taskImportance, props.taskStatus)}
+              </div>
             </div>
         </div>
 

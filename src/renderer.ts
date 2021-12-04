@@ -1,5 +1,4 @@
 import './index.css';
-
 import './styles/login.css'
 import './styles/taskDetails.css';
 import './styles/taskListView.css';
