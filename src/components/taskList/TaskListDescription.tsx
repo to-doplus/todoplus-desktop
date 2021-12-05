@@ -36,8 +36,8 @@ const TaskListDescription = (props: TaskListDescriptionProps): ReactElement => {
     const [taskDescription, setTaskDescription, bindTaskDescription] = useInput(props.displayDescription || "");
 
     useEffect(() => {
-        setTaskDescription(props.displayDescription);
-    }, [props.displayDescription || ""])
+        setTaskDescription(props.displayDescription || "");
+    }, [props.displayDescription])
 
     /**
     ** @brief Change task list description

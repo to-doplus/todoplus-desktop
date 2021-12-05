@@ -20,7 +20,7 @@ export interface ButtonProps {
  */
 const Button = (props: ButtonProps) => {
         return (
-            <button className={`button ${props.className ? props.className : ""}`} onClick={(e: React.MouseEvent<HTMLElement>) => {e.preventDefault();props.onClick()}}>
+            <button className={`button ${props.className ? props.className : ""}`} onClick={(e: React.MouseEvent<HTMLElement>) => {e.preventDefault();e.stopPropagation();props.onClick()}}>
                 {props.children}
             </button>
     )
