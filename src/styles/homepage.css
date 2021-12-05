@@ -18,10 +18,28 @@
 }
 
 .taskListViewBg .titles .subtitles{
-    margin-top: 100px;
+    margin-top: 150px;
 }
 
-.taskListViewBg .titles .subtitles NewTaskListButton{
+.taskListViewBg .titles .subtitles h3{
+    margin-top: 40px;
+}
+
+.taskListViewBg .titles .subtitles .newTaskList{
     display: flex;
     flex-direction: row;
+    cursor: pointer;
+}
+
+.taskListViewBg .titles .subtitles .newTaskList .icon{
+    padding-right: 10px;
+    padding-left: 20px;
+}
+
+.taskListViewBg .titles .subtitles .version{
+    padding-left: 20px;
+}
+
+.taskListViewBg .titles .subtitles .tips{
+    padding-left: 20px;
 }
