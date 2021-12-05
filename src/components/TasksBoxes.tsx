@@ -7,7 +7,6 @@ import { Importance, Task, TaskStatus } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import TaskImportanceIcon, { getTaskImportanceIconColor, setTaskImportance } from "./taskdetails/TaskImportanceIcon";
 import { addTaskToMyDay } from "../data/actions";
-import { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
 import Tooltip from "@material-ui/core/Tooltip";
 
 export interface TasksBoxesProps {
