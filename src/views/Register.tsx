@@ -2,7 +2,7 @@
 // Register.tsx
 // @author Miroslav Safar (xsafar23)
 
-import React, { ReactElement, useCallback, useEffect, useState } from "react";
+import React, { Fragment, ReactElement, useCallback, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import CenterWrapper from "../components/CenterWrapper";
 import Loading from "../components/Loading";
@@ -19,12 +19,22 @@ const Login = (): ReactElement => {
     const [isLoading, setLoading] = useState(true);
 
     const handleRegisterButton = useCallback(async () => {
+        if (!username || username === "") {
+            setError("Please fill username.");
+            return;
+        } else if (!email || email === "") {
+            setError("Please fill email.");
+            return;
+        } else if (!password || password === "") {
+            setError("Please fill password.");
+            return;
+        }
         const success: boolean = await register(username, email, password);
         if (success) {
             history.push("/");
             return;
         }
-        setError(true);
+        setError("Username is already taken.");
     }, [username, password]);
 
     const auth = isAuthenticated();
@@ -51,14 +61,15 @@ const Login = (): ReactElement => {
 
     return (
         <div className="login-layout">
-            <form className="login-form" onSubmit={(e) => {e.preventDefault();handleRegisterButton()}}>
-                <div className="logo-img"/>
-                <h1 style={{textAlign: "center"}}>Registrace</h1>
-                <input className="login-input" placeholder="Uživatelské jméno" {...bindUsername}></input>
+            <form className="login-form" onSubmit={(e) => { e.preventDefault(); handleRegisterButton() }}>
+                <div className="logo-img" />
+                <h1 style={{ textAlign: "center" }}>Sign up!</h1>
+                <input className="login-input" placeholder="Username" {...bindUsername}></input>
                 <input className="login-input" placeholder="E-Mail" {...bindEmail}></input>
-                <input className="login-input" placeholder="Heslo" type="password" {...bindPassword}></input>
-                <button className="login-button" onClick={handleRegisterButton}>Zaregistrovat se</button>
-                <Link to="/login" className="small-text">Už máš účet? Přihlaš se!</Link>
+                <input className="login-input" placeholder="Password" type="password" {...bindPassword}></input>
+                {error ? <div>{error}</div> : <Fragment />}
+                <button className="login-button" onClick={handleRegisterButton}>Sign up</button>
+                <Link to="/login" className="small-text">Have an account? Log In here!</Link>
             </form>
         </div>
     )

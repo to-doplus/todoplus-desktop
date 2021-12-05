@@ -57,7 +57,7 @@ const Login = (): ReactElement => {
                 <input className="login-input" placeholder="Password" type="password" {...bindPassword}></input>
                 {error ? <div>Invalid username or password.</div> : <Fragment />}
                 <button className="login-button" onClick={handleLoginButton}>Log In</button>
-                <Link to="/register" className="small-text">Do not have an account? Register here!</Link>
+                <Link to="/register" className="small-text">Do not have an account? Sign up here!</Link>
             </form>
         </div>
     )

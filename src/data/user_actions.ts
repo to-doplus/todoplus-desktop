@@ -33,7 +33,7 @@ export async function loadAuthTokenFromKeyTar(): Promise<boolean> {
  */
  export async function login(username: string, password: string): Promise<boolean> {
     const token = await client.login(username, password);
-    if (!token) {
+    if (!token && token.status === 200) {
         //Error
         return false;
     }
@@ -43,7 +43,7 @@ export async function loadAuthTokenFromKeyTar(): Promise<boolean> {
 
 export async function register(username: string, email: string, password: string): Promise<boolean> {
     const token = await client.registerAndLogin(username, email, password);
-    if (!token) {
+    if (!token && token.status === 200) {
         //Error
         return false;
     }

@@ -17,7 +17,7 @@ export interface AsyncDataProps<T> {
 
 function useAsyncData<T>(query: string): AsyncDataProps<T> {
     const { data, error } = useSWR<T & Response>(query, (query) => client.query<T & Response>(query));
-    if(data && data.status === 401) {
+    if(data && (data.status === 401)) {
         console.log("Invalid authorization token");
         history.push("/logout");
         return {

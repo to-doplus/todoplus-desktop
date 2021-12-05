@@ -15,8 +15,8 @@ export interface ToDoListClient {
     getBearerToken() : string;
     setBearerToken(bearerToken: string) : void;
 
-    login(username: string, password: string) : Promise<string>;
-    registerAndLogin(username: string, email: string, password: string) : Promise<string>;
+    login(username: string, password: string) : Promise<string & Response>;
+    registerAndLogin(username: string, email: string, password: string) : Promise<string & Response>;
 
     query<T>(query: string, ...args: any[]): Promise<T>;
     getAllLists(): Promise<TaskList[]>;

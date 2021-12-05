@@ -2,7 +2,7 @@
   "name": "todoplus",
   "productName": "To-Do Plus",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "My Electron application description - TodoPlus",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -55,7 +55,11 @@
         {
           "name": "@electron-forge/maker-deb",
           "config": {
-              "icon": "./src/styles/logo.png"
+              "icon": "./src/styles/logo.png",
+              "productName": "To-Do Plus",
+              "revision": "1.0",
+              "description": "Debian TodoPlus short description.",
+              "productDescription": "Debian long description"
           }
         },
         {

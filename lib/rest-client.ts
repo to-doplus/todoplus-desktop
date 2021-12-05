@@ -3,7 +3,7 @@
 // @author Miroslav Safar (xsafar23)
 
 import { TaskList, Task, SubTask, Importance, TaskStatus, Nullable, UserSettings } from "./models";
-import { ToDoListClient } from "./todo-client";
+import { Response, ToDoListClient } from "./todo-client";
 
 /**
  * REST Client for To-Do Plus
@@ -44,7 +44,7 @@ class TodoListRestClient implements ToDoListClient {
      * @param password Password
      * @returns Authentication token
      */
-    async login(username: string, password: string): Promise<string> {
+    async login(username: string, password: string): Promise<string & Response> {
         const response = await fetch(`${this.URL}/public/users/login`, {
             method: 'post',
             headers: new Headers({
@@ -68,7 +68,7 @@ class TodoListRestClient implements ToDoListClient {
      * @param password Password
      * @returns Authentication token
      */
-    async registerAndLogin(username: string, email: string, password: string): Promise<string> {
+    async registerAndLogin(username: string, email: string, password: string): Promise<string & Response> {
         const response = await fetch(`${this.URL}/public/users/register`, {
             method: 'post',
             headers: new Headers({
