@@ -1,0 +1,22 @@
+/*
+ * To-Do Plus
+ * homepage.css
+ * @author: Michaela Pařilová(xparil04)
+ */
+
+.taskListViewBg .titles{
+    margin: 150px 150px;
+}
+
+.taskListViewBg .titles h1{
+    font-size: 70px;
+}
+
+.taskListViewBg .titles h2{
+    font-style: italic; 
+    margin-top: 0px;
+}
+
+.taskListViewBg .titles .subtitles{
+    margin-top: 100px;
+}
