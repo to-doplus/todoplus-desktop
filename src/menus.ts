@@ -13,10 +13,6 @@ import { Task, TaskList } from "../lib/models"
 export function openTaskListSettings(event: IpcMainEvent, taskList: TaskList) {
     const template = [
         {
-            label: 'Rename tasklist',
-            click: () => { event.sender.send('tasklist-command', 'rename', taskList.id) }
-        },
-        {
             label: 'Change color',
             submenu: [
                 {

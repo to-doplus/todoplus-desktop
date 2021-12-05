@@ -9,6 +9,7 @@ export interface TaskListRowProps {
     selected?: boolean,
     icon?: string,
     url?: string
+    showPopupMenu?: (e: MouseEvent, taskListId: number) => void
 }
 
 const TaskListRow = (props: TaskListRowProps) : ReactElement => {
@@ -19,7 +20,7 @@ const TaskListRow = (props: TaskListRowProps) : ReactElement => {
 
     return (
         <Link to={`${props.url ? props.url : `/tasklists/${props.taskListId}`}`}>
-            <div className="tasklist">
+            <div className="tasklist" onContextMenu={props.showPopupMenu ? (e : any) => {props.showPopupMenu(e, props.taskListId)} : null}>
                 <div className="icon" style={{color: `${props.color}`}}><i className={`${props.icon ? props.icon : "fas fa-list"}`}></i></div>
                 {name}
             </div>

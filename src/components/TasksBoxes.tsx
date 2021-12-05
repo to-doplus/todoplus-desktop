@@ -5,9 +5,8 @@ import { setImportance } from "../data/taskActions";
 import { completeTask, removeTaskFromMyDay, uncompleteTask } from "../data/subtask_actions";
 import { Importance, Task, TaskStatus } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
-import TaskImportanceIcon from "./taskdetails/TaskImportanceIcon";
+import TaskImportanceIcon, { getTaskImportanceIconColor, setTaskImportance } from "./taskdetails/TaskImportanceIcon";
 import { addTaskToMyDay } from "../data/actions";
-import { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
 
 export interface TasksBoxesProps {
   className: string,

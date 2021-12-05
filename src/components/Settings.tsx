@@ -4,7 +4,7 @@
 ** @author: Patrik Skaloš (xskalo01)
 */
 
-import React, { ReactElement, useState } from "react";
+import React, { Fragment, ReactElement, useCallback, useState } from "react";
 import SettingsOption from "./SettingsOption";
 import { UserSettings } from "../../lib/models";
 import { useSettings } from "../data/hooks";
@@ -23,43 +23,29 @@ const Settings = (): ReactElement => {
   ** States
   */
   const [showSettings, setShowSettings] = useState(false);
-  const [myDayEnabled, setMyDayEnabled] = useState(false);
-  const [importantEnabled, setImportantEnabled] = useState(false);
+  const {isLoading, isError, data: settings} = useSettings();
 
-  /**
-  ** @brief Fetch user settings and change the states accordingly
-  */
-  const getUserSettings = async () => {
-    const settings = await useSettings();
-    setMyDayEnabled(settings.data.myDayEnabled);
-    setImportantEnabled(settings.data.importantEnabled);
-  }
+  const changeMyDayDisplay = useCallback(async () => {
+    const success = await setSettingsMyDayEnabled(!settings.myDayEnabled);
+    if(!success) {
+      //TODO: Handle error
+    }
+  }, [settings]);
 
-  /**
-  ** @brief Change the setting responsible for displaying (or not displaying)
-  ** the 'My day' built in task list
-  */
-  const changeMyDayDisplay = async () => {
-    console.log("Changing display of My day built in list to " + !myDayEnabled);
-    await setSettingsMyDayEnabled(!myDayEnabled);
-    setMyDayEnabled(!myDayEnabled);
-  }
-
-  /**
-  ** @brief Change the setting responsible for displaying (or not displaying)
-  ** the 'Important' built in task list
-  */
-  const changeImportantDisplay = async () => {
-    console.log("Changing display of Important built in list to " + !importantEnabled);
-    await setSettingsImportantEnabled(!importantEnabled);
-    setImportantEnabled(!importantEnabled);
-  }
-
-  getUserSettings();
+  const changeImportantDisplay = useCallback(async () => {
+    const success = await setSettingsImportantEnabled(!settings.importantEnabled);
+    if(!success) {
+      //TODO: Handle error
+    }
+  }, [settings]);
 
   /*
   ** Rendering
   */
+
+  if(isLoading || isError) {
+    return <Fragment />
+  }
 
   return(
     <div className="settingsButton unselectable"
@@ -70,7 +56,7 @@ const Settings = (): ReactElement => {
       Settings
 
       {/* Only display a divider if at least one built-in list is displayed */}
-      {myDayEnabled || importantEnabled ?
+      {settings.myDayEnabled || settings.importantEnabled ?
         <Divider/>
         :
         null
@@ -94,9 +80,9 @@ const Settings = (): ReactElement => {
             {/* Settings menu items */}
             <div className="settingsMenuItems">
               <SettingsOption title="Display the 'My day' built in list" 
-                  callback={changeMyDayDisplay} init={myDayEnabled} />
+                  callback={changeMyDayDisplay} value={settings.myDayEnabled} />
               <SettingsOption title="Display the 'Important' built in list" 
-                  callback={changeImportantDisplay} init={importantEnabled} />
+                  callback={changeImportantDisplay} value={settings.importantEnabled} />
             </div> {/* Settings menu items */}
 
           </div>

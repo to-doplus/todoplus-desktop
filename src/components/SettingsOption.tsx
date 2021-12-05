@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export interface SettingsOptionProps{
   title: string;
   callback: any;
-  init: boolean;
+  value: boolean;
 }
 
 /**
@@ -22,12 +22,6 @@ export interface SettingsOptionProps{
 const SettingsOption = (props: SettingsOptionProps): ReactElement => {
 
   /*
-  ** States
-  */
-
-  const [toggled, setToggled] = useState(props.init);
-
-  /*
   ** Rendering
   */
 
@@ -37,8 +31,8 @@ const SettingsOption = (props: SettingsOptionProps): ReactElement => {
         {props.title}
       </div>
       <div className="settingsOptionButton"
-          onClick={(e) => {setToggled(!toggled); props.callback()}}>
-        {toggled ?
+          onClick={(e) => {props.callback()}}>
+        {props.value ?
           <FontAwesomeIcon className="settingsOptionIcon" 
               icon={["far", "check-circle"]} size={"lg"} />
           :

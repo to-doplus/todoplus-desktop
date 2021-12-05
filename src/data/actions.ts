@@ -122,7 +122,7 @@ export async function moveTask(task: Task, sort: number) {
     const direction = sort > sourceSort ? "UP" : "DOWN";
     mutate(`/tasklists/${task.taskListId}/tasks`, (list: Task[]) => {
         if (!list) return list;
-        return list.map(tsk => {
+        const l = list.map(tsk => {
             if (tsk.id == task.id) {
                 tsk.sort = sort;
                 return tsk;
@@ -138,6 +138,7 @@ export async function moveTask(task: Task, sort: number) {
             }
             return tsk;
         });
+        return l;
     }, false);
     await client.setTaskSort(task.taskListId, task.id, sort);
 }

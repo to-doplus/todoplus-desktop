@@ -107,8 +107,8 @@ const Tasks = (props: TasksProps): ReactElement => {
         return <div>Error??</div>
     }
 
-    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime()).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) ? task : null });
-    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).sort((a, b) => a.sort - b.sort).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) ? task : null });
+    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase())}).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime());
+    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase())});
     const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
 
     return (
@@ -130,12 +130,12 @@ const Tasks = (props: TasksProps): ReactElement => {
                     <Droppable droppableId="sortedTasks">
                         {(provided) => (
                             <div className="sortedTasks" {...provided.droppableProps} ref={provided.innerRef}>
-                                {progressTasks.map((task, index) => (
+                                {progressTasks.sort((a, b) => a.sort - b.sort).map((task, index) => (
                                     <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                                         {(provided, snapshot) => (
                                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                 <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
-                                                    <TasksBoxes className="taskBox" task={task} />
+                                                    <TasksBoxes className="taskBox" task={task} key={task.id}/>
                                                 </div>
                                             </div>
                                         )}
