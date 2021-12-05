@@ -20,3 +20,8 @@
 .taskListViewBg .titles .subtitles{
     margin-top: 100px;
 }
+
+.taskListViewBg .titles .subtitles NewTaskListButton{
+    display: flex;
+    flex-direction: row;
+}
