@@ -44,7 +44,7 @@ class TodoListRestClient implements ToDoListClient {
      * @param password Password
      * @returns Authentication token
      */
-    async login(username: string, password: string): Promise<string & Response> {
+    async login(username: string, password: string): Promise<string> {
         const response = await fetch(`${this.URL}/public/users/login`, {
             method: 'post',
             headers: new Headers({
@@ -55,6 +55,7 @@ class TodoListRestClient implements ToDoListClient {
                 password: password
             })
         });
+        if(response.status !== 200) return undefined;
         const res = await response.json();
         this.setBearerToken(res.token);
         return res.token;
@@ -68,7 +69,7 @@ class TodoListRestClient implements ToDoListClient {
      * @param password Password
      * @returns Authentication token
      */
-    async registerAndLogin(username: string, email: string, password: string): Promise<string & Response> {
+    async registerAndLogin(username: string, email: string, password: string): Promise<string> {
         const response = await fetch(`${this.URL}/public/users/register`, {
             method: 'post',
             headers: new Headers({
@@ -80,6 +81,7 @@ class TodoListRestClient implements ToDoListClient {
                 password: password
             })
         });
+        if(response.status !== 200) return undefined;
         const res = await response.json();
         this.setBearerToken(res.token);
         return res.token;

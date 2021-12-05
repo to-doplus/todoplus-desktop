@@ -63,6 +63,14 @@
           }
         },
         {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "icon": "./src/styles/logo.png",
+            "format": "ULFO",
+            "name": "To-Do Plus"
+          }
+        },
+        {
           "name": "@electron-forge/maker-rpm",
           "config": {
             "icon": "./src/styles/logo.png"
@@ -117,6 +125,7 @@
     "typescript": "^4.0.2"
   },
   "dependencies": {
+    "@electron-forge/maker-dmg": "^6.0.0-beta.61",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

@@ -75,7 +75,7 @@ const Register = (): ReactElement => {
                 <input className="login-input" placeholder="E-Mail" {...bindEmail}></input>
                 <input className="login-input" placeholder="Password" type="password" {...bindPassword}></input>
                 {error ? <div>{error}</div> : <Fragment />}
-                <button className="login-button" onClick={handleRegisterButton}>Sign up</button>
+                <button className="login-button" type="submit">Sign up</button>
                 <Link to="/login" className="small-text">Have an account? Log In here!</Link>
             </form>
         </div>

@@ -30,7 +30,7 @@ export interface ToDoListClient {
      * @param password Password
      * @returns Authentication token
      */
-    login(username: string, password: string): Promise<string & Response>;
+    login(username: string, password: string): Promise<string>;
     
     /**
      * Register with credentials and then login with them
@@ -39,7 +39,7 @@ export interface ToDoListClient {
      * @param password Password
      * @returns Authentication token
      */
-    registerAndLogin(username: string, email: string, password: string): Promise<string & Response>;
+    registerAndLogin(username: string, email: string, password: string): Promise<string>;
 
     /**
      * Make a call to url and return received data
