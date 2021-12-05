@@ -110,7 +110,6 @@
 }
 
 .taskBox{
-	position: relative;
 	overflow: hidden;
 	background-color: rgba(41, 50, 73, 0.6);
 	margin-bottom: 15px;
@@ -128,7 +127,6 @@
 }
 
 .taskBoxCompleted{
-	position: relative;
 	overflow: hidden;
 	background-color: rgba(41, 50, 73, 0.6);
 	margin-bottom: 15px;
@@ -195,14 +193,6 @@
 	border-radius: 5px;
 }
 .buttonMyDayIcon{
-}
-.taskProgressBar{
-	background-color: green;
-	border: none;
-	position: absolute;
-	left: 0px;
-	bottom: -8px;
-	height: 5px;
 }
 
 /* Misa */

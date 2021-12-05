@@ -87,7 +87,9 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
               onClick={(e: MouseEvent) => setTaskImportance(e, props.task)} />
         </div>
       </div>
-      <hr className="taskProgressBar" style={{width: getPercentSubtasksCompleted().toString() + "%"}}/>
+      {/*
+        * <hr className="taskProgressBar" style={{width: getPercentSubtasksCompleted().toString() + "%"}}/>
+        */}
     </div>
 
   )
