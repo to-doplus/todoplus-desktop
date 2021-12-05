@@ -32,3 +32,18 @@ Doplnit popis
 Windows:
 ---------
 Doplnit popis
+
+
+Knihovny:
+---------
+Typescript: https://github.com/microsoft/TypeScript
+Electron: https://github.com/electron/electron
+React: https://github.com/facebook/react
+Spring Boot: https://github.com/spring-projects/spring-boot
+MySQL: https://github.com/mysql
+Electron Forge: https://github.com/electron-userland/electron-forge
+SWR: https://github.com/vercel/swr
+Redux: https://github.com/reduxjs/redux
+Font Awesome: https://github.com/FortAwesome/Font-Awesome
+Node Keytar: https://github.com/atom/node-keytar
+React Beautiful DnD: https://github.com/atlassian/react-beautiful-dnd
