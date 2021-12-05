@@ -1,6 +1,10 @@
-// To-Do Plus
-// renderer.ts
-// @authors Miroslav Safar (xsafar23), Michaela Parilova (xparil04), Patrik Skaloš (xskalo01)
+/**
+** To-Do Plus
+** renderer.ts
+** @author Miroslav Safar (xsafar23)
+** @author Michaela Parilova (xparil04)
+** @author Patrik Skaloš (xskalo01)
+*/
 
 import './index.css';
 import './styles/login.css'

@@ -1,6 +1,8 @@
-// To-Do Plus
-// index.ts
-// @editor Miroslav Safar (xsafar23)
+/**
+** To-Do Plus
+** index.ts
+** @author Miroslav Safar (xsafar23)
+*/
 // File was generated with electron-forge and edited by Miroslav Safar 
 
 import { app, BrowserWindow, ipcMain, IpcMainEvent, Menu, MenuItem, shell } from 'electron';

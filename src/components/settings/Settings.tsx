@@ -22,9 +22,13 @@ const Settings = (): ReactElement => {
   /*
   ** States
   */
+
   const [showSettings, setShowSettings] = useState(false);
   const {isLoading, isError, data: settings} = useSettings();
 
+  /**
+  ** @brief Change if the 'My day' built in list should be displayed
+  **/
   const changeMyDayDisplay = useCallback(async () => {
     const success = await setSettingsMyDayEnabled(!settings.myDayEnabled);
     if(!success) {
@@ -32,6 +36,9 @@ const Settings = (): ReactElement => {
     }
   }, [settings]);
 
+  /**
+  ** @brief Change if the 'Important' built in list should be displayed
+  **/
   const changeImportantDisplay = useCallback(async () => {
     const success = await setSettingsImportantEnabled(!settings.importantEnabled);
     if(!success) {

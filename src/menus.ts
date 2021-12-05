@@ -1,6 +1,8 @@
-// To-Do Plus
-// menus.ts
-// @author Miroslav Safar (xsafar23)
+/**
+** To-Do Plus
+** menus.ts
+** @author Miroslav Safar (xsafar23)
+*/
 
 import { IpcMainEvent, Menu, BrowserWindow, dialog } from "electron"
 import { Task, TaskList } from "../lib/models"

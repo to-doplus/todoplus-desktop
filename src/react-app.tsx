@@ -1,6 +1,8 @@
-// To-Do Plus
-// react-app.tsx
-// @author Miroslav Safar (xsafar23)
+/**
+** To-Do Plus
+** react-app.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import { IpcRendererEvent } from 'electron/renderer';
 import * as React from 'react';

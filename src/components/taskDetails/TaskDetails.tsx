@@ -14,7 +14,6 @@ import NewSubtaskForm from "./NewSubtaskForm";
 import MyDayButton from "./MyDayButton";
 import DueDateButton from "./DueDateButton";
 import { completeTask, uncompleteTask } from "../../../src/data/subtask_actions";
-import { deleteTask } from "../../data/taskActions";
 import { sendIpcMessage } from "../../renderer";
 import { deleteTaskConfirmation } from "../../ipc/ipcMessages";
 import Tooltip from "@material-ui/core/Tooltip";

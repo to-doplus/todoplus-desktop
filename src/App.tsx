@@ -1,6 +1,8 @@
-// To-Do Plus
-// App.tsx
-// @author Miroslav Safar (xsafar23)
+/**
+** To-Do Plus
+** App.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { ReactElement, useEffect } from "react"
 import { Provider } from "react-redux"
