@@ -30,6 +30,7 @@
 	cursor: pointer;
 	font-size: 14px;
 	margin-right: 20px;
+	margin-left: auto;
 	display: inline;
 	width: 200px;
 	align-items: bottom;
@@ -81,6 +82,7 @@
 	outline: none;
 }
 
+/* Misa */
 .taskNameAndList{
 	display: flex;
 }
@@ -108,6 +110,8 @@
 }
 
 .taskBox{
+	position: relative;
+	overflow: hidden;
 	background-color: rgba(41, 50, 73, 0.6);
 	margin-bottom: 15px;
 	width: auto;
@@ -120,6 +124,8 @@
 }
 
 .taskBoxCompleted{
+	position: relative;
+	overflow: hidden;
 	background-color: rgba(41, 50, 73, 0.6);
 	margin-bottom: 15px;
 	width: auto;
@@ -152,11 +158,11 @@
 
 .taskBoxCompleted,
 .taskBox,
-.taskButtons{
+.taskInfo{
 	margin-left: auto;
 }
 
-.taskButtons{
+.taskInfo{
 	display: flex;
 }
 
@@ -165,12 +171,14 @@
 }
 
 /* Added by tedro */
+.subtasksCompletedFraction{
+	height: 100%;
+	margin-top: 2px;
+	margin-right: 10px;
+}
 .buttonMyDay{
 	height: 100%;
-	margin-top: 1px;
 	cursor: pointer;
-	float: left;
-	left: 0;
 	margin-right: 10px;
 	padding: 5px;
 }
@@ -180,7 +188,16 @@
 }
 .buttonMyDayIcon{
 }
+.taskProgressBar{
+	background-color: green;
+	border: none;
+	position: absolute;
+	left: 0px;
+	bottom: -8px;
+	height: 5px;
+}
 
+/* Misa */
 .taskBoxCompleted  .buttonSetImportance .taskImportanceIcon,
 .taskBox .buttonSetImportance .taskImportanceIcon{
 	cursor: pointer;

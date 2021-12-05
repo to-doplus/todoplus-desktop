@@ -9,7 +9,7 @@ import { TaskStatus } from "../../../lib/models";
 import React, { MouseEventHandler, ReactElement } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SizeProp } from "@fortawesome/fontawesome-svg-core";
-
+import Tooltip from "@material-ui/core/Tooltip";
 
 export interface TaskCompleteIconProps {
   status: TaskStatus,
@@ -26,9 +26,11 @@ export interface TaskCompleteIconProps {
 */
 const TaskCompleteIcon = (props: TaskCompleteIconProps): ReactElement => {
   return (
-    <div className={props.className || "taskDetailsTitleCheckbox"} onClick={props.onClick}>
-      {props.status == "INPROGRESS" ? <FontAwesomeIcon icon={["far", "circle"]} size={props.size || "lg"}/> : <FontAwesomeIcon icon={["far", "check-circle"]} size={props.size || "lg"}/>}
-    </div>
+    <Tooltip title="Change status" enterDelay={500} arrow>
+      <div className={props.className || "taskDetailsTitleCheckbox"} onClick={props.onClick}>
+        {props.status == "INPROGRESS" ? <FontAwesomeIcon icon={["far", "circle"]} size={props.size || "lg"}/> : <FontAwesomeIcon icon={["far", "check-circle"]} size={props.size || "lg"}/>}
+      </div>
+    </Tooltip>
   );
 }
 

@@ -7,6 +7,8 @@ import { Importance, Task, TaskStatus } from "../../lib/models";
 import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
 import TaskImportanceIcon, { getTaskImportanceIconColor, setTaskImportance } from "./taskdetails/TaskImportanceIcon";
 import { addTaskToMyDay } from "../data/actions";
+import { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export interface TasksBoxesProps {
   className: string,
@@ -36,6 +38,26 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
     }
   }, [props.task.myDay, props.task.taskListId, props.task.id]);
 
+
+  const getSubtasksCompleted = (): number => {
+    return props.task.subTasks.filter(subtask => subtask.status === "COMPLETED").length;
+  }
+
+  const getSubtasksInprogress = (): number => {
+    return props.task.subTasks.filter(subtask => subtask.status === "INPROGRESS").length;
+  }
+
+  const getPercentSubtasksCompleted = (): number => {
+    const completed = getSubtasksCompleted();
+    const inprogress = getSubtasksInprogress();
+    let total = completed + inprogress;
+    // Just to avoid dividing by zero:
+    if(completed === 0){
+      total = 1;
+    }
+    return Math.round(100 * completed / total);
+  }
+
   return (
     <div className={props.className}>
       <div className="icon">
@@ -44,11 +66,21 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
       <div className="content">
         {props.task.title}
       </div>
-      <div className="taskButtons">
-        <div className={`buttonMyDay ${props.task.myDay ? "buttonMyDayToggle" : ""}`}
-          onClick={(e) => { e.stopPropagation(); changeMyDay() }}>
-          <i className="buttonMyDayIcon fas fa-sun fa-lg" />
-        </div>
+      <div className="taskInfo">
+
+        <Tooltip title="Subtasks completed" enterDelay={500} arrow>
+          <div className="subtasksCompletedFraction">
+            <sup>{getSubtasksCompleted()}</sup>/<sub>{getSubtasksInprogress()}</sub>
+          </div>
+        </Tooltip>
+
+        <Tooltip title="Add or remove from My day" enterDelay={500} arrow>
+          <div className={`buttonMyDay ${props.task.myDay ? "buttonMyDayToggle" : ""}`}
+            onClick={(e) => { e.stopPropagation(); changeMyDay() }}>
+            <i className="buttonMyDayIcon fas fa-sun fa-lg" />
+          </div>
+        </Tooltip>
+
         <div className="buttonSetImportance">
           <TaskImportanceIcon className="taskImportanceIcon" 
               taskImportance={props.task.importance} 
@@ -56,6 +88,7 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
               onClick={(e: MouseEvent) => setTaskImportance(e, props.task)} />
         </div>
       </div>
+      <hr className="taskProgressBar" style={{width: getPercentSubtasksCompleted().toString() + "%"}}/>
     </div>
 
   )

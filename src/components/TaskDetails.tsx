@@ -17,6 +17,7 @@ import { completeTask, uncompleteTask } from "../../src/data/subtask_actions";
 import { deleteTask } from "../data/taskActions";
 import { sendIpcMessage } from "../renderer";
 import { deleteTaskConfirmation } from "../ipc/ipcMessages";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export interface TaskDetailsProps {
   taskListId: number
@@ -127,10 +128,12 @@ const TaskDetails = (props: TaskDetailsProps): ReactElement => {
         </p>
 
         {/* Task delete button */}
-        <div className="taskDetailsDeleteButton"
-            onClick={() => sendIpcMessage(window.electron.ipcRenderer,deleteTaskConfirmation(props.task))}>
-          <i className="taskDetailsDeleteIcon fas fa-trash-alt fa-lg" />
-        </div>
+        <Tooltip title="Delete this task" enterDelay={500} arrow>
+          <div className="taskDetailsDeleteButton"
+              onClick={() => sendIpcMessage(window.electron.ipcRenderer,deleteTaskConfirmation(props.task))}>
+            <i className="taskDetailsDeleteIcon fas fa-trash-alt fa-lg" />
+          </div>
+        </Tooltip>
 
       </div> {/* Lower bar (date created and task delete button) */}
 

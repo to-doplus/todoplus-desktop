@@ -17,6 +17,7 @@ import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ShowCompletedTasks from "./ShowCompletedTasks";
 import Button from "./Button";
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 //TODO: rozclenit na komponenty
@@ -124,7 +125,11 @@ const Tasks = (props: TasksProps): ReactElement => {
                 <div className="taskListSubtitle">
                     <TaskListDescription className="taskTitleRenameBox" displayDescription={props.taskList.description} taskListId={props.taskList.id} editable={!props.taskList.buildIn} />
                     <Button className="buttonShowCompletedTasks" onClick={() => setShowCompletedTasks(!showCompletedTasks)}>{!showCompletedTasks ? "Show completed tasks" : "Hide completed tasks"}</Button>
-                    <FontAwesomeIcon className="showSearchBarIcon" onClick={(e: MouseEvent) => search(e)} icon={["fas", "search"]} size={"lg"} />
+                    <Tooltip title="Search for a task" enterDelay={500} arrow>
+                        <div className="showSearchBarIcon">
+                          <FontAwesomeIcon onClick={(e: MouseEvent) => search(e)} icon={["fas", "search"]} size={"lg"} />
+                        </div>
+                    </Tooltip>
                 </div>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="sortedTasks">

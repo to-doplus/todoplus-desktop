@@ -8,6 +8,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { TaskList, Task, SubTask, Nullable } from "../../../lib/models"
 import { deleteSubTask, setSubTaskTitle, completeSubTask, uncompleteSubTask } from "../../../src/data/subtask_actions";
 import TaskCompleteIcon from "./TaskCompleteIcon";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export interface SubtaskProps {
   taskListId: number
@@ -113,9 +114,11 @@ const Subtask = (props: SubtaskProps) : ReactElement => {
       </form>
 
       {/* Delete subtask button */}
-      <div className="taskDetailsSubtaskDelete" onClick={deleteSubtask}>
-        <i className="far fa-times-circle fa-lg" />
-      </div>
+      <Tooltip title="Delete this subtask" enterDelay={500} arrow>
+        <div className="taskDetailsSubtaskDelete" onClick={deleteSubtask}>
+          <i className="far fa-times-circle fa-lg" />
+        </div>
+      </Tooltip>
 
       {/* Subtask separator */}
       <hr className="taskDetailsSubtaskSeparator"/>
