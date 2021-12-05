@@ -10,14 +10,15 @@ import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../ipc/i
 import { sendIpcMessage } from "../renderer";
 import TasksBoxes from "./TasksBoxes"
 import InputContainer from "./InputContainer";
-import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { DropResult } from "react-beautiful-dnd";
 import { moveTask } from "../data/actions";
 import TaskListView from "../views/TaskListView";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ShowCompletedTasks from "./ShowCompletedTasks";
 import Button from "./Button";
 import Tooltip from "@material-ui/core/Tooltip";
+import NonDragableTasks from "./NonDragableTasks";
+import DragableTasks from "./DragableTasks";
 
 
 //TODO: rozclenit na komponenty
@@ -35,18 +36,6 @@ const showPopupMenu = (e: MouseEvent, taskList: TaskList) => {
     e.stopPropagation();
     sendIpcMessage(window.electron.ipcRenderer, openTaskListPropsMenuMessage(taskList));
 }
-
-const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
-    e.preventDefault();
-    e.stopPropagation();
-    sendIpcMessage(window.electron.ipcRenderer, openTaskPropsMenuMessage(task));
-}
-
-const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
-    background: isDragging ? "#293249" : "none",
-    borderRadius: "10px",
-    ...draggableStyle
-})
 
 const Tasks = (props: TasksProps): ReactElement => {
 
@@ -108,8 +97,8 @@ const Tasks = (props: TasksProps): ReactElement => {
         return <div>Error??</div>
     }
 
-    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase())}).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime());
-    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase())});
+    const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) }).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime());
+    const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) });
     const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
 
     return (
@@ -127,31 +116,15 @@ const Tasks = (props: TasksProps): ReactElement => {
                     <Button className="buttonShowCompletedTasks" onClick={() => setShowCompletedTasks(!showCompletedTasks)}>{!showCompletedTasks ? "Show completed tasks" : "Hide completed tasks"}</Button>
                     <Tooltip title="Search for a task" enterDelay={500} arrow>
                         <div className="showSearchBarIcon">
-                          <FontAwesomeIcon onClick={(e: MouseEvent) => search(e)} icon={["fas", "search"]} size={"lg"} />
+                            <FontAwesomeIcon onClick={(e: MouseEvent) => search(e)} icon={["fas", "search"]} size={"lg"} />
                         </div>
                     </Tooltip>
                 </div>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="sortedTasks">
-                        {(provided) => (
-                            <div className="sortedTasks" {...provided.droppableProps} ref={provided.innerRef}>
-                                {progressTasks.sort((a, b) => a.sort - b.sort).map((task, index) => (
-                                    <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
-                                        {(provided, snapshot) => (
-                                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                                <div key={task.id} onClick={(e: MouseEvent) => { select(e, task.id) }} onContextMenu={(e: MouseEvent) => showTaskPopupMenu(e, task)}>
-                                                    <TasksBoxes className="taskBox" task={task} key={task.id}/>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder ? <div style={{ marginBottom: "15px" }}>{provided.placeholder}</div> : <Fragment />}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-                {showCompletedTasks? <ShowCompletedTasks completedTasks={completedTasks} select={select}/> : null}
+                {!props.taskList.buildIn && searchPhrase.length === 0 ?
+                    <DragableTasks tasks={progressTasks} select={select} selected={selected} onDragEnd={onDragEnd} /> :
+                    <NonDragableTasks tasks={progressTasks} select={select} selected={selected} />
+                }
+                {showCompletedTasks? <NonDragableTasks tasks={completedTasks} select={select} selected={selected}/> : null}
                 {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}
             </div>
             {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={selectedTask.taskListId} task={selectedTask} /> : <Fragment />}

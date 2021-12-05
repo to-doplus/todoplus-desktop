@@ -123,6 +123,10 @@
 	align-items: center;
 }
 
+.taskBox .selected {
+	color:rgba(41, 50, 73, 0.0);
+}
+
 .taskBoxCompleted{
 	position: relative;
 	overflow: hidden;
@@ -154,6 +158,10 @@
 .taskBoxCompleted .content,
 .taskBox .content{
 	font-size: 16px;
+}
+
+.taskBoxCompleted .selected {
+	color:rgba(41, 50, 73, 0.0);
 }
 
 .taskBoxCompleted,

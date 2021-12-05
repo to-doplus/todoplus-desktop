@@ -1,5 +1,8 @@
 import { Task, TaskList } from "../../lib/models"
 
+/**
+ * IPC Message format for messages from renderer to main process
+ */
 export interface IpcMessage {
     channel: string, args: any[]
 }
