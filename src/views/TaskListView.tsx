@@ -1,7 +1,7 @@
 /*
 ** To-Do Plus
 ** TaskListView.tsx
-** @author Michaela Parilova (xparil04)
+** @author Michaela Pařilová (xparil04)
 */
 
 import { TaskList, Task } from "../../lib/models";
