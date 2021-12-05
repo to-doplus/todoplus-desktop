@@ -124,7 +124,7 @@ const Tasks = (props: TasksProps): ReactElement => {
     }
 
     if (props.isError) {
-        return <div>Error??</div>
+        return <div>Error</div>
     }
 
     const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) }).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime());
