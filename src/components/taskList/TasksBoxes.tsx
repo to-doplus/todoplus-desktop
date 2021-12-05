@@ -1,4 +1,8 @@
-// autor: Misa
+/*
+** To-Do Plus
+** TasksBoxes.tsx
+** @author Michaela Parilova (xparil04)
+*/
 
 import React, { MouseEvent, ReactElement, useCallback } from "react";
 import { setImportance } from "../../data/taskActions";

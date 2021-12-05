@@ -1,6 +1,8 @@
-// To-Do Plus
-// Important.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** Important.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { Fragment, ReactElement } from "react";
 import Tasks from "../components/taskList/Tasks";

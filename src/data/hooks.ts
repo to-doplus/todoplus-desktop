@@ -1,6 +1,8 @@
-// To-Do Plus
-// hooks.ts
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** hooks.ts
+** @author Miroslav Safar (xsafar23)
+*/
 
 import useSWR from "swr";
 import { TaskList, Task, UserSettings } from "../../lib/models";

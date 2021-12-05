@@ -1,4 +1,8 @@
-// autor: Misa
+/*
+** To-Do Plus
+** NonDraggableTasks.tsx
+** @author Michaela Parilova (xparil04)
+*/
 
 import React, { MouseEvent, ReactElement, useState, MouseEventHandler } from "react";
 import { createNewTask } from "../../data/actions";

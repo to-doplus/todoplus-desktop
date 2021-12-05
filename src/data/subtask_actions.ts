@@ -1,6 +1,8 @@
-// To-Do Plus
-// subtask_actions.ts
-// @author Patrik Skaloš (xskalo01)
+/*
+** To-Do Plus
+** subtask_actions.ts
+** @author Patrik Skaloš (xskalo01)
+*/
 
 import { mutate } from "swr";
 import client from "./client";

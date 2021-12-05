@@ -1,6 +1,8 @@
-// To-Do Plus
-// CenterWrapper.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** CenterWrapper.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { ReactNode } from "react";
 

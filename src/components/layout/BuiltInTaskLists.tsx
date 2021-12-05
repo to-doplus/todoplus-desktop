@@ -1,6 +1,8 @@
-// To-Do Plus
-// buildInTaskLists.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** BuiltInTaskLists.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { Fragment, ReactElement } from "react"
 import { useSettings } from "../../data/hooks";

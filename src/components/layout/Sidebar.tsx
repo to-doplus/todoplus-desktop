@@ -1,10 +1,12 @@
-// To-Do Plus
-// Sidebar.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** Sidebar.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { ReactElement, useState } from "react";
 import Divider from "../Divider";
-import BuildInTaskLists from "./BuildInTaskLists";
+import BuildInTaskLists from "./BuiltInTaskLists";
 import NewTaskListButton from "./NewTaskListButton";
 import TaskListList from "./TaskListList";
 

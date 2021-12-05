@@ -1,6 +1,8 @@
-// To-Do Plus
-// Auth.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** Auth.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { Fragment, ReactElement, ReactNode, useEffect } from "react"
 import { Navigate } from "react-router-dom";

@@ -1,6 +1,8 @@
-// To-Do Plus
-// NewTaskListButton.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** NewTaskListButton.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { ReactElement, MouseEvent } from "react"
 import { history } from "../../store"

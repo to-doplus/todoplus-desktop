@@ -1,6 +1,8 @@
-// To-Do Plus
-// Button.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** Button.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React from "react";
 

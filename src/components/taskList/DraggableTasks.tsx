@@ -1,7 +1,9 @@
-// To-Do Plus
-// DraggableTasks.tsx
-// @author Miroslav Safar (xsafar23)
-// @author Michaela Parilova (xparil04)
+/*
+** To-Do Plus
+** DraggableTasks.tsx
+** @author Miroslav Safar (xsafar23)
+** @author Michaela Parilova (xparil04)
+*/
 
 import React, { Fragment, ReactElement, MouseEvent } from "react"
 import { Task } from "../../../lib/models";

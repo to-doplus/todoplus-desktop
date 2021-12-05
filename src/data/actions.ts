@@ -1,6 +1,8 @@
-// To-Do Plus
-// actions.ts
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** actions.ts
+** @author Miroslav Safar (xsafar23)
+*/
 
 import { mutate } from "swr";
 import client from "./client";

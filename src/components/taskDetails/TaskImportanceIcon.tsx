@@ -1,6 +1,6 @@
 /*
 ** To-Do Plus
-** DueDateButton.tsx
+** TaskImportanceIcon.tsx
 ** @author: Patrik Skaloš (xskalo01)
 ** @author: Michaela Pařilová (xparil04)
 */
