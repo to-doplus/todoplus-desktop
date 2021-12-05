@@ -3,8 +3,20 @@ Autoři: Michaela Pařilová (xparil04)
         Miroslav Šafár (xsafar23)
 
 -------------------------------------------------------------------------------------------------------------------------------------------
+                                                Struktura repozitáře
+readme.txt
+install
+todoplus
+toduplus-restapi
 
                                                 Instalace a spuštění aplikace
+Spuštění pomocí YARN:
+---------------------
+1. Přejděte do složky ./todoplus/src
+2. Pomocí terminálu zadejte příkaz "yarn install"
+3. Následně zadejte příkaz "yarn start"
+4. Vyčkejte na spuštění aplikace
+
 Ubuntu:
 ---------
 Standartní instalace:
