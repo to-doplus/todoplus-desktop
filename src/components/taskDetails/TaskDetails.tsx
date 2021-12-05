@@ -5,18 +5,18 @@
 */
 
 import React, { MouseEvent, ReactElement } from "react";
-import { TaskList, Task, Nullable } from "../../lib/models";
-import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
-import TaskTitleForm from"./taskdetails/TaskTitleForm";
-import TaskImportanceIcon, { setTaskImportance, getTaskImportanceIconColor } from "./taskdetails/TaskImportanceIcon";
-import Subtask from "./taskdetails/Subtask";
-import NewSubtaskForm from "./taskdetails/NewSubtaskForm";
-import MyDayButton from "./taskdetails/MyDayButton";
-import DueDateButton from "./taskdetails/DueDateButton";
-import { completeTask, uncompleteTask } from "../../src/data/subtask_actions";
-import { deleteTask } from "../data/taskActions";
-import { sendIpcMessage } from "../renderer";
-import { deleteTaskConfirmation } from "../ipc/ipcMessages";
+import { TaskList, Task, Nullable } from "../../../lib/models";
+import TaskCompleteIcon from "./TaskCompleteIcon";
+import TaskTitleForm from"./TaskTitleForm";
+import TaskImportanceIcon, { setTaskImportance, getTaskImportanceIconColor } from "./TaskImportanceIcon";
+import Subtask from "./Subtask";
+import NewSubtaskForm from "./NewSubtaskForm";
+import MyDayButton from "./MyDayButton";
+import DueDateButton from "./DueDateButton";
+import { completeTask, uncompleteTask } from "../../../src/data/subtask_actions";
+import { deleteTask } from "../../data/taskActions";
+import { sendIpcMessage } from "../../renderer";
+import { deleteTaskConfirmation } from "../../ipc/ipcMessages";
 import Tooltip from "@material-ui/core/Tooltip";
 
 export interface TaskDetailsProps {

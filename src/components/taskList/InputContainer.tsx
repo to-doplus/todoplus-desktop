@@ -1,9 +1,9 @@
 // autor: Misa
 
 import React, { MouseEvent, ReactElement } from "react";
-import { createNewTask } from "../data/actions";
-import Button from "./Button";
-import { useInput } from "../hooks/input";
+import { createNewTask } from "../../data/actions";
+import Button from "../Button";
+import { useInput } from "../../hooks/input";
 
 
 export interface InputContainerProps {

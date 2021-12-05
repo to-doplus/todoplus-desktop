@@ -6,10 +6,10 @@
 
 import React, { Fragment, ReactElement, useCallback, useState } from "react";
 import SettingsOption from "./SettingsOption";
-import { UserSettings } from "../../lib/models";
-import { useSettings } from "../data/hooks";
-import { setSettingsImportantEnabled, setSettingsMyDayEnabled } from "../data/user_actions";
-import Divider from "./Divider";
+import { UserSettings } from "../../../lib/models";
+import { useSettings } from "../../data/hooks";
+import { setSettingsImportantEnabled, setSettingsMyDayEnabled } from "../../data/user_actions";
+import Divider from "../Divider";
 
 /**
 ** A settings button (in the sidebar) - when clicked, this component also shows

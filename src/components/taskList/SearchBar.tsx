@@ -1,6 +1,6 @@
 /*
 ** To-Do Plus
-** TaskDetails.tsx
+** SearchBar.tsx
 ** @author: Patrik Skaloš (xskalo01)
 */
 

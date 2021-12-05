@@ -1,12 +1,12 @@
 // autor: Misa
 
 import React, { MouseEvent, ReactElement, useCallback } from "react";
-import { setImportance } from "../data/taskActions";
-import { completeTask, removeTaskFromMyDay, uncompleteTask } from "../data/subtask_actions";
-import { Importance, Task, TaskStatus } from "../../lib/models";
-import TaskCompleteIcon from "./taskdetails/TaskCompleteIcon";
-import TaskImportanceIcon, { getTaskImportanceIconColor, setTaskImportance } from "./taskdetails/TaskImportanceIcon";
-import { addTaskToMyDay } from "../data/actions";
+import { setImportance } from "../../data/taskActions";
+import { completeTask, removeTaskFromMyDay, uncompleteTask } from "../../data/subtask_actions";
+import { Importance, Task, TaskStatus } from "../../../lib/models";
+import TaskCompleteIcon from "../taskDetails/TaskCompleteIcon";
+import TaskImportanceIcon, { getTaskImportanceIconColor, setTaskImportance } from "../taskDetails/TaskImportanceIcon";
+import { addTaskToMyDay } from "../../data/actions";
 import Tooltip from "@material-ui/core/Tooltip";
 
 export interface TasksBoxesProps {

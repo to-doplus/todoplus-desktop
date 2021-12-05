@@ -1,24 +1,24 @@
 import React, { Fragment, MouseEvent, ReactElement, useState, useCallback, useEffect, useRef } from "react";
-import { Task, TaskList } from "../../lib/models";
-import { useTasksByTaskList } from "../data/hooks";
-import TaskDetails from "./TaskDetails";
+import { Task, TaskList } from "../../../lib/models";
+import { useTasksByTaskList } from "../../data/hooks";
+import TaskDetails from "../taskDetails/TaskDetails";
 import TaskListTitle from "./TaskListTitle";
 import TaskListDescription from "./TaskListDescription";
-import CenterWrapper from "./CenterWrapper";
-import Loading from "./Loading";
-import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../ipc/ipcMessages";
-import { sendIpcMessage } from "../renderer";
+import CenterWrapper from "../CenterWrapper";
+import Loading from "../Loading";
+import { openTaskListPropsMenuMessage, openTaskPropsMenuMessage } from "../../ipc/ipcMessages";
+import { sendIpcMessage } from "../../renderer";
 import TasksBoxes from "./TasksBoxes"
 import InputContainer from "./InputContainer";
 import { DropResult } from "react-beautiful-dnd";
-import { moveTask } from "../data/actions";
-import TaskListView from "../views/TaskListView";
+import { moveTask } from "../../data/actions";
+import TaskListView from "../../views/TaskListView";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "./Button";
+import Button from "../Button";
 import Tooltip from "@material-ui/core/Tooltip";
-import NonDragableTasks from "./NonDragableTasks";
-import DragableTasks from "./DragableTasks";
+import NonDraggableTasks from "./NonDraggableTasks";
+import DraggableTasks from "./DraggableTasks";
 
 
 //TODO: rozclenit na komponenty
@@ -121,10 +121,10 @@ const Tasks = (props: TasksProps): ReactElement => {
                     </Tooltip>
                 </div>
                 {!props.taskList.buildIn && searchPhrase.length === 0 ?
-                    <DragableTasks tasks={progressTasks} select={select} selected={selected} onDragEnd={onDragEnd} /> :
-                    <NonDragableTasks tasks={progressTasks} select={select} selected={selected} />
+                    <DraggableTasks tasks={progressTasks} select={select} selected={selected} onDragEnd={onDragEnd} /> :
+                    <NonDraggableTasks tasks={progressTasks} select={select} selected={selected} />
                 }
-                {showCompletedTasks? <NonDragableTasks tasks={completedTasks} select={select} selected={selected}/> : null}
+                {showCompletedTasks? <NonDraggableTasks tasks={completedTasks} select={select} selected={selected}/> : null}
                 {<InputContainer className="inputContainer" taskListId={props.taskList.id}></InputContainer>}
             </div>
             {selectedTask ? <TaskDetails key={selectedTask.id} taskListId={selectedTask.taskListId} task={selectedTask} /> : <Fragment />}

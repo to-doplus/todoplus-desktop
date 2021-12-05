@@ -1,8 +1,8 @@
 // autor: Misa
 
 import React, { useState, useEffect, MouseEventHandler, ReactElement, useRef, useImperativeHandle, forwardRef, useCallback } from "react";
-import { setTaskListDescription } from "../data/taskActions";
-import { useInput } from "../hooks/input";
+import { setTaskListDescription } from "../../data/taskActions";
+import { useInput } from "../../hooks/input";
 
 export interface TaskListDescriptionProps {
     onClick?: MouseEventHandler<HTMLDivElement>;

@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import TaskListList from "../components/layout/TaskListList";
-import TaskDetails from "../components/TaskDetails";
+import TaskDetails from "../components/taskDetails/TaskDetails";
 import NewTaskListButton from "../components/layout/NewTaskListButton"
 
 const Home = (): ReactElement => {

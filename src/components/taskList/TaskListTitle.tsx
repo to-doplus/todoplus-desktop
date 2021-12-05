@@ -1,7 +1,7 @@
 // autor: Misa
 
 import React, { useState, useEffect, MouseEventHandler, ReactElement, useRef, useImperativeHandle, forwardRef } from "react";
-import { setTaskListTitle } from "../data/taskActions";
+import { setTaskListTitle } from "../../data/taskActions";
 
 export interface TaskListTitleProps {
     onClick?: MouseEventHandler<HTMLDivElement>;

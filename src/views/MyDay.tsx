@@ -3,7 +3,7 @@
 // @author Miroslav Safar (xsafar23)
 
 import React, { Fragment, ReactElement } from "react";
-import Tasks from "../components/Tasks";
+import Tasks from "../components/taskList/Tasks";
 import CenterWrapper from "../components/CenterWrapper";
 import Layout from "../components/layout/Layout";
 import Loading from "../components/Loading";

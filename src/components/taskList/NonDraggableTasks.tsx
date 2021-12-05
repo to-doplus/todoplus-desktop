@@ -1,16 +1,16 @@
 // autor: Misa
 
 import React, { MouseEvent, ReactElement, useState, MouseEventHandler } from "react";
-import { createNewTask } from "../data/actions";
-import Button from "./Button";
-import { useInput } from "../hooks/input";
-import { Task, TaskList } from "../../lib/models";
+import { createNewTask } from "../../data/actions";
+import Button from "../Button";
+import { useInput } from "../..//hooks/input";
+import { Task, TaskList } from "../../../lib/models";
 import TasksBoxes from "./TasksBoxes"
-import { sendIpcMessage } from "../renderer";
-import { openTaskPropsMenuMessage } from "../ipc/ipcMessages";
+import { sendIpcMessage } from "../../renderer";
+import { openTaskPropsMenuMessage } from "../../ipc/ipcMessages";
 
 
-export interface NonDragableTasksProps {
+export interface NonDraggableTasksProps {
     className?: string,
     tasks: Task[],
     onClick?: MouseEventHandler<HTMLDivElement>,
@@ -24,7 +24,7 @@ const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
     sendIpcMessage(window.electron.ipcRenderer, openTaskPropsMenuMessage(task));
 }
 
-const NonDragableTasks = (props: NonDragableTasksProps): ReactElement => {
+const NonDraggableTasks = (props: NonDraggableTasksProps): ReactElement => {
 
     return (
         <div>
@@ -40,4 +40,4 @@ const NonDragableTasks = (props: NonDragableTasksProps): ReactElement => {
 }
 
 
-export default NonDragableTasks;
+export default NonDraggableTasks;

@@ -1,17 +1,17 @@
 // To-Do Plus
-// DragableTasks.tsx
+// DraggableTasks.tsx
 // @author Miroslav Safar (xsafar23)
 // @author Michaela Parilova (xparil04)
 
 import React, { Fragment, ReactElement, MouseEvent } from "react"
-import { Task } from "../../lib/models";
+import { Task } from "../../../lib/models";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import TasksBoxes from "./TasksBoxes";
-import { sendIpcMessage } from "../renderer";
-import { openTaskPropsMenuMessage } from "../ipc/ipcMessages";
+import { sendIpcMessage } from "../../renderer";
+import { openTaskPropsMenuMessage } from "../../ipc/ipcMessages";
 
 // @author Miroslav Safar
-export interface DragableTasksProps {
+export interface DraggableTasksProps {
     onDragEnd: (result: DropResult) => void,
     tasks: Task[],
     select: (e: MouseEvent, taskId: number) => void
@@ -33,7 +33,7 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
 })
 
 // @author Michaela Parilova
-const DragableTasks = (props: DragableTasksProps): ReactElement => {
+const DraggableTasks = (props: DraggableTasksProps): ReactElement => {
     return (
         <DragDropContext onDragEnd={props.onDragEnd}>
             <Droppable droppableId="sortedTasks">
@@ -58,4 +58,4 @@ const DragableTasks = (props: DragableTasksProps): ReactElement => {
     )
 }
 
-export default DragableTasks;
+export default DraggableTasks;

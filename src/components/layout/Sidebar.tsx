@@ -8,7 +8,7 @@ import BuildInTaskLists from "./BuildInTaskLists";
 import NewTaskListButton from "./NewTaskListButton";
 import TaskListList from "./TaskListList";
 
-import Settings from "../Settings";
+import Settings from "../settings/Settings";
 import LogoutButton from "./LogoutButton";
 
 /**
