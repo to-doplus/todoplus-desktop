@@ -68,7 +68,7 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
       </div>
       <div className="taskInfo">
 
-        <Tooltip title="Tasks completed" enterDelay={500} arrow>
+        <Tooltip title="Subtasks completed" enterDelay={500} arrow>
           <div className="subtasksCompletedFraction">
             <sup>{getSubtasksCompleted()}</sup>/<sub>{getSubtasksInprogress()}</sub>
           </div>
@@ -81,14 +81,12 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
           </div>
         </Tooltip>
 
-        <Tooltip title="Change importance" enterDelay={500} arrow>
-          <div className="buttonSetImportance">
-            <TaskImportanceIcon className="taskImportanceIcon" 
-                taskImportance={props.task.importance} 
-                color={getTaskImportanceIconColor(props.task)} 
-                onClick={(e: MouseEvent) => setTaskImportance(e, props.task)} />
-          </div>
-        </Tooltip>
+        <div className="buttonSetImportance">
+          <TaskImportanceIcon className="taskImportanceIcon" 
+              taskImportance={props.task.importance} 
+              color={getTaskImportanceIconColor(props.task)} 
+              onClick={(e: MouseEvent) => setTaskImportance(e, props.task)} />
+        </div>
       </div>
       <hr className="taskProgressBar" style={{width: getPercentSubtasksCompleted().toString() + "%"}}/>
     </div>

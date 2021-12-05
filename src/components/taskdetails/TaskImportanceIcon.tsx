@@ -5,12 +5,12 @@
 ** @author: Michaela Pařilová (xparil04)
 */
 
-
 import React, { MouseEvent, MouseEventHandler, ReactElement } from "react"
 import { Task, Importance } from "../../../lib/models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { setImportance } from "../../data/taskActions";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export interface TaskImportanceIconProps {
   taskImportance: Importance,
@@ -80,9 +80,11 @@ export const getTaskImportanceIconColor = (task: Task) : string => {
 */
 const TaskImportanceIcon = (props: TaskImportanceIconProps): ReactElement => {
   return (
-    <div className={props.className || "taskImportanceIcon"} onClick={props.onClick}>
-      {props.taskImportance == "LOW" ? <FontAwesomeIcon icon={["far", "star"]} color={props.color} size={props.size || "lg"}/> : <FontAwesomeIcon icon={["fas", "star"]} color={props.color} size={props.size || "lg"}/>}
-    </div>
+    <Tooltip title="Change task importance" enterDelay={500} arrow>
+      <div className={props.className || "taskImportanceIcon"} onClick={props.onClick}>
+        {props.taskImportance == "LOW" ? <FontAwesomeIcon icon={["far", "star"]} color={props.color} size={props.size || "lg"}/> : <FontAwesomeIcon icon={["fas", "star"]} color={props.color} size={props.size || "lg"}/>}
+      </div>
+    </Tooltip>
   );
 }
 
