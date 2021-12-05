@@ -8,7 +8,8 @@ import './styles/taskDetails.css';
 import './styles/taskListView.css';
 import './styles/layout.css';
 import './styles/settings.css';
-import './styles/all.min.js'
+import './styles/homepage.css';
+import './styles/all.min.js';
 
 import { IpcRenderer } from 'electron/renderer';
 import { IpcMessage } from './ipc/ipcMessages';
