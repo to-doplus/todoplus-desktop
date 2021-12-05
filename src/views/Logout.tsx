@@ -1,6 +1,8 @@
-// To-Do Plus
-// Logout.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** Logout.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { useEffect, useState } from "react"
 import { Navigate } from "react-router"

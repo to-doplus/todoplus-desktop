@@ -1,6 +1,8 @@
-// To-Do Plus
-// Divider.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** Divider.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, {ReactElement} from "react"
 

@@ -1,6 +1,6 @@
 /*
 ** To-Do Plus
-** DueDateButton.tsx
+** TaskCompleteIcon.tsx
 ** @author: Michaela Pařilová (xparil04)
 */
 

@@ -1,4 +1,8 @@
-// autor: Misa
+/*
+** To-Do Plus
+** TaskListTitle.tsx
+** @author Michaela Parilova (xparil04)
+*/
 
 import React, { useState, useEffect, MouseEventHandler, ReactElement, useRef, useImperativeHandle, forwardRef } from "react";
 import { setTaskListTitle } from "../../data/taskActions";

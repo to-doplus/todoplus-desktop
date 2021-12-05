@@ -1,6 +1,8 @@
-// To-Do Plus
-// Layout.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** Layout.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import React, { ReactElement, useState } from "react";
 import Button from "../Button";

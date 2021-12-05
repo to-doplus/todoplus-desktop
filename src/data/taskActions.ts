@@ -1,6 +1,8 @@
-// To-Do Plus
-// actions.ts
-// @author Michaela Parilova (xparil04)
+/*
+** To-Do Plus
+** taskActions.ts
+** @author Michaela Parilova (xparil04)
+*/
 
 import { mutate } from "swr";
 import client from "./client";

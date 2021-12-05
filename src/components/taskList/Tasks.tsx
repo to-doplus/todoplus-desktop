@@ -1,3 +1,9 @@
+/*
+** To-Do Plus
+** Tasks.tsx
+** @author Michaela Parilova (xparil04)
+*/
+
 import React, { Fragment, MouseEvent, ReactElement, useState, useCallback, useEffect, useRef } from "react";
 import { Task, TaskList } from "../../../lib/models";
 import { useTasksByTaskList } from "../../data/hooks";

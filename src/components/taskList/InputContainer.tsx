@@ -1,4 +1,8 @@
-// autor: Misa
+/*
+** To-Do Plus
+** InputContainer.tsx
+** @author Michaela Parilova (xparil04)
+*/
 
 import React, { MouseEvent, ReactElement } from "react";
 import { createNewTask } from "../../data/actions";

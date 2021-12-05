@@ -1,6 +1,8 @@
-// To-Do Plus
-// LogoutButton.tsx
-// @author Miroslav Safar (xsafar23)
+/*
+** To-Do Plus
+** LogoutButton.tsx
+** @author Miroslav Safar (xsafar23)
+*/
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
