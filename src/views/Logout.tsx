@@ -10,6 +10,11 @@ import CenterWrapper from "../components/CenterWrapper"
 import Loading from "../components/Loading"
 import { logout } from "../data/user_actions"
 
+/**
+ * Logout page
+ * Logouts user and redirects to Login page
+ * @component
+ */
 const Logout = () => {
     const [isLoading, setLoading] = useState(true);
 

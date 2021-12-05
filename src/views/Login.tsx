@@ -12,6 +12,10 @@ import Loading from "../components/Loading";
 import { isAuthenticated, loadAuthTokenFromKeyTar, login } from "../data/user_actions";
 import { history } from "../store"
 
+/**
+ * Login Page
+ * @component
+ */
 const Login = (): ReactElement => {
     const [username, setUsername, bindUsername] = useInput(""); // Username input handler
     const [password, setPassword, bindPassword] = useInput(""); // Password input handler

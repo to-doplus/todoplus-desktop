@@ -12,7 +12,11 @@ import { isAuthenticated, loadAuthTokenFromKeyTar, register } from "../data/user
 import { useInput } from "../hooks/input";
 import { history } from "../store"
 
-const Login = (): ReactElement => {
+/**
+ * Register Page
+ * @component
+ */
+const Register = (): ReactElement => {
     const [username, setUsername, bindUsername] = useInput("");
     const [email, setEmail, bindEmail] = useInput("");
     const [password, setPassword, bindPassword] = useInput("");
@@ -41,6 +45,7 @@ const Login = (): ReactElement => {
 
     const auth = isAuthenticated();
 
+    // Redirect user to home page, if he is logged in
     useEffect(() => {
         (async () => {
             if (auth || await loadAuthTokenFromKeyTar()) {
@@ -78,4 +83,4 @@ const Login = (): ReactElement => {
 }
 
 
-export default Login
+export default Register

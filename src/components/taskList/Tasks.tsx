@@ -32,7 +32,6 @@ export interface TasksProps {
     isLoading: boolean,
     isError: boolean,
     tasks: Task[],
-    focus?: string
 }
 
 const showPopupMenu = (e: MouseEvent, taskList: TaskList) => {

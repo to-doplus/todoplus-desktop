@@ -118,6 +118,11 @@ export async function addTaskToMyDay(taskListId: number, taskId: number): Promis
     return true;
 }
 
+/**
+ * Moves task in sorted tasks to index 
+ * @param task Task which has to be moved
+ * @param sort New index
+ */
 export async function moveTask(task: Task, sort: number) {
     if (task.sort == sort) return;
     const sourceSort = task.sort;

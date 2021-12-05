@@ -43,6 +43,13 @@ export async function loadAuthTokenFromKeyTar(): Promise<boolean> {
     return true;
 }
 
+/**
+ * Register with credentials and saves the token into system password management
+ * @param username Username
+ * @param email Email
+ * @param password Password
+ * @returns True if it was successfull
+ */
 export async function register(username: string, email: string, password: string): Promise<boolean> {
     const token = await client.registerAndLogin(username, email, password);
     if (!token && token.status === 200) {
@@ -53,6 +60,10 @@ export async function register(username: string, email: string, password: string
     return true;
 }
 
+/**
+ * Logout from the application and reset cache
+ * Deletes token from system password management
+ */
 export async function logout() {
     await window.electron.ipcRenderer.invoke("delete-auth-token");
     client.setBearerToken(undefined);
@@ -61,6 +72,11 @@ export async function logout() {
     await mutate("/tasklists/c/important/tasks", [], true)
 }
 
+/**
+ * Set value of importantEnabled setting
+ * @param value 
+ * @returns True if it was successful
+ */
 export async function setSettingsImportantEnabled(value: boolean) {
     const userSettings = await client.setImportantEnabled(value);
     if (!userSettings) {
@@ -70,6 +86,11 @@ export async function setSettingsImportantEnabled(value: boolean) {
     return true;
 }
 
+/**
+ * Set value of myDayEnabled setting
+ * @param value 
+ * @returns True if it was successful
+ */
 export async function setSettingsMyDayEnabled(value: boolean) {
     const userSettings = await client.setMyDayEnabled(value);
     if (!userSettings) {

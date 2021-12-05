@@ -13,6 +13,11 @@ export interface IpcMessage {
     channel: string, args: any[]
 }
 
+/**
+ * Returns a message to open TaskList properties dropdown menu
+ * @param taskList 
+ * @returns IpcMessage
+ */
 export function openTaskListPropsMenuMessage(taskList: TaskList): IpcMessage {
     return {
         channel: "open-dropdown",
@@ -20,6 +25,11 @@ export function openTaskListPropsMenuMessage(taskList: TaskList): IpcMessage {
     }
 }
 
+/**
+ * Returns a message to open Task properties dropdown menu
+ * @param task 
+ * @returns IpcMessage
+ */
 export function openTaskPropsMenuMessage(task: Task): IpcMessage {
     return {
         channel: "open-dropdown",
@@ -27,6 +37,11 @@ export function openTaskPropsMenuMessage(task: Task): IpcMessage {
     }
 }
 
+/**
+ * Returns a message to open delete task confirmation dialog menu
+ * @param task 
+ * @returns IpcMessage
+ */
 export function deleteTaskConfirmation(task: Task) : IpcMessage {
     return {
         channel: "delete-task-confirm",
@@ -34,9 +49,14 @@ export function deleteTaskConfirmation(task: Task) : IpcMessage {
     }
 }
 
-export function deleteTaskListConfirmation(task: Task) : IpcMessage {
+/**
+ * Returns a message to open delete tasklist confirmation dialog menu
+ * @param taskList 
+ * @returns IpcMessage
+ */
+export function deleteTaskListConfirmation(taskList: TaskList) : IpcMessage {
     return {
         channel: "delete-tasklist-confirm",
-        args: [task]
+        args: [taskList]
     }
 }

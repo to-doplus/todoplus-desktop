@@ -24,8 +24,6 @@ import { produceWithPatches } from "immer";
  */
 const TaskListView = () => {
     const params = useParams();
-    let [searchParams, setSearchParams] = useSearchParams();
-    const focus = searchParams.get("focus");
     const taskListId = Number(params.taskListId);
     const { isLoading, isError, data: taskLists } = useTaskLists();
     const { isLoading: isLoadingTasks, isError: isErrorTasks, data: tasks } = useTasksByTaskList(Number(taskListId));
@@ -41,7 +39,7 @@ const TaskListView = () => {
     }
 
     if (isError) {
-        return <div>Error??</div>;
+        return <div>Error</div>;
     }
 
     const taskList: TaskList = taskLists.find(taskList => taskList.id === taskListId);
@@ -50,14 +48,12 @@ const TaskListView = () => {
         return <Navigate to="/myday" />
     }
 
-    console.log(focus);
-
     /*
     ** Rendering
     */
     return (
         <Layout backgroundClass="taskListViewBg">
-            <Tasks isError={isErrorTasks} isLoading={isLoadingTasks} tasks={tasks} taskList={taskList} focus={focus} />
+            <Tasks isError={isErrorTasks} isLoading={isLoadingTasks} tasks={tasks} taskList={taskList} />
         </Layout>
     )
 }
