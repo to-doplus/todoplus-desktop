@@ -2,7 +2,7 @@
   "name": "todoplus",
   "productName": "To-Do Plus",
   "version": "1.0.0",
-  "description": "My Electron application description - TodoPlus",
+  "description": "A simple but powerful multiplatform to-do list to organize your tasks",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -58,8 +58,8 @@
             "icon": "./src/styles/logo.png",
             "productName": "To-Do Plus",
             "revision": "1.0",
-            "description": "Debian TodoPlus short description.",
-            "productDescription": "Debian long description"
+            "description": "A simple but powerful multiplatform to-do list to organize your tasks",
+            "productDescription": "A simple but powerful multiplatform to-do list to organize your tasks"
           }
         },
         {
