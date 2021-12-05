@@ -12,7 +12,16 @@ import TaskDetails from "../components/taskDetails/TaskDetails";
 import NewTaskListButton from "../components/layout/NewTaskListButton"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+/**
+ * Home view
+ * View of the home page
+ * @component
+ */
 const Home = (): ReactElement => {
+
+    /*
+    ** Rendering
+    */
     return (
         <Layout backgroundClass="taskListViewBg" >
             <div className="titles">

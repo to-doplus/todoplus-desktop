@@ -17,7 +17,11 @@ import Overlay from "../components/Overlay";
 import CenterWrapper from "../components/CenterWrapper";
 import { produceWithPatches } from "immer";
 
-
+/**
+ * TasklistView view
+ * View of the each task list
+ * @component
+ */
 const TaskListView = () => {
     const params = useParams();
     let [searchParams, setSearchParams] = useSearchParams();
@@ -48,6 +52,9 @@ const TaskListView = () => {
 
     console.log(focus);
 
+    /*
+    ** Rendering
+    */
     return (
         <Layout backgroundClass="taskListViewBg">
             <Tasks isError={isErrorTasks} isLoading={isLoadingTasks} tasks={tasks} taskList={taskList} focus={focus} />
