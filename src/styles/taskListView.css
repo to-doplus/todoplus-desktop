@@ -30,6 +30,7 @@
 	cursor: pointer;
 	font-size: 14px;
 	margin-right: 20px;
+	margin-left: auto;
 	display: inline;
 	width: 200px;
 	align-items: bottom;
@@ -81,6 +82,7 @@
 	outline: none;
 }
 
+/* Misa */
 .taskNameAndList{
 	display: flex;
 }
@@ -195,6 +197,7 @@
 	height: 5px;
 }
 
+/* Misa */
 .taskBoxCompleted  .buttonSetImportance .taskImportanceIcon,
 .taskBox .buttonSetImportance .taskImportanceIcon{
 	cursor: pointer;
