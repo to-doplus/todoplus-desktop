@@ -54,7 +54,9 @@
         },
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
+          "config": {
+              "icon": "./src/images/logo.png"
+          }
         },
         {
           "name": "@electron-forge/maker-rpm",
