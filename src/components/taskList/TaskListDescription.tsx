@@ -16,12 +16,22 @@ export interface TaskListDescriptionProps {
     editable: boolean
 }
 
+/**
+** @brief Lose focus of a form after it is submitted
+*/
 const loseFocus = () => {
     if (document.activeElement instanceof HTMLElement) {
         document.activeElement.blur()
     }
 }
 
+/**
+** TaskListDescription component
+** Input field which changes task list description by submitting new
+** description
+**
+** @component
+*/
 const TaskListDescription = (props: TaskListDescriptionProps): ReactElement => {
     const [taskDescription, setTaskDescription, bindTaskDescription] = useInput(props.displayDescription || "");
 
@@ -29,6 +39,11 @@ const TaskListDescription = (props: TaskListDescriptionProps): ReactElement => {
         setTaskDescription(props.displayDescription);
     }, [props.displayDescription || ""])
 
+    /**
+    ** @brief Change task list description
+    **
+    ** @param e: Form Event
+    */
     const renameTaskListDescription = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (props.displayDescription !== taskDescription) {
@@ -40,11 +55,20 @@ const TaskListDescription = (props: TaskListDescriptionProps): ReactElement => {
         }
     }, [props.taskListId, taskDescription]);
 
+    //Builtin tasks lists does not have editable task description
     if(!props.editable) {
+
+        /*
+        ** Rendering
+        */
         return (
             <h4>{props.displayDescription}</h4>
         )
     }
+
+    /*
+    ** Rendering
+    */
     return (
         <div className={`button ${props.className ? props.className : ""}`}>
             <form className="taskFormBox"

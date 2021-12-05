@@ -18,8 +18,22 @@ export interface TasksBoxesProps {
   task: Task,
 }
 
+/**
+** TasksBoxes component
+** Showing each task box with task name, completion icon,
+** importance icon, my day icon and progress of completed subtasks
+** of each task
+**
+** @component
+*/
 const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
 
+    /**
+    ** @brief Setting task as complete or ongoing
+    **
+    ** @param e: Mouse Event
+    ** @param task: Task which is being set as completed or ongoing
+    */
   const setTaskCompleted = useCallback(async (e: MouseEvent, task: Task) => {
     e.stopPropagation();
     const success = props.task.status === "INPROGRESS" ? await completeTask(props.task.taskListId, task.id) : await uncompleteTask(props.task.taskListId, task.id)
@@ -28,6 +42,10 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
     }
   }, [props.task.status, props.task.taskListId, props.task.id]);
 
+    /**
+    ** @brief Adding or removing task from My Day task list
+    **
+    */
   const changeMyDay = useCallback(async () => {
     let ret;
     if (props.task.myDay === false) {
@@ -41,15 +59,29 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
     }
   }, [props.task.myDay, props.task.taskListId, props.task.id]);
 
-
+    /**
+    ** @brief Calculates total amount of completed substask
+    **
+    ** @returns Number of completed subtasks tasks
+    */
   const getSubtasksCompleted = (): number => {
     return props.task.subTasks.filter(subtask => subtask.status === "COMPLETED").length;
   }
 
+    /**
+    ** @brief Calculates total amount of ongoing substask
+    **
+    ** @returns Number of ongoing subtasks tasks
+    */
   const getSubtasksInprogress = (): number => {
     return props.task.subTasks.filter(subtask => subtask.status === "INPROGRESS").length;
   }
 
+    /**
+    ** @brief Calculates progression of ongoing and completed subtasks
+    **
+    ** @returns Percetage of completion
+    */
   const getPercentSubtasksCompleted = (): number => {
     const completed = getSubtasksCompleted();
     const inprogress = getSubtasksInprogress();
@@ -61,6 +93,9 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
     return Math.round(100 * completed / total);
   }
 
+  /*
+  ** Rendering
+  */
   return (
     <div className={props.className}>
       <div className="icon">

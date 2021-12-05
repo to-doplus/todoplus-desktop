@@ -16,7 +16,8 @@ export interface InputContainerProps {
 }
 
 /**
-** Input container component determined for adding single task consisting of 'add button'
+** Input container component 
+** Input container is determined for adding single task consisting of 'add button'
 ** and an input field, task is being submitted by hitting ENTER or pressing an
 ** 'add button'
 **

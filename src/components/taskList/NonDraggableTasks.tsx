@@ -30,7 +30,7 @@ const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
 
 /**
  * NonDraggableTasks Component
- * Component which shows non draggable tasks (builtin tasks etc.)
+ * Component which shows non draggable tasks (builtin tasks, completed tasks etc.)
  * @component
  */
 const NonDraggableTasks = (props: NonDraggableTasksProps): ReactElement => {

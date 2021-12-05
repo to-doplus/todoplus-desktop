@@ -41,7 +41,8 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
 })
 
 /**
-** Drag and drop functionality for displayed tasks
+** Drag and drop functionality for displayed tasks (except non draggable
+** tasks such as completed tasks or tasks in builtin tasks lists)
 **
 ** @author Michaela Parilova (xparil04)
 */

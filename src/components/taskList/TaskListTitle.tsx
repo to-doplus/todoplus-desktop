@@ -14,13 +14,22 @@ export interface TaskListTitleProps {
     taskListId: number;
 }
 
+/**
+** @brief Lose focus of a form after it is submitted
+*/
 const loseFocus = () => {
     if (document.activeElement instanceof HTMLElement) {
         document.activeElement.blur()
     }
 }
 
-
+/**
+** TaskListTitle component
+** Input field which changes task list title by submitting new
+** title
+**
+** @component
+*/
 const TaskListTitle = (props: TaskListTitleProps): ReactElement => {
 
     /*
@@ -32,6 +41,11 @@ const TaskListTitle = (props: TaskListTitleProps): ReactElement => {
         setTaskTitle(props.displayName);
     }, [props.displayName])
 
+    /**
+    ** @brief Rename task list title
+    **
+    ** @param e: Form Event
+    */
     const renameTaskList = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (props.displayName !== taskListName) {
@@ -44,6 +58,10 @@ const TaskListTitle = (props: TaskListTitleProps): ReactElement => {
     }
 
     if (props.taskListId !== -1) {
+
+        /*
+        ** Rendering
+        */
         return (
             <div className={`button ${props.className ? props.className : ""}`}>
                 <form className="taskFormBox"
@@ -56,7 +74,13 @@ const TaskListTitle = (props: TaskListTitleProps): ReactElement => {
             </div>
         )
     }
+
+    //Builtin tasks lists does not have editable task list name
     else {
+
+        /*
+        ** Rendering
+        */
         return (
             <h1>{props.displayName}</h1>
         )

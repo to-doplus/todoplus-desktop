@@ -41,6 +41,14 @@ const showPopupMenu = (e: MouseEvent, taskList: TaskList) => {
     sendIpcMessage(window.electron.ipcRenderer, openTaskListPropsMenuMessage(taskList));
 }
 
+/**
+** Tasks component
+** Determines which tasks will be displayed, showing task list
+** title, task list description, dropdown menu and button which
+** enables to show completed tasks
+**
+** @component
+*/
 const Tasks = (props: TasksProps): ReactElement => {
 
     /*
@@ -65,16 +73,27 @@ const Tasks = (props: TasksProps): ReactElement => {
         }
     }, []);
 
+    /**
+    ** @brief New ordered fomrat after drop
+    **
+    ** @param result: Where it ends up on its drag
+    */
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result;
         if (!destination) {
-            return;
+            return; //return if we dont have destination
         }
         if (!props.tasks) return;
         const task = props.tasks.find(tsk => tsk.id === Number(result.draggableId));
         moveTask(task, destination.index);
     }
 
+    /**
+    ** @brief Select tasks
+    **
+    ** @param e: Mouse Event
+    ** @param taskId: Id of selected task
+    */
     const select = (e: MouseEvent, taskId: number) => {
         e.stopPropagation();
         if (selected === taskId) {
@@ -84,6 +103,11 @@ const Tasks = (props: TasksProps): ReactElement => {
         setSelected(taskId);
     };
 
+    /**
+    ** @brief Show or hide search bar and search for task
+    **
+    ** @param e: Mouse Event
+    */
     const search = (e: MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
@@ -107,6 +131,10 @@ const Tasks = (props: TasksProps): ReactElement => {
     const completedTasks: Task[] = props.tasks.filter(task => task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) }).sort((a, b) => new Date(a.completeTime).getTime() - new Date(b.completeTime).getTime());
     const progressTasks: Task[] = props.tasks.filter(task => !task.completeTime).filter((task) => { return task.title.toLowerCase().includes(searchPhrase.toLowerCase()) });
     const selectedTask: Task = props.tasks.find(tsk => tsk.id === selected);
+
+    /*
+    ** Rendering
+    */
 
     return (
         <div className="taskListLayout">
