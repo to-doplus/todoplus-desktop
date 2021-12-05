@@ -45,7 +45,7 @@ const TaskListView = () => {
     const taskList: TaskList = taskLists.find(taskList => taskList.id === taskListId);
 
     if (!taskList) {
-        return <Navigate to="/myday" />
+        return <Navigate to="/" />
     }
 
     /*
