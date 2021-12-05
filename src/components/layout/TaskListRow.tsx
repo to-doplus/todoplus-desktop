@@ -16,6 +16,12 @@ export interface TaskListRowProps {
     showPopupMenu?: (e: MouseEvent, taskListId: number) => void
 }
 
+/**
+ * TaskListRow Component
+ * TaskList row in TaskListList
+ * Forwards to tasklis view on click
+ * @component
+ */
 const TaskListRow = (props: TaskListRowProps) : ReactElement => {
     let name = props.displayName
     if(name && name.length > 19) {

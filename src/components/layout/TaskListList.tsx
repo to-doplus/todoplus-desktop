@@ -16,6 +16,12 @@ export interface TaskListListProps {
 
 }
 
+
+/**
+ * TaskListList Component
+ * List of tasklists
+ * @component
+ */
 const TaskListList = (props: TaskListListProps): ReactElement => {
     let { isLoading, isError, data: taskLists } = useTaskLists();
 
@@ -36,7 +42,7 @@ const TaskListList = (props: TaskListListProps): ReactElement => {
         return <div>Error</div>
     }
 
-    taskLists = taskLists.sort((a, b) => a.id - b.id);
+    taskLists = taskLists.sort((a, b) => a.id - b.id); // Sorting the tasklist by id, that means the newest one is on the end
 
     return (
         <div>

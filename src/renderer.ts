@@ -16,6 +16,11 @@ import { IpcMessage } from './ipc/ipcMessages';
 
 import './react-app.tsx'
 
+/**
+ * Send IPC Message to main process
+ * @param ipcRenderer IPC Renderer
+ * @param message Message
+ */
 export function sendIpcMessage(ipcRenderer: IpcRenderer, message: IpcMessage) {
     console.log("Task message send to channel: " + message.channel);
     ipcRenderer.send(message.channel, ...message.args);

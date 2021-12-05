@@ -24,7 +24,7 @@
         "files": [
           "./src/preload.js"
         ],
-        "name": "todoplus" 
+        "name": "todoplus"
       },
       "make_targets": {
         "win32": [
@@ -55,11 +55,11 @@
         {
           "name": "@electron-forge/maker-deb",
           "config": {
-              "icon": "./src/styles/logo.png",
-              "productName": "To-Do Plus",
-              "revision": "1.0",
-              "description": "Debian TodoPlus short description.",
-              "productDescription": "Debian long description"
+            "icon": "./src/styles/logo.png",
+            "productName": "To-Do Plus",
+            "revision": "1.0",
+            "description": "Debian TodoPlus short description.",
+            "productDescription": "Debian long description"
           }
         },
         {

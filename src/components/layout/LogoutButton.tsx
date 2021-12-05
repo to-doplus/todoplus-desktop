@@ -5,15 +5,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
-import { logout } from "../../data/user_actions";
-import { history } from "../../store";
 
-
-const handleLogout = async () => {
-    await logout()
-    history.push("/login");
-}
-
+/**
+ * LogoutButton Component
+ * Styled button that forwards to logout page to logout
+ * @component
+ */
 const LogoutButton = () => {
     return (
         <Link to={"/logout"}>

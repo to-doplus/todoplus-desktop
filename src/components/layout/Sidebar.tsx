@@ -11,6 +11,12 @@ import TaskListList from "./TaskListList";
 import Settings from "../Settings";
 import LogoutButton from "./LogoutButton";
 
+/**
+ * Sidebar Component
+ * Component that contains logout button, settings,
+ * buildtasks links and tasklist with new tasklist button
+ * @component
+ */
 const Sidebar = () : ReactElement => {
     return (
         <div className="sidebar">

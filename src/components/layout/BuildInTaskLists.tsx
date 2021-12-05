@@ -6,6 +6,11 @@ import React, { Fragment, ReactElement } from "react"
 import { useSettings } from "../../data/hooks";
 import TaskListRow from "./TaskListRow";
 
+/**
+ * BuildInTaskLists Component
+ * List of buildin tasks displayed by user settings
+ * @component
+ */
 const BuildInTaskLists = (): ReactElement => {
     const { isLoading, isError, data: settings } = useSettings();
     if (isLoading || isError) {

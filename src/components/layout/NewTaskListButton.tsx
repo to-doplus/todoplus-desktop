@@ -6,16 +6,24 @@ import React, { ReactElement, MouseEvent } from "react"
 import { history } from "../../store"
 import { createNewTaskList } from "../../data/actions";
 
+/**
+ * CreateNewTaskList click ui login
+ * @param e HTML MouseEvent
+ */
 const createNewTask = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     const taskListId : number = await createNewTaskList("New tasklist");
     if(!taskListId) return; //TODO: Nastala někde chyba, oznam ji uživateli
-    console.log("/tasklists/" + taskListId + "?focus=rename");
-    history.push("/tasklists/" + taskListId + "?focus=rename");
+    history.push("/tasklists/" + taskListId);
 }
 
+/**
+ * NewTaskListButton Component
+ * Button that creates new tasklist on click
+ * @component
+ */
 const NewTaskListButton = (): ReactElement => {
     return (
         <div className="newTaskList" onClick={(e: MouseEvent) => createNewTask(e)}>
