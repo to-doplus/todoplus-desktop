@@ -69,7 +69,7 @@ const TasksBoxes = (props: TasksBoxesProps): ReactElement => {
 
         <Tooltip title="Subtasks completed" enterDelay={500} arrow>
           <div className="subtasksCompletedFraction">
-            <sup>{getSubtasksCompleted()}</sup>/<sub>{getSubtasksInprogress()}</sub>
+            <sup>{getSubtasksCompleted()}</sup>/<sub>{getSubtasksCompleted() + getSubtasksInprogress()}</sub>
           </div>
         </Tooltip>
 
