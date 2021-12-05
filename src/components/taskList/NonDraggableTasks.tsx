@@ -28,6 +28,11 @@ const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
     sendIpcMessage(window.electron.ipcRenderer, openTaskPropsMenuMessage(task));
 }
 
+/**
+ * NonDraggableTasks Component
+ * Component which shows non draggable tasks (builtin tasks etc.)
+ * @component
+ */
 const NonDraggableTasks = (props: NonDraggableTasksProps): ReactElement => {
 
     return (

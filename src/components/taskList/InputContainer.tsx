@@ -15,10 +15,22 @@ export interface InputContainerProps {
     taskListId: number,
 }
 
+/**
+** Input container component determined for adding single task consisting of 'add button'
+** and an input field, task is being submitted by hitting ENTER or pressing an
+** 'add button'
+**
+** @component
+*/
 const InputContainer = (props: InputContainerProps): ReactElement => {
 
     const [taskName, setName, bindName] = useInput("");
 
+    /**
+    ** @brief Creates a new task with a task name that the user put in
+    **
+    ** @param e: Form Event
+    */    
     const createTask = async (e: React.FormEvent<HTMLFormElement>) => {
         console.log("Task name: " + taskName + " , id: " + props.taskListId);
         e.preventDefault();
@@ -28,6 +40,9 @@ const InputContainer = (props: InputContainerProps): ReactElement => {
         }
     }
 
+    /**
+    ** @brief Creates a new task with by clicking on button with task name that the user put in
+    */  
     const createTaskByButton = async () => {
         console.log("Task name: " + taskName + " , id: " + props.taskListId);
         const success = await createNewTask(props.taskListId, taskName);
@@ -36,6 +51,9 @@ const InputContainer = (props: InputContainerProps): ReactElement => {
         }
     }
 
+    /*
+    ** Rendering
+    */
 
     return (
         <div className={props.className}>

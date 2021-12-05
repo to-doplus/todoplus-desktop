@@ -27,15 +27,30 @@ const showTaskPopupMenu = (e: MouseEvent, task: Task) => {
     sendIpcMessage(window.electron.ipcRenderer, openTaskPropsMenuMessage(task));
 }
 
-// @author Michaela Parilova
+/**
+** @brief Styling for drag and drop
+**
+** @param isDragging: Indicates if component is being dragged
+** @param draggableStyle: Style of component which is being dragged
+** @author Michaela Parilova (xparil04)
+*/
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
     background: isDragging ? "#293249" : "none",
     borderRadius: "10px",
     ...draggableStyle
 })
 
-// @author Michaela Parilova
+/**
+** Drag and drop functionality for displayed tasks
+**
+** @author Michaela Parilova (xparil04)
+*/
 const DraggableTasks = (props: DraggableTasksProps): ReactElement => {
+
+  /*
+  ** Rendering
+  */
+
     return (
         <DragDropContext onDragEnd={props.onDragEnd}>
             <Droppable droppableId="sortedTasks">

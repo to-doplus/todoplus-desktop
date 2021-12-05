@@ -44,7 +44,7 @@ export const setTaskImportance = async (e: MouseEvent, task: Task) => {
 }
 
 /**
-** @param Get a color for the task importance icon based on the importance
+** @brief Get a color for the task importance icon based on the importance
 ** setting
 **
 ** @param task

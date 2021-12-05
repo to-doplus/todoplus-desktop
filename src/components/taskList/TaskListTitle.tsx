@@ -23,6 +23,9 @@ const loseFocus = () => {
 
 const TaskListTitle = (props: TaskListTitleProps): ReactElement => {
 
+    /*
+    ** States
+    */
     const [taskListName, setTaskTitle] = useState(props.displayName);
 
     useEffect(() => {

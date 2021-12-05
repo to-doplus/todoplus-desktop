@@ -27,8 +27,6 @@ import NonDraggableTasks from "./NonDraggableTasks";
 import DraggableTasks from "./DraggableTasks";
 
 
-//TODO: rozclenit na komponenty
-
 export interface TasksProps {
     taskList: TaskList,
     isLoading: boolean,
@@ -44,6 +42,10 @@ const showPopupMenu = (e: MouseEvent, taskList: TaskList) => {
 }
 
 const Tasks = (props: TasksProps): ReactElement => {
+
+    /*
+    ** States
+    */
 
     const [searchPhrase, setSearchPhrase] = useState("");
 
@@ -89,7 +91,6 @@ const Tasks = (props: TasksProps): ReactElement => {
         setShowSearchBar(!showSearchBar);
     }
 
-    //TODO Nějakej state, podle čeho budeme řadit
 
     if (props.isLoading) {
         return (
