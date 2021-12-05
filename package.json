@@ -55,12 +55,14 @@
         {
           "name": "@electron-forge/maker-deb",
           "config": {
-              "icon": "./src/images/logo.png"
+              "icon": "./src/styles/logo.png"
           }
         },
         {
           "name": "@electron-forge/maker-rpm",
-          "config": {}
+          "config": {
+            "icon": "./src/styles/logo.png"
+          }
         }
       ],
       "plugins": [
