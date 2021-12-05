@@ -1,7 +1,7 @@
 /*
 ** To-Do Plus
 ** Home.tsx
-** @author 
+** @author Michaela Parilova (xparil04)
 */
 
 import React, { ReactElement } from "react";

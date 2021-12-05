@@ -9,7 +9,14 @@ import client from "./client";
 import { Task, Nullable } from "../../lib/models"
 import { mutateTask } from "./actions";
 
-// completeTask
+/**
+** @brief Marks a task as completed
+**
+** @param taskListId
+** @param taskId
+** 
+** @return true if successful
+*/
 export async function completeTask(taskListId: number, taskId: number): Promise<boolean> {
   const updatedTask = await client.completeTask(taskListId, taskId);
   if (!updatedTask) {
@@ -45,7 +52,14 @@ export async function completeTask(taskListId: number, taskId: number): Promise<
   return true;
 }
 
-// uncompleteTask
+/**
+** @brief Marks a task as in progress
+**
+** @param taskListId
+** @param taskId
+** 
+** @return true if successful
+*/
 export async function uncompleteTask(taskListId: number, taskId: number): Promise<boolean> {
   const updatedTask = await client.uncompleteTask(taskListId, taskId);
   if (!updatedTask) {
@@ -55,7 +69,15 @@ export async function uncompleteTask(taskListId: number, taskId: number): Promis
   return true;
 }
 
-// setTaskTitle
+/**
+** @brief Change tasks title
+**
+** @param taskListId
+** @param taskId
+** @param title: new title of the task
+** 
+** @return true if successful
+*/
 export async function setTitleOfTask(taskListId: number, taskId: number, title: string): Promise<boolean> {
   const updatedTask = await client.setTaskTitle(taskListId, taskId, title);
   if (!updatedTask) {
@@ -65,7 +87,14 @@ export async function setTitleOfTask(taskListId: number, taskId: number, title: 
   return true;
 }
 
-// removeTaskFromMyDay
+/**
+** @brief Removes a task from 'My day' built in list
+**
+** @param taskListId
+** @param taskId
+** 
+** @return true if successful
+*/
 export async function removeTaskFromMyDay(taskListId: number, taskId: number): Promise<boolean> {
   const updatedTask = await client.removeTaskFromMyDay(taskId);
   if (!updatedTask) {
@@ -80,11 +109,18 @@ export async function removeTaskFromMyDay(taskListId: number, taskId: number): P
     }
     return list;
   }, false);
-  // TODO
   return true;
 }
 
-// deleteSubTask
+/**
+** @brief Removes a subtask
+**
+** @param taskListId
+** @param taskId
+** @param subtaskId
+** 
+** @return true if successful
+*/
 export async function deleteSubTask(taskListId: number, taskId: number, subtaskId: number): Promise<boolean> {
   const updatedTask = await client.deleteSubTask(taskListId, taskId, subtaskId);
   if (!updatedTask) {
@@ -94,7 +130,16 @@ export async function deleteSubTask(taskListId: number, taskId: number, subtaskI
   return true;
 }
 
-// setSubtaskTitle
+/**
+** @brief Changes a subtask title
+**
+** @param taskListId
+** @param taskId
+** @param subtaskId
+** @param title: new title of the subtask
+** 
+** @return true if successful
+*/
 export async function setSubTaskTitle(taskListId: number, taskId: number, subtaskId: number, title: string): Promise<boolean> {
   const updatedTask = await client.setSubTaskTitle(taskListId, taskId, subtaskId, title);
   if (!updatedTask) {
@@ -104,7 +149,15 @@ export async function setSubTaskTitle(taskListId: number, taskId: number, subtas
   return true;
 }
 
-// completeSubTask
+/**
+** @brief Marks a subtask as completed
+**
+** @param taskListId
+** @param taskId
+** @param subtaskId
+** 
+** @return true if successful
+*/
 export async function completeSubTask(taskListId: number, taskId: number, subtaskId: number): Promise<boolean> {
   const updatedTask = await client.completeSubTask(taskListId, taskId, subtaskId);
   if (!updatedTask) {
@@ -114,7 +167,15 @@ export async function completeSubTask(taskListId: number, taskId: number, subtas
   return true;
 }
 
-// uncompleteSubTask
+/**
+** @brief Marks a subtask as in progress
+**
+** @param taskListId
+** @param taskId
+** @param subtaskId
+** 
+** @return true if successful
+*/
 export async function uncompleteSubTask(taskListId: number, taskId: number, subtaskId: number): Promise<boolean> {
   const updatedTask = await client.uncompleteSubTask(taskListId, taskId, subtaskId);
   if (!updatedTask) {

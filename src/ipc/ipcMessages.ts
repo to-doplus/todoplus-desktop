@@ -1,7 +1,7 @@
 /*
 ** To-Do Plus
 ** ipcMessages.ts
-** @author: 
+** @author: Miroslav Safar (xsafar23)
 */
 
 import { Task, TaskList } from "../../lib/models"

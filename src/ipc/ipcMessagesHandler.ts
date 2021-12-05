@@ -1,7 +1,7 @@
 /*
 ** To-Do Plus
 ** ipcMessageHandler.ts
-** @author: 
+** @author Miroslav Safar (xsafar23)
 */
 
 import { IpcRendererEvent } from "electron/renderer";
