@@ -1,3 +1,7 @@
+// To-Do Plus
+// TaskListRow.tsx
+// @author Miroslav Safar (xsafar23)
+
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import { TaskList } from "../../../lib/models";

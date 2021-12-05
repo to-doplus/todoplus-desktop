@@ -23,6 +23,20 @@
         "icon": "src/styles/app_icon.icns",
         "files": [
           "./src/preload.js"
+        ],
+        "name": "todoplus" 
+      },
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "dmg"
+        ],
+        "linux": [
+          "deb",
+          "rpm",
+          "zip"
         ]
       },
       "makers": [
