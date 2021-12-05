@@ -17,6 +17,10 @@ Spuštění pomocí YARN:
 3. Následně zadejte příkaz "yarn start"
 4. Vyčkejte na spuštění aplikace
 
+Instační soubory
+------------------
+Naleznete na následujícím odkaze: https://github.com/to-doplus/todoplus-desktop
+
 Ubuntu:
 ---------
 Standartní instalace:
